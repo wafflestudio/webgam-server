@@ -1,0 +1,106 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
+plugins {
+	id("org.springframework.boot") version "3.0.1"
+	id("io.spring.dependency-management") version "1.1.0"
+	id("org.asciidoctor.jvm.convert") version "3.3.2"
+	kotlin("jvm") version "1.7.22"
+	kotlin("plugin.spring") version "1.7.22"
+	kotlin("plugin.jpa") version "1.7.22"
+}
+
+group = "com.wafflestudio"
+version = "0.0.1-SNAPSHOT"
+java.sourceCompatibility = JavaVersion.VERSION_17
+
+repositories {
+	mavenCentral()
+}
+
+extra["snippetsDir"] = file("build/generated-snippets")
+
+dependencies {
+	implementation("org.springframework.boot:spring-boot-starter-data-jpa:3.0.1")
+	implementation("org.springframework.boot:spring-boot-starter-data-redis:3.0.1")
+	implementation("org.springframework.boot:spring-boot-starter-security:3.0.1")
+	implementation("org.springframework.boot:spring-boot-starter-web:3.0.1")
+	implementation("org.springframework.boot:spring-boot-starter-validation")
+	implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.14.0")
+	implementation("org.jetbrains.kotlin:kotlin-reflect:1.7.22")
+	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.7.22")
+	implementation("com.google.code.gson:gson:2.10.1")
+	implementation("io.jsonwebtoken:jjwt-api:0.11.5")
+	runtimeOnly("com.mysql:mysql-connector-j:8.0.31")
+	runtimeOnly("io.jsonwebtoken:jjwt-impl:0.11.5")
+	runtimeOnly("io.jsonwebtoken:jjwt-gson:0.11.5")
+	testImplementation("org.springframework.boot:spring-boot-starter-test:3.0.1")
+	testImplementation("org.springframework.restdocs:spring-restdocs-mockmvc:3.0.0")
+	testImplementation("org.springframework.security:spring-security-test")
+	testImplementation("org.mockito.kotlin:mockito-kotlin:4.1.0")
+	testImplementation("io.kotest:kotest-runner-junit5:5.5.4")
+	testImplementation("io.kotest:kotest-assertions-core:5.5.4")
+	testImplementation("io.kotest.extensions:kotest-extensions-spring:1.1.2")
+	testImplementation("io.mockk:mockk:1.13.2")
+	testImplementation("com.ninja-squad:springmockk:4.0.0")
+}
+
+tasks.withType<KotlinCompile> {
+	kotlinOptions {
+		freeCompilerArgs = listOf("-Xjsr305=strict")
+		jvmTarget = "17"
+	}
+}
+
+tasks {
+	val snippetsDir = file("$buildDir/generated-snippets")
+
+	clean {
+		delete("src/main/resources/static/docs")
+	}
+
+	test {
+		useJUnitPlatform()
+		systemProperty("org.springframework.restdocs.outputDir", snippetsDir)
+		outputs.dir(snippetsDir)
+	}
+
+	build {
+		dependsOn("copyDocument")
+	}
+
+	asciidoctor {
+		dependsOn(test)
+
+		attributes(
+			mapOf("snippets" to snippetsDir)
+		)
+		inputs.dir(snippetsDir)
+
+		baseDirFollowsSourceFile()
+
+		sources {
+			include("**/index.adoc","**/common/*.adoc")
+		}
+
+		doFirst {
+			delete("src/main/resources/static/docs")
+		}
+	}
+
+	register<Copy>("copyDocument") {
+		dependsOn(asciidoctor)
+
+		destinationDir = file(".")
+		from(asciidoctor.get().outputDir) {
+			into("src/main/resources/static/docs")
+		}
+	}
+
+	bootJar {
+		dependsOn(asciidoctor)
+
+		from(asciidoctor.get().outputDir) {
+			into("BOOT-INF/classes/static/docs")
+		}
+	}
+}

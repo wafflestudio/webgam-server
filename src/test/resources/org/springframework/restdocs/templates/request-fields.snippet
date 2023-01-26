@@ -1,0 +1,12 @@
+|===
+|필드명|타입|필수여부|Default 값|포맷 및 제약조건|설명|예시
+{{#fields}}
+|{{#tableCellContent}}`+{{path}}+`{{/tableCellContent}}
+|{{#tableCellContent}}`+{{type}}+`{{/tableCellContent}}
+|{{#tableCellContent}}{{^optional}}true{{/optional}}{{#optional}}false{{/optional}}{{/tableCellContent}}
+|{{#tableCellContent}}{{#default_value}}{{.}}{{/default_value}}{{/tableCellContent}}
+|{{#tableCellContent}}{{#format}}{{.}}{{/format}}{{/tableCellContent}}
+|{{#tableCellContent}}{{description}}{{/tableCellContent}}
+|{{#tableCellContent}}{{#sample}}{{.}}{{/sample}}{{/tableCellContent}}
+{{/fields}}
+|===
