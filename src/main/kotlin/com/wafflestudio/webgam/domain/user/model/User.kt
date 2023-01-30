@@ -1,11 +1,10 @@
 package com.wafflestudio.webgam.domain.user.model
 
+import com.wafflestudio.webgam.domain.project.model.Project
 import com.wafflestudio.webgam.global.common.model.BaseTimeTraceLazyDeletedEntity
 import com.wafflestudio.webgam.global.common.model.WebgamAccessModel
 import com.wafflestudio.webgam.global.security.dto.AuthDto
-import jakarta.persistence.Column
-import jakarta.persistence.Entity
-import jakarta.persistence.Table
+import jakarta.persistence.*
 
 @Entity
 @Table(name = "user")
@@ -19,12 +18,18 @@ class User(
     var email: String,
 
     var password: String,
+
+    /* From Here: Not saved in DB */
+
+    @OneToMany(mappedBy = "owner", orphanRemoval = true, cascade = [CascadeType.ALL])
+    val projects: MutableList<Project> = mutableListOf(),
 ): BaseTimeTraceLazyDeletedEntity(), WebgamAccessModel {
     constructor(signupRequest: AuthDto.SignupRequest, encryptedPassword: String): this(
         userId = signupRequest.userId!!,
         username = signupRequest.username!!,
         email = signupRequest.email!!,
         password = encryptedPassword,
+        projects = mutableListOf(),
     )
 
     override fun isAccessibleTo(currentUserId: Long): Boolean {

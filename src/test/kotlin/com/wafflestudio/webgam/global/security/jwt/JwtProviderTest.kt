@@ -3,7 +3,6 @@ package com.wafflestudio.webgam.global.security.jwt
 import com.wafflestudio.webgam.domain.user.model.User
 import com.wafflestudio.webgam.domain.user.repository.UserRepository
 import com.wafflestudio.webgam.global.security.exception.InvalidJwtException
-import com.wafflestudio.webgam.global.security.exception.LoginFailedException
 import com.wafflestudio.webgam.global.security.model.WebgamAuthenticationToken
 import com.wafflestudio.webgam.global.security.model.WebgamRoles.USER
 import com.wafflestudio.webgam.global.security.service.UserPrincipalDetailsService
