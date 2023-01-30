@@ -30,6 +30,7 @@ dependencies {
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.7.22")
 	implementation("com.google.code.gson:gson:2.10.1")
 	implementation("io.jsonwebtoken:jjwt-api:0.11.5")
+	implementation("io.hypersistence:hypersistence-utils-hibernate-60:3.0.1")
 	runtimeOnly("com.mysql:mysql-connector-j:8.0.31")
 	runtimeOnly("io.jsonwebtoken:jjwt-impl:0.11.5")
 	runtimeOnly("io.jsonwebtoken:jjwt-gson:0.11.5")

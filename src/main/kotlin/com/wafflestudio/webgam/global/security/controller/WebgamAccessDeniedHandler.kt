@@ -1,7 +1,6 @@
 package com.wafflestudio.webgam.global.security.controller
 
 import com.google.gson.FieldNamingPolicy
-import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.wafflestudio.webgam.global.common.exception.ErrorResponse
 import com.wafflestudio.webgam.global.common.exception.WebgamException
