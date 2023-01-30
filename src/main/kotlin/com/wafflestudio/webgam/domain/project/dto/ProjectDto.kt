@@ -2,6 +2,7 @@ package com.wafflestudio.webgam.domain.project.dto
 
 import com.wafflestudio.webgam.domain.page.dto.ProjectPageDto
 import com.wafflestudio.webgam.domain.project.model.Project
+import com.wafflestudio.webgam.domain.user.dto.UserDto
 import com.wafflestudio.webgam.global.common.dto.TimeTraceEntityDto
 import jakarta.validation.constraints.NotBlank
 import java.time.LocalDateTime
@@ -38,7 +39,7 @@ class ProjectDto {
         override val modifiedBy: String,
         val title: String,
         /* Detailed */
-        val ownerId: Long,
+        val owner: UserDto.SimpleResponse,
         val pages: List<ProjectPageDto.DetailedResponse>,
     ): TimeTraceEntityDto.Response(id, createdAt, createdBy, modifiedAt, modifiedBy) {
         constructor(project: Project): this(
@@ -49,7 +50,7 @@ class ProjectDto {
             modifiedBy = project.modifiedBy,
             title = project.title,
             /* Detailed */
-            ownerId = project.owner.id,
+            owner = UserDto.SimpleResponse(project.owner),
             pages = project.pages.map { ProjectPageDto.DetailedResponse(it) }
         )
     }
