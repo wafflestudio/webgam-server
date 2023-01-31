@@ -21,6 +21,7 @@ class AuthDto {
         val userId: String?,
         @field:NotBlank
         val password: String?,
+        val auto : Boolean = false,
     )
 
     data class Response(

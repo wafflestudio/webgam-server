@@ -8,6 +8,7 @@ import com.wafflestudio.webgam.domain.user.model.User
 import com.wafflestudio.webgam.global.security.dto.AuthDto.Response
 import com.wafflestudio.webgam.global.security.dto.JwtDto
 import com.wafflestudio.webgam.global.security.exception.InvalidJwtException
+import com.wafflestudio.webgam.global.security.jwt.JwtProvider
 import com.wafflestudio.webgam.global.security.service.AuthService
 import io.kotest.core.annotation.DisplayName
 import io.kotest.core.spec.style.DescribeSpec
@@ -187,6 +188,40 @@ class AuthControllerTest(
                         contentType = APPLICATION_JSON
                         content = gson.toJson(request)
                     }.andExpect { status { isOk() } }
+                }
+            }
+
+            context("적절한 아이디, 비밀번호와 함께 자동 로그인 요청하면") {
+                val request = HashMap<String, String>()
+                request["user_id"] = "fooId"
+                request["password"] = "foo-password"
+                request["auto"] = "true"
+
+                it("Refresh 토큰이 영구 쿠키로 반환된다") {
+                    mockMvc.post("/login") {
+                        contentType = APPLICATION_JSON
+                        content = gson.toJson(request)
+                    }.andExpect {
+                        status { isOk() }
+                        cookie { maxAge("refresh_token", `is`(JwtProvider.refreshTokenValidTime.toInt())) }
+                    }
+                }
+            }
+
+            context("자동 로그인을 따로 설정하지 않거나 옵션 해제하면") {
+                val request = HashMap<String, String>()
+                request["user_id"] = "fooId"
+                request["password"] = "foo-password"
+                request["auto"] = "false"
+
+                it("Refresh 토큰이 세션 쿠키로 반환된다") {
+                    mockMvc.post("/login") {
+                        contentType = APPLICATION_JSON
+                        content = gson.toJson(request)
+                    }.andExpect {
+                        status { isOk() }
+                        cookie { maxAge("refresh_token", `is`(-1)) }
+                    }
                 }
             }
 

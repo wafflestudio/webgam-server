@@ -2,6 +2,7 @@ package com.wafflestudio.webgam.global.security
 
 import com.google.gson.FieldNamingPolicy
 import com.google.gson.GsonBuilder
+import com.wafflestudio.webgam.BOOLEAN
 import com.wafflestudio.webgam.RestDocsUtils.Companion.getDocumentRequest
 import com.wafflestudio.webgam.RestDocsUtils.Companion.getDocumentResponse
 import com.wafflestudio.webgam.RestDocsUtils.Companion.requestBody
@@ -143,6 +144,7 @@ internal class AuthDescribeSpec(
                         requestBody(
                             "user_id" type STRING means "로그인 할 유저 아이디",
                             "password" type STRING means "로그인 비밀번호",
+                            "auto" type BOOLEAN means "자동 로그인 여부" withDefaultValue "false" isOptional true
                         ))
                     ).andExpect(status().isOk).andDo(print())
                 }
@@ -156,13 +158,22 @@ internal class AuthDescribeSpec(
                             .content(gson.toJson(invalidLoginRequest))
                     ).andDo(document("login/401-1001",
                         getDocumentRequest(),
-                        getDocumentResponse(),
-                        requestBody(
-                            "user_id" type STRING means "로그인 할 유저 아이디",
-                            "password" type STRING means "로그인 비밀번호",
-                        ))
+                        getDocumentResponse())
                     ).andExpect(status().isUnauthorized
                     ).andExpect(jsonPath("$.error_code", `is`(1001))
+                    ).andDo(print())
+                }
+            }
+        }
+
+        this.describe("로그아웃할 때") {
+            context("성공하면") {
+                it("200 OK") {
+                    mockMvc.perform(post("/logout")
+                    ).andDo(document("logout/200",
+                        getDocumentRequest(),
+                        getDocumentResponse())
+                    ).andExpect(status().isOk
                     ).andDo(print())
                 }
             }
