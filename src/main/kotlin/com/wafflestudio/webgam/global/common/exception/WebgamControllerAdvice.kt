@@ -1,5 +1,6 @@
 package com.wafflestudio.webgam.global.common.exception
 
+import jakarta.validation.ConstraintViolationException
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
@@ -23,6 +24,19 @@ class WebgamControllerAdvice {
             ErrorType.BadRequest.INVALID_FIELD.code(),
             "Invalid request parameter or request body",
             e.fieldErrors.joinToString(separator = " ") { it.field + " " + it.defaultMessage + "." }
+        ), HttpStatus.BAD_REQUEST)
+    }
+
+    @ExceptionHandler(ConstraintViolationException::class)
+    fun constraintViolation(e: ConstraintViolationException): ResponseEntity<ErrorResponse?> {
+        return ResponseEntity(
+            ErrorResponse(
+            ErrorType.BadRequest.CONSTRAINT_VIOLATION.code(),
+            "Constraint violations",
+            e.constraintViolations.joinToString(separator = " ") {
+                it.propertyPath.toString().split('.').last() + " " + it.message + ", but " +
+                        it.invalidValue + "."
+            }
         ), HttpStatus.BAD_REQUEST)
     }
 
