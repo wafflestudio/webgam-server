@@ -1,0 +1,42 @@
+[[User]]
+== User API
+=== User: 내 정보 조회하기
+====
+.Request
+include::{snippets}/getMe/200/http-request.adoc[]
+.Response
+include::{snippets}/getMe/200/http-response.adoc[]
+====
+
+=== User: 내 정보 수정하기
+====
+.Request
+include::{snippets}/patchMe/200/http-request.adoc[]
+.Request Body
+include::{snippets}/patchMe/200/request-fields.adoc[]
+.Response
+include::{snippets}/patchMe/200/http-response.adoc[]
+.Error Response
+include::{snippets}/patchMe/400-0001/http-response.adoc[]
+====
+
+=== User: 내 정보 삭제하기 (탈퇴하기)
+====
+.Request
+include::{snippets}/deleteMe/200/http-request.adoc[]
+.Response
+include::{snippets}/deleteMe/200/http-response.adoc[]
+====
+
+=== User: 다른 유저 정보 조회하기
+====
+.Request
+include::{snippets}/getUser/200/http-request.adoc[]
+.Path Variable
+include::{snippets}/getUser/200/path-parameters.adoc[]
+.Response
+include::{snippets}/getUser/200/http-response.adoc[]
+.Error Response
+include::{snippets}/getUser/400-0003/http-response.adoc[]
+include::{snippets}/getUser/404-4001/http-response.adoc[]
+====
