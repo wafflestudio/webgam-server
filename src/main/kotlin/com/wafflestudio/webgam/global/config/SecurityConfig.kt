@@ -34,7 +34,7 @@ class SecurityConfig(
     companion object {
         private val CORS_WHITELIST: MutableList<String> = mutableListOf()
         private val GET_WHITELIST: Array<String> = arrayOf("/ping")
-        private val POST_WHITELIST: Array<String> = arrayOf("/signup", "/login/**", "/refresh")
+        private val POST_WHITELIST: Array<String> = arrayOf("/signup", "/login/**", "/logout", "/refresh")
     }
 
     @Value("\${spring.profiles.active}")
@@ -44,9 +44,10 @@ class SecurityConfig(
     fun filterChain(http: HttpSecurity): SecurityFilterChain {
         http
             .httpBasic().disable()
+            .csrf().disable()
+            .logout().disable()
             .cors().configurationSource(corsConfigurationSource())
             .and()
-            .csrf().disable()
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and()
             .exceptionHandling()

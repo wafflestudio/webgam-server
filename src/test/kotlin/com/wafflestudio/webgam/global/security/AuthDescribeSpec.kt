@@ -2,12 +2,18 @@ package com.wafflestudio.webgam.global.security
 
 import com.google.gson.FieldNamingPolicy
 import com.google.gson.GsonBuilder
+import com.wafflestudio.webgam.BOOLEAN
 import com.wafflestudio.webgam.RestDocsUtils.Companion.getDocumentRequest
 import com.wafflestudio.webgam.RestDocsUtils.Companion.getDocumentResponse
 import com.wafflestudio.webgam.RestDocsUtils.Companion.requestBody
 import com.wafflestudio.webgam.STRING
 import com.wafflestudio.webgam.domain.user.model.User
 import com.wafflestudio.webgam.domain.user.repository.UserRepository
+import com.wafflestudio.webgam.global.common.exception.ErrorType.BadRequest.INVALID_FIELD
+import com.wafflestudio.webgam.global.common.exception.ErrorType.BadRequest.NO_REFRESH_TOKEN
+import com.wafflestudio.webgam.global.common.exception.ErrorType.Conflict.DUPLICATE_USER_IDENTIFIER
+import com.wafflestudio.webgam.global.common.exception.ErrorType.Forbidden.NO_ACCESS
+import com.wafflestudio.webgam.global.common.exception.ErrorType.Unauthorized.*
 import com.wafflestudio.webgam.global.security.dto.AuthDto.*
 import com.wafflestudio.webgam.global.security.jwt.JwtProvider
 import com.wafflestudio.webgam.global.security.model.WebgamRoles.USER
@@ -96,14 +102,14 @@ internal class AuthDescribeSpec(
             }
 
             context("필요항목을 누락하면") {
-                it("400 Bad Request, 에러코드 1") {
+                it("400 Bad Request, 에러코드 ${INVALID_FIELD.code()}") {
                     mockMvc.perform(
                         post("/signup")
                             .contentType(APPLICATION_JSON)
                             .content(gson.toJson(invalidSignupRequest))
                     ).andDo(document("signup/400-0001", getDocumentResponse())
                     ).andExpect(status().isBadRequest
-                    ).andExpect(jsonPath("$.error_code", `is`(1))
+                    ).andExpect(jsonPath("$.error_code", `is`(INVALID_FIELD.code()))
                     ).andDo(print())
                 }
             }
@@ -113,14 +119,14 @@ internal class AuthDescribeSpec(
                     userRepository.save(User("duplicate-id", "foo", "unqiue@wafflestudio.com", "password"))
                 }
 
-                it("409 Conflict, 에러코드 9001") {
+                it("409 Conflict, 에러코드 ${DUPLICATE_USER_IDENTIFIER.code()}") {
                     mockMvc.perform(
                         post("/signup")
                             .contentType(APPLICATION_JSON)
                             .content(gson.toJson(duplicateSignupRequest))
                     ).andDo(document("signup/409-9001", getDocumentResponse())
                     ).andExpect(status().isConflict
-                    ).andExpect(jsonPath("$.error_code", `is`(9001))
+                    ).andExpect(jsonPath("$.error_code", `is`(DUPLICATE_USER_IDENTIFIER.code()))
                     ).andDo(print())
                 }
             }
@@ -143,26 +149,36 @@ internal class AuthDescribeSpec(
                         requestBody(
                             "user_id" type STRING means "로그인 할 유저 아이디",
                             "password" type STRING means "로그인 비밀번호",
+                            "auto" type BOOLEAN means "자동 로그인 여부" withDefaultValue "false" isOptional true
                         ))
                     ).andExpect(status().isOk).andDo(print())
                 }
             }
 
             context("실패하면") {
-                it("401 Unauthorized, 에러코드 1001") {
+                it("401 Unauthorized, 에러코드 ${LOGIN_FAIL.code()}") {
                     mockMvc.perform(
                         post("/login")
                             .contentType(APPLICATION_JSON)
                             .content(gson.toJson(invalidLoginRequest))
                     ).andDo(document("login/401-1001",
                         getDocumentRequest(),
-                        getDocumentResponse(),
-                        requestBody(
-                            "user_id" type STRING means "로그인 할 유저 아이디",
-                            "password" type STRING means "로그인 비밀번호",
-                        ))
+                        getDocumentResponse())
                     ).andExpect(status().isUnauthorized
-                    ).andExpect(jsonPath("$.error_code", `is`(1001))
+                    ).andExpect(jsonPath("$.error_code", `is`(LOGIN_FAIL.code()))
+                    ).andDo(print())
+                }
+            }
+        }
+
+        this.describe("로그아웃할 때") {
+            context("성공하면") {
+                it("200 OK") {
+                    mockMvc.perform(post("/logout")
+                    ).andDo(document("logout/200",
+                        getDocumentRequest(),
+                        getDocumentResponse())
+                    ).andExpect(status().isOk
                     ).andDo(print())
                 }
             }
@@ -191,36 +207,36 @@ internal class AuthDescribeSpec(
             }
 
             context("JWT Refresh 토큰이 없을 때") {
-                it("400 Bad Request, 에러코드 2") {
+                it("400 Bad Request, 에러코드 ${NO_REFRESH_TOKEN.code()}") {
                     mockMvc.perform(
                         post("/refresh")
                     ).andDo(document("refresh/400-0002-no-cookie", getDocumentResponse())
                     ).andExpect(status().isBadRequest
-                    ).andExpect(jsonPath("$.error_code", `is`(2))
+                    ).andExpect(jsonPath("$.error_code", `is`(NO_REFRESH_TOKEN.code()))
                     ).andDo(print())
                 }
             }
 
             context("쿠키에 다른 값이 들어있을 때") {
-                it("400 Bad Request, 에러코드 2") {
+                it("400 Bad Request, 에러코드 ${NO_REFRESH_TOKEN.code()}") {
                     mockMvc.perform(
                         post("/refresh")
                             .cookie(Cookie("something", "something"))
                     ).andDo(document("refresh/400-0002-no-token", getDocumentResponse())
                     ).andExpect(status().isBadRequest
-                    ).andExpect(jsonPath("$.error_code", `is`(2))
+                    ).andExpect(jsonPath("$.error_code", `is`(NO_REFRESH_TOKEN.code()))
                     ).andDo(print())
                 }
             }
 
             context("JWT Refresh 토큰이 유효하지 않을 때") {
-                it("401 Unauthorized, 에러코드 1002") {
+                it("401 Unauthorized, 에러코드 ${INVALID_JWT.code()}") {
                     mockMvc.perform(
                         post("/refresh")
                             .cookie(Cookie("refresh_token", "something"))
                     ).andDo(document("refresh/401-1002", getDocumentResponse())
                     ).andExpect(status().isUnauthorized
-                    ).andExpect(jsonPath("$.error_code", `is`(1002))
+                    ).andExpect(jsonPath("$.error_code", `is`(INVALID_JWT.code()))
                     ).andDo(print())
                 }
             }
@@ -259,27 +275,27 @@ internal class AuthDescribeSpec(
             }
 
             context("토큰이 없으면") {
-                it("401 Unauthorized, 에러코드 1000") {
+                it("401 Unauthorized, 에러코드 ${DEFAULT.code()}") {
                     mockMvc.perform(
                         get("/auth-ping")
                     ).andDo(document(
                         "auth-ping/401-1000",
                         getDocumentResponse())
                     ).andExpect(status().isUnauthorized
-                    ).andExpect(jsonPath("$.error_code", `is`(1000))
+                    ).andExpect(jsonPath("$.error_code", `is`(DEFAULT.code()))
                     ).andDo(print())
                 }
             }
 
             context("토큰이 유효하지 않으면") {
-                it("401 Unauthorized, 에러코드 1002") {
+                it("401 Unauthorized, 에러코드 ${INVALID_JWT.code()}") {
                     mockMvc.perform(
                         get("/auth-ping").header("Authorization", "invalid")
                     ).andDo(document(
                         "auth-ping/401-1002",
                         getDocumentResponse())
                     ).andExpect(status().isUnauthorized
-                    ).andExpect(jsonPath("$.error_code", `is`(1002))
+                    ).andExpect(jsonPath("$.error_code", `is`(INVALID_JWT.code()))
                     ).andDo(print())
                 }
             }
@@ -289,7 +305,7 @@ internal class AuthDescribeSpec(
                     userRepository.save(User("fooId", "", "", ""))
                 }
 
-                it("403 Forbidden, 에러코드 3001") {
+                it("403 Forbidden, 에러코드 ${NO_ACCESS.code()}") {
                     val accessToken = jwtProvider.generateToken("fooId", USER).first
 
                     mockMvc.perform(
@@ -298,7 +314,7 @@ internal class AuthDescribeSpec(
                         "auth-ping/403-3001",
                         getDocumentResponse())
                     ).andExpect(status().isForbidden
-                    ).andExpect(jsonPath("$.error_code", `is`(3001))
+                    ).andExpect(jsonPath("$.error_code", `is`(NO_ACCESS.code()))
                     ).andDo(print())
                 }
             }

@@ -455,9 +455,18 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </li>
 <li><a href="#Auth">Auth API</a>
 <ul class="sectlevel2">
-<li><a href="#Signup">Auth: 회원 가입</a></li>
+<li><a href="#_auth_회원_가입">Auth: 회원 가입</a></li>
 <li><a href="#_auth_로그인">Auth: 로그인</a></li>
 <li><a href="#_auth_토큰_재발급">Auth: 토큰 재발급</a></li>
+<li><a href="#_auth_로그아웃">Auth: 로그아웃</a></li>
+</ul>
+</li>
+<li><a href="#User">User API</a>
+<ul class="sectlevel2">
+<li><a href="#_user_내_정보_조회하기">User: 내 정보 조회하기</a></li>
+<li><a href="#_user_내_정보_수정하기">User: 내 정보 수정하기</a></li>
+<li><a href="#_user_내_정보_삭제하기_탈퇴하기">User: 내 정보 삭제하기 (탈퇴하기)</a></li>
+<li><a href="#_user_다른_유저_정보_조회하기">User: 다른 유저 정보 조회하기</a></li>
 </ul>
 </li>
 </ul>
@@ -477,8 +486,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="listingblock">
 <div class="title">Request</div>
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /auth-ping HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmb29JZCIsImlhdCI6MTY3NDcxNzA2NCwiZXhwIjoxNjc0NzI0MjY0LCJyb2xlIjoiVVNFUiJ9.2THr31YU4g83AgONYuhP6KBHVEbmosVCeE13COXqOBA
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /ping HTTP/1.1
 Host: docs.api.com</code></pre>
 </div>
 </div>
@@ -487,9 +495,9 @@ Host: docs.api.com</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
 Content-Type: text/plain;charset=UTF-8
-Content-Length: 9
+Content-Length: 4
 
-auth-pong</code></pre>
+pong</code></pre>
 </div>
 </div>
 </div>
@@ -506,7 +514,7 @@ auth-pong</code></pre>
 <div class="title">Request</div>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /auth-ping HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmb29JZCIsImlhdCI6MTY3NDcxNzA2NCwiZXhwIjoxNjc0NzI0MjY0LCJyb2xlIjoiVVNFUiJ9.2THr31YU4g83AgONYuhP6KBHVEbmosVCeE13COXqOBA
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmb29JZCIsImlhdCI6MTY3NTE3NjExMSwiZXhwIjoxNjc1MTgzMzExLCJyb2xlIjoiVVNFUiJ9.2ukm6gI_LjnI6MTEMVEyPmTW0818fdL3laKP0vSYGIY
 Host: docs.api.com</code></pre>
 </div>
 </div>
@@ -592,7 +600,7 @@ Content-Length: 111
 <h2 id="Auth"><a class="link" href="#Auth">Auth API</a></h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="Signup"><a class="link" href="#Signup">Auth: 회원 가입</a></h3>
+<h3 id="_auth_회원_가입"><a class="link" href="#_auth_회원_가입">Auth: 회원 가입</a></h3>
 <div class="exampleblock">
 <div class="content">
 <div class="listingblock">
@@ -674,7 +682,7 @@ Host: docs.api.com
 <div class="title">Response</div>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
-Set-Cookie: refreshToken=Bearer+eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmb29JZCIsImlhdCI6MTY3NDcxNzA2MywiZXhwIjoxNjc1OTI2NjYzfQ.gbG7tBhfYevGm5TLu4SIHsnS9wOCk-9Na3Dzhlc4iP8; Path=/; Max-Age=1209600000; Expires=Thu, 26 May 2061 07:11:03 GMT; HttpOnly; SameSite=None
+Set-Cookie: refresh_token=Bearer+eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmb29JZCIsImlhdCI6MTY3NTE3NjExMSwiZXhwIjoxNjc2Mzg1NzExfQ.lJgxNQHJTo-EywUUksPAothbG7UKXt2CGwV47ZZWc5Y; Path=/; HttpOnly; SameSite=None
 Content-Type: application/json
 Content-Length: 316
 
@@ -685,7 +693,7 @@ Content-Length: 316
     "email" : "foo@wafflestudio.com"
   },
   "message" : "login success",
-  "access_token" : "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmb29JZCIsImlhdCI6MTY3NDcxNzA2MywiZXhwIjoxNjc0NzI0MjYzLCJyb2xlIjoiVVNFUiJ9.duR-fwfeAUovOFmoC-c-U1KNMyP868LxhnesVQ_3Klg"
+  "access_token" : "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmb29JZCIsImlhdCI6MTY3NTE3NjExMSwiZXhwIjoxNjc1MTgzMzExLCJyb2xlIjoiVVNFUiJ9.2ukm6gI_LjnI6MTEMVEyPmTW0818fdL3laKP0vSYGIY"
 }</code></pre>
 </div>
 </div>
@@ -728,12 +736,13 @@ Content-Length: 133
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /login HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 52
+Content-Length: 70
 Host: docs.api.com
 
 {
   "user_id" : "fooId",
-  "password" : "password"
+  "password" : "password",
+  "auto" : false
 }</code></pre>
 </div>
 </div>
@@ -776,13 +785,22 @@ Host: docs.api.com
 <td class="tableblock halign-left valign-top"><p class="tableblock">로그인 비밀번호</p></td>
 <td class="tableblock halign-left valign-top"></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>auto</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">자동 로그인 여부</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
 </tbody>
 </table>
 <div class="listingblock">
 <div class="title">Response</div>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
-Set-Cookie: refreshToken=Bearer+eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmb29JZCIsImlhdCI6MTY3NDcxNzA2NCwiZXhwIjoxNjc1OTI2NjY0fQ.xpjoETadozMLJLDus2nnxOaWWscZaxRnLWxAzq_nD2w; Path=/; Max-Age=1209600000; Expires=Thu, 26 May 2061 07:11:04 GMT; HttpOnly; SameSite=None
+Set-Cookie: refresh_token=Bearer+eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmb29JZCIsImlhdCI6MTY3NTE3NjExMSwiZXhwIjoxNjc2Mzg1NzExfQ.lJgxNQHJTo-EywUUksPAothbG7UKXt2CGwV47ZZWc5Y; Path=/; HttpOnly; SameSite=None
 Content-Type: application/json
 Content-Length: 319
 
@@ -793,7 +811,7 @@ Content-Length: 319
     "email" : "unqiue@wafflestudio.com"
   },
   "message" : "login success",
-  "access_token" : "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmb29JZCIsImlhdCI6MTY3NDcxNzA2NCwiZXhwIjoxNjc0NzI0MjY0LCJyb2xlIjoiVVNFUiJ9.2THr31YU4g83AgONYuhP6KBHVEbmosVCeE13COXqOBA"
+  "access_token" : "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmb29JZCIsImlhdCI6MTY3NTE3NjExMSwiZXhwIjoxNjc1MTgzMzExLCJyb2xlIjoiVVNFUiJ9.2ukm6gI_LjnI6MTEMVEyPmTW0818fdL3laKP0vSYGIY"
 }</code></pre>
 </div>
 </div>
@@ -818,12 +836,15 @@ Content-Length: 131
 <h3 id="_auth_토큰_재발급"><a class="link" href="#_auth_토큰_재발급">Auth: 토큰 재발급</a></h3>
 <div class="exampleblock">
 <div class="content">
+<div class="paragraph">
+<p>재발급되는 refresh 토큰을 담는 쿠키의 종류는 기존과 동일하게 유지됩니다.</p>
+</div>
 <div class="listingblock">
 <div class="title">Request</div>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /refresh HTTP/1.1
 Host: docs.api.com
-Cookie: refresh_token=Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmb29JZCIsImlhdCI6MTY3NDcxNzA2NCwiZXhwIjoxNjc1OTI2NjY0fQ.xpjoETadozMLJLDus2nnxOaWWscZaxRnLWxAzq_nD2w
+Cookie: refresh_token=Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmb29JZCIsImlhdCI6MTY3NTE3NjExMSwiZXhwIjoxNjc2Mzg1NzExfQ.lJgxNQHJTo-EywUUksPAothbG7UKXt2CGwV47ZZWc5Y
 Content-Type: application/x-www-form-urlencoded</code></pre>
 </div>
 </div>
@@ -850,12 +871,12 @@ Content-Type: application/x-www-form-urlencoded</code></pre>
 <div class="title">Response</div>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
-Set-Cookie: refreshToken=Bearer+eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmb29JZCIsImlhdCI6MTY3NDcxNzA2NCwiZXhwIjoxNjc1OTI2NjY0fQ.xpjoETadozMLJLDus2nnxOaWWscZaxRnLWxAzq_nD2w; Path=/; Max-Age=1209600000; Expires=Thu, 26 May 2061 07:11:04 GMT; HttpOnly; SameSite=None
+Set-Cookie: refresh_token=Bearer+eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmb29JZCIsImlhdCI6MTY3NTE3NjExMSwiZXhwIjoxNjc2Mzg1NzExfQ.lJgxNQHJTo-EywUUksPAothbG7UKXt2CGwV47ZZWc5Y; Path=/; HttpOnly; SameSite=None
 Content-Type: application/json
 Content-Length: 163
 
 {
-  "access_token" : "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmb29JZCIsImlhdCI6MTY3NDcxNzA2NCwiZXhwIjoxNjc0NzI0MjY0fQ.QcItFmvuY2d2VZ-p4ltvFmYtvYY5GsDiPulNFgNIm9o"
+  "access_token" : "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmb29JZCIsImlhdCI6MTY3NTE3NjExMSwiZXhwIjoxNjc1MTgzMzExfQ.kvxsSyu22yS_OjCFnbAUpX0Rau9IAbmP9yKo9Rx_-1E"
 }</code></pre>
 </div>
 </div>
@@ -889,13 +910,255 @@ Content-Length: 110
 </div>
 </div>
 </div>
+<div class="sect2">
+<h3 id="_auth_로그아웃"><a class="link" href="#_auth_로그아웃">Auth: 로그아웃</a></h3>
+<div class="exampleblock">
+<div class="content">
+<div class="paragraph">
+<p>기존의 토큰이 만료되지 않습니다. Secure 쿠키를 없애는 용도로 사용하시면 됩니다.</p>
+</div>
+<div class="listingblock">
+<div class="title">Request</div>
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /logout HTTP/1.1
+Host: docs.api.com
+Content-Type: application/x-www-form-urlencoded</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Response</div>
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
+Set-Cookie: refresh_token=; Path=/; Max-Age=0; Expires=Thu, 1 Jan 1970 00:00:00 GMT; HttpOnly; SameSite=None</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="User"><a class="link" href="#User">User API</a></h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_user_내_정보_조회하기"><a class="link" href="#_user_내_정보_조회하기">User: 내 정보 조회하기</a></h3>
+<div class="exampleblock">
+<div class="content">
+<div class="listingblock">
+<div class="title">Request</div>
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/v1/users/me HTTP/1.1
+Host: docs.api.com</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Response</div>
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 83
+
+{
+  "user_id" : "fooId",
+  "username" : "foo",
+  "email" : "foo@wafflestudio.com"
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_user_내_정보_수정하기"><a class="link" href="#_user_내_정보_수정하기">User: 내 정보 수정하기</a></h3>
+<div class="exampleblock">
+<div class="content">
+<div class="listingblock">
+<div class="title">Request</div>
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">PATCH /api/v1/users/me HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Content-Length: 65
+Host: docs.api.com
+
+{
+  "username" : "new_foo",
+  "email" : "foo2@wafflestudio.com"
+}</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 4. Request Body</caption>
+<colgroup>
+<col style="width: 14.2857%;">
+<col style="width: 14.2857%;">
+<col style="width: 14.2857%;">
+<col style="width: 14.2857%;">
+<col style="width: 14.2857%;">
+<col style="width: 14.2857%;">
+<col style="width: 14.2858%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">필드명</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">타입</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">필수여부</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Default 값</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">포맷 및 제약조건</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">설명</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">예시</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>username</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">빈 문자열 X</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">유저네임</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>email</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">빈 문자열 X, 올바른 이메일 형식</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">이메일</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+</tbody>
+</table>
+<div class="listingblock">
+<div class="title">Response</div>
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 88
+
+{
+  "user_id" : "fooId",
+  "username" : "new_foo",
+  "email" : "foo2@wafflestudio.com"
+}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Error Response</div>
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 400 Bad Request
+Content-Type: application/json
+Content-Length: 186
+
+{
+  "error_code" : 1,
+  "error_message" : "Invalid request parameter or request body",
+  "detail" : "email must be a well-formed email address. username can be nullable but not blank."
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_user_내_정보_삭제하기_탈퇴하기"><a class="link" href="#_user_내_정보_삭제하기_탈퇴하기">User: 내 정보 삭제하기 (탈퇴하기)</a></h3>
+<div class="exampleblock">
+<div class="content">
+<div class="listingblock">
+<div class="title">Request</div>
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">DELETE /api/v1/users/me HTTP/1.1
+Host: docs.api.com</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Response</div>
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_user_다른_유저_정보_조회하기"><a class="link" href="#_user_다른_유저_정보_조회하기">User: 다른 유저 정보 조회하기</a></h3>
+<div class="exampleblock">
+<div class="content">
+<div class="listingblock">
+<div class="title">Request</div>
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/v1/users/6 HTTP/1.1
+Host: docs.api.com</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 5. /api/v1/users/{id}</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>id</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">조회할 유저 ID</p></td>
+</tr>
+</tbody>
+</table>
+<div class="listingblock">
+<div class="title">Response</div>
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 83
+
+{
+  "user_id" : "barId",
+  "username" : "bar",
+  "email" : "bar@wafflestudio.com"
+}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Error Response</div>
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 400 Bad Request
+Content-Type: application/json
+Content-Length: 121
+
+{
+  "error_code" : 3,
+  "error_message" : "Constraint violations",
+  "detail" : "userId must be greater than 0, but 0."
+}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 404 Not Found
+Content-Type: application/json
+Content-Length: 112
+
+{
+  "error_code" : 4001,
+  "error_message" : "USER_NOT_FOUND",
+  "detail" : "User with id 39 does not exists."
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2023-01-26 16:10:04 +0900
+Last updated 2023-01-31 23:34:18 +0900
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/github.min.css">

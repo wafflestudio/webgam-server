@@ -6,6 +6,7 @@ enum class ErrorType {
         DEFAULT(0),
         INVALID_FIELD(1),
         NO_REFRESH_TOKEN(2),
+        CONSTRAINT_VIOLATION(3),
         ;
 
         override fun code(): Int {
@@ -36,6 +37,7 @@ enum class ErrorType {
 
     enum class NotFound(private val code: Int): Error {
         DEFAULT(4000),
+        USER_NOT_FOUND(4001),
         ;
 
         override fun code(): Int {

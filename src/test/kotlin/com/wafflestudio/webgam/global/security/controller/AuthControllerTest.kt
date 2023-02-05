@@ -5,9 +5,13 @@ import com.google.gson.GsonBuilder
 import com.ninjasquad.springmockk.MockkBean
 import com.wafflestudio.webgam.domain.user.dto.UserDto.SimpleResponse
 import com.wafflestudio.webgam.domain.user.model.User
+import com.wafflestudio.webgam.global.common.exception.ErrorType.BadRequest.INVALID_FIELD
+import com.wafflestudio.webgam.global.common.exception.ErrorType.BadRequest.NO_REFRESH_TOKEN
+import com.wafflestudio.webgam.global.common.exception.ErrorType.Unauthorized.INVALID_JWT
 import com.wafflestudio.webgam.global.security.dto.AuthDto.Response
 import com.wafflestudio.webgam.global.security.dto.JwtDto
 import com.wafflestudio.webgam.global.security.exception.InvalidJwtException
+import com.wafflestudio.webgam.global.security.jwt.JwtProvider
 import com.wafflestudio.webgam.global.security.service.AuthService
 import io.kotest.core.annotation.DisplayName
 import io.kotest.core.spec.style.DescribeSpec
@@ -77,7 +81,7 @@ class AuthControllerTest(
             }
 
             context("아이디를 누락하거나 공백, NULL 이면") {
-                it("400 Bad Request, 에러코드 1") {
+                it("400 Bad Request, 에러코드 ${INVALID_FIELD.code()}") {
                     val userIds = mutableListOf("omit", "", "    ", null)
                     userIds.forAll {
                         val request = HashMap<String, String?>()
@@ -90,14 +94,14 @@ class AuthControllerTest(
                             content = gson.toJson(request)
                         }.andExpect {
                             status { isBadRequest() }
-                            jsonPath("$.error_code", `is`(1))
+                            jsonPath("$.error_code", `is`(INVALID_FIELD.code()))
                         }
                     }
                 }
             }
 
             context("유저네임을 누락하거나 공백, NULL 이면") {
-                it("400 Bad Request, 에러코드 1") {
+                it("400 Bad Request, 에러코드 ${INVALID_FIELD.code()}") {
                     val usernames = mutableListOf("omit", "", "    ", null)
                     usernames.forAll {
                         val request = HashMap<String, String?>()
@@ -110,14 +114,14 @@ class AuthControllerTest(
                             content = gson.toJson(request)
                         }.andExpect {
                             status { isBadRequest() }
-                            jsonPath("$.error_code", `is`(1))
+                            jsonPath("$.error_code", `is`(INVALID_FIELD.code()))
                         }
                     }
                 }
             }
 
             context("이메일이 누락하거나 공백, NULL, 잘못된 형식이면") {
-                it("400 Bad Request, 에러코드 1") {
+                it("400 Bad Request, 에러코드 ${INVALID_FIELD.code()}") {
                     val emails = mutableListOf("omit", "", "    ", null, "email", "@")
                     emails.forAll {
                         val request = HashMap<String, String?>()
@@ -130,7 +134,7 @@ class AuthControllerTest(
                             content = gson.toJson(request)
                         }.andExpect {
                             status { isBadRequest() }
-                            jsonPath("$.error_code", `is`(1))
+                            jsonPath("$.error_code", `is`(INVALID_FIELD.code()))
                         }
                     }
                 }
@@ -154,7 +158,7 @@ class AuthControllerTest(
             }
 
             context("비밀번호를 누락하거나 공백, NULL 이면") {
-                it("400 Bad Request, 에러코드 1") {
+                it("400 Bad Request, 에러코드 ${INVALID_FIELD.code()}") {
                     val passwords = mutableListOf("omit", "", "    ", null)
                     passwords.forAll {
                         val request = HashMap<String, String?>()
@@ -167,7 +171,7 @@ class AuthControllerTest(
                             content = gson.toJson(request)
                         }.andExpect {
                             status { isBadRequest() }
-                            jsonPath("$.error_code", `is`(1))
+                            jsonPath("$.error_code", `is`(INVALID_FIELD.code()))
                         }
                     }
                 }
@@ -190,6 +194,40 @@ class AuthControllerTest(
                 }
             }
 
+            context("적절한 아이디, 비밀번호와 함께 자동 로그인 요청하면") {
+                val request = HashMap<String, String>()
+                request["user_id"] = "fooId"
+                request["password"] = "foo-password"
+                request["auto"] = "true"
+
+                it("Refresh 토큰이 영구 쿠키로 반환된다") {
+                    mockMvc.post("/login") {
+                        contentType = APPLICATION_JSON
+                        content = gson.toJson(request)
+                    }.andExpect {
+                        status { isOk() }
+                        cookie { maxAge("refresh_token", `is`(JwtProvider.refreshTokenValidTime.toInt())) }
+                    }
+                }
+            }
+
+            context("자동 로그인을 따로 설정하지 않거나 옵션 해제하면") {
+                val request = HashMap<String, String>()
+                request["user_id"] = "fooId"
+                request["password"] = "foo-password"
+                request["auto"] = "false"
+
+                it("Refresh 토큰이 세션 쿠키로 반환된다") {
+                    mockMvc.post("/login") {
+                        contentType = APPLICATION_JSON
+                        content = gson.toJson(request)
+                    }.andExpect {
+                        status { isOk() }
+                        cookie { maxAge("refresh_token", `is`(-1)) }
+                    }
+                }
+            }
+
             context("그 외 추가적인 항목이 있어도") {
                 val request = HashMap<String, String>()
                 request["user_id"] = "fooId"
@@ -205,7 +243,7 @@ class AuthControllerTest(
             }
 
             context("아이디를 누락하거나 공백, NULL 이면") {
-                it("400 Bad Request, 에러코드 1") {
+                it("400 Bad Request, 에러코드 ${INVALID_FIELD.code()}") {
                     val userIds = mutableListOf("omit", "", "    ", null)
                     userIds.forAll {
                         val request = HashMap<String, String?>()
@@ -216,14 +254,14 @@ class AuthControllerTest(
                             content = gson.toJson(request)
                         }.andExpect {
                             status { isBadRequest() }
-                            jsonPath("$.error_code", `is`(1))
+                            jsonPath("$.error_code", `is`(INVALID_FIELD.code()))
                         }
                     }
                 }
             }
 
             context("비밀번호가 누락하거나 공백, NULL 이면") {
-                it("400 Bad Request, 에러코드 1") {
+                it("400 Bad Request, 에러코드 ${INVALID_FIELD.code()}") {
                     val passwords = mutableListOf("omit", "", "    ", null)
                     passwords.forAll {
                         val request = HashMap<String, String?>()
@@ -234,7 +272,7 @@ class AuthControllerTest(
                             content = gson.toJson(request)
                         }.andExpect {
                             status { isBadRequest() }
-                            jsonPath("$.error_code", `is`(1))
+                            jsonPath("$.error_code", `is`(INVALID_FIELD.code()))
                         }
                     }
                 }
@@ -253,10 +291,10 @@ class AuthControllerTest(
             }
 
             context("refreshToken 쿠키가 없으면") {
-                it("400 Bad Request, 에러코드 2") {
+                it("400 Bad Request, 에러코드 ${NO_REFRESH_TOKEN.code()}") {
                     mockMvc.post("/refresh").andDo { print() }.andExpect {
                         status { isBadRequest() }
-                        jsonPath("$.error_code", `is`(2))
+                        jsonPath("$.error_code", `is`(NO_REFRESH_TOKEN.code()))
                     }
                 }
             }
@@ -264,12 +302,12 @@ class AuthControllerTest(
             context("유효하지 않은 refreshToken 쿠키가 있으면") {
                 every { authService.refreshToken(any()) } throws InvalidJwtException("message")
 
-                it("401 Unauthorized, 에러코드 1002") {
+                it("401 Unauthorized, 에러코드 ${INVALID_JWT.code()}") {
                     mockMvc.post("/refresh") {
                         cookie(Cookie("refresh_token", "dummy_valid_token"))
                     }.andExpect {
                         status { isUnauthorized() }
-                        jsonPath("$.error_code", `is`(1002))
+                        jsonPath("$.error_code", `is`(INVALID_JWT.code()))
                     }
                 }
             }

@@ -1,12 +1,11 @@
 package com.wafflestudio.webgam.global.common.exception
 
-import com.wafflestudio.webgam.global.security.exception.NoRefreshTokenException
+import jakarta.validation.ConstraintViolationException
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.MethodArgumentNotValidException
-import org.springframework.web.bind.MissingRequestCookieException
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.RestControllerAdvice
 
@@ -28,9 +27,17 @@ class WebgamControllerAdvice {
         ), HttpStatus.BAD_REQUEST)
     }
 
-    @ExceptionHandler(MissingRequestCookieException::class)
-    fun noRefreshToken(ignored: MissingRequestCookieException): ResponseEntity<ErrorResponse> {
-        return ResponseEntity(ErrorResponse(NoRefreshTokenException()), HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(ConstraintViolationException::class)
+    fun constraintViolation(e: ConstraintViolationException): ResponseEntity<ErrorResponse?> {
+        return ResponseEntity(
+            ErrorResponse(
+            ErrorType.BadRequest.CONSTRAINT_VIOLATION.code(),
+            "Constraint violations",
+            e.constraintViolations.joinToString(separator = " ") {
+                it.propertyPath.toString().split('.').last() + " " + it.message + ", but " +
+                        it.invalidValue + "."
+            }
+        ), HttpStatus.BAD_REQUEST)
     }
 
     @ExceptionHandler(WebgamException.Unauthorized::class)

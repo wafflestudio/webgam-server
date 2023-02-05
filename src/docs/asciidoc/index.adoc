@@ -13,9 +13,9 @@
 서버 상태 확인 용도로, 토큰이 필요하지 않습니다.
 ====
 .Request
-include::{snippets}/auth-ping/200/http-request.adoc[]
+include::{snippets}/ping/200/http-request.adoc[]
 .Response
-include::{snippets}/auth-ping/200/http-response.adoc[]
+include::{snippets}/ping/200/http-response.adoc[]
 ====
 
 === Auth-Ping API
@@ -45,44 +45,5 @@ include::{snippets}/auth-ping/403-3001/http-response.adoc[]
 ====
 
 
-[[Auth]]
-== Auth API
-
-[[Signup]]
-=== Auth: 회원 가입
-====
-.Request
-include::{snippets}/signup/200/http-request.adoc[]
-.Request Body
-include::{snippets}/signup/200/request-fields.adoc[]
-.Response
-include::{snippets}/signup/200/http-response.adoc[]
-.Error Response
-include::{snippets}/signup/400-0001/http-response.adoc[]
-include::{snippets}/signup/409-9001/http-response.adoc[]
-====
-
-=== Auth: 로그인
-====
-.Request
-include::{snippets}/login/200/http-request.adoc[]
-.Request Body
-include::{snippets}/login/200/request-fields.adoc[]
-.Response
-include::{snippets}/login/200/http-response.adoc[]
-.Error Response
-include::{snippets}/login/401-1001/http-response.adoc[]
-====
-
-=== Auth: 토큰 재발급
-====
-.Request
-include::{snippets}/refresh/200/http-request.adoc[]
-.Request Cookie
-include::{snippets}/refresh/200/request-cookies.adoc[]
-.Response
-include::{snippets}/refresh/200/http-response.adoc[]
-.Error Response
-include::{snippets}/refresh/400-0002-no-cookie/http-response.adoc[]
-include::{snippets}/refresh/401-1002/http-response.adoc[]
-====
+include::auth.adoc[]
+include::user.adoc[]
