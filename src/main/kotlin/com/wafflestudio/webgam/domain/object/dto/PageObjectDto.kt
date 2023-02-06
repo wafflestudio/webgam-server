@@ -6,28 +6,48 @@ import com.wafflestudio.webgam.domain.`object`.model.PageObjectType
 import com.wafflestudio.webgam.global.common.dto.TimeTraceEntityDto
 import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.NotNull
+import jakarta.validation.constraints.Positive
+import jakarta.validation.constraints.PositiveOrZero
 import org.hibernate.validator.constraints.URL
 import java.time.LocalDateTime
 
 class PageObjectDto {
     data class CreateRequest(
-        @field:NotNull
+        @field:[NotNull Positive]
         val pageId: Long?,
         @field:NotBlank
         val name: String?,
         val type: PageObjectType = PageObjectType.DEFAULT,
-        @field:NotNull
+        @field:[NotNull Positive]
         val width: Int?,
-        @field:NotNull
+        @field:[NotNull Positive]
         val height: Int?,
         @field:NotNull
         val xPosition: Int?,
         @field:NotNull
         val yPosition: Int?,
-        @field:NotNull
+        @field:[NotNull PositiveOrZero]
         val zIndex: Int?,
         /* Optional */
         val textContent: String?,
+        @field:Positive
+        val fontSize: Int?,
+        @field:URL
+        val imageSource: String?,
+    )
+
+    data class PatchRequest(
+        val type: PageObjectType?,
+        @field:Positive
+        val width: Int?,
+        @field:Positive
+        val height: Int?,
+        val xPosition: Int?,
+        val yPosition: Int?,
+        @field:PositiveOrZero
+        val zIndex: Int?,
+        val textContent: String?,
+        @field:Positive
         val fontSize: Int?,
         @field:URL
         val imageSource: String?,
