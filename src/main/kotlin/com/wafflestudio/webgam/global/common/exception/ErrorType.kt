@@ -7,6 +7,7 @@ enum class ErrorType {
         INVALID_FIELD(1),
         NO_REFRESH_TOKEN(2),
         CONSTRAINT_VIOLATION(3),
+        JSON_PARSE_ERROR(4),
         ;
 
         override fun code(): Int {
@@ -28,6 +29,10 @@ enum class ErrorType {
     enum class Forbidden(private val code: Int): Error {
         DEFAULT(3000),
         NO_ACCESS(3001),
+        NON_ACCESSIBLE_PROJECT(3100),
+        NON_ACCESSIBLE_PROJECT_PAGE(3200),
+        NON_ACCESSIBLE_PAGE_OBJECT(3300),
+        NON_ACCESSIBLE_OBJECT_EVENT(3400),
         ;
 
         override fun code(): Int {
@@ -38,6 +43,10 @@ enum class ErrorType {
     enum class NotFound(private val code: Int): Error {
         DEFAULT(4000),
         USER_NOT_FOUND(4001),
+        PROJECT_NOT_FOUND(4200),
+        PROJECT_PAGE_NOT_FOUND(4300),
+        PAGE_OBJECT_NOT_FOUND(4400),
+        OBJECT_EVENT_NOT_FOUND(4500),
         ;
 
         override fun code(): Int {
