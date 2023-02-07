@@ -27,4 +27,8 @@ open class BaseTimeTraceLazyDeletedEntity (
     open var modifiedBy: String = "",
 
     open var isDeleted: Boolean = false,
-)
+) {
+    open fun delete() { // FIXME: open -> abstract
+        isDeleted = true
+    }
+}

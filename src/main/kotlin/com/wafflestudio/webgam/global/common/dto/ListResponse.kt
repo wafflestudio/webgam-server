@@ -1,11 +1,11 @@
 package com.wafflestudio.webgam.global.common.dto
 
 data class ListResponse<T: Any> (
-        val count: Int,
-        val data: List<T>,
+    val count: Int,
+    val data: List<T>,
 ) {
     constructor(list: List<T>): this(
-            count = list.size,
-            data = list
+        count = list.size,
+        data = list
     )
 }

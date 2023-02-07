@@ -1,0 +1,75 @@
+[[Object]]
+== Object API
+=== 프로젝트 내 모든 오브젝트 조회하기
+====
+.Request
+include::{snippets}/get-project-objects/200/http-request.adoc[]
+.Query Parameter
+include::{snippets}/get-project-objects/200/query-parameters.adoc[]
+.Response
+include::{snippets}/get-project-objects/200/http-response.adoc[]
+.Error Response
+include::{snippets}/get-project-objects/400-0/http-response.adoc[]
+include::{snippets}/get-project-objects/403-0/http-response.adoc[]
+include::{snippets}/get-project-objects/404-0/http-response.adoc[]
+====
+
+=== 오브젝트 생성하기
+====
+.Request
+include::{snippets}/create-object/200/http-request.adoc[]
+.Request Body
+include::{snippets}/create-object/200/request-fields.adoc[]
+.Response
+include::{snippets}/create-object/200/http-response.adoc[]
+.Error Response
+include::{snippets}/create-object/400-0/http-response.adoc[]
+include::{snippets}/create-object/400-1/http-response.adoc[]
+include::{snippets}/create-object/403-0/http-response.adoc[]
+include::{snippets}/create-object/404-0/http-response.adoc[]
+====
+
+=== 오브젝트 조회하기
+====
+.Request
+include::{snippets}/get-object/200/http-request.adoc[]
+.Path Parameter
+include::{snippets}/get-object/200/path-parameters.adoc[]
+.Response
+include::{snippets}/get-object/200/http-response.adoc[]
+.Error Response
+include::{snippets}/get-object/400-0/http-response.adoc[]
+include::{snippets}/get-object/403-0/http-response.adoc[]
+include::{snippets}/get-object/404-0/http-response.adoc[]
+====
+
+=== 오브젝트 수정하기
+====
+.Request
+include::{snippets}/patch-object/200/http-request.adoc[]
+.Path Parameter
+include::{snippets}/patch-object/200/path-parameters.adoc[]
+.Request Body
+include::{snippets}/patch-object/200/request-fields.adoc[]
+.Response
+include::{snippets}/patch-object/200/http-response.adoc[]
+.Error Response
+include::{snippets}/patch-object/400-0/http-response.adoc[]
+include::{snippets}/patch-object/400-1/http-response.adoc[]
+include::{snippets}/patch-object/403-0/http-response.adoc[]
+include::{snippets}/patch-object/404-0/http-response.adoc[]
+====
+
+=== 오브젝트 삭제하기
+====
+.Request
+include::{snippets}/delete-object/200/http-request.adoc[]
+.Path Parameter
+include::{snippets}/delete-object/200/path-parameters.adoc[]
+.Response
+include::{snippets}/delete-object/200/http-response.adoc[]
+.Error Response
+include::{snippets}/delete-object/400-0/http-response.adoc[]
+include::{snippets}/delete-object/403-0/http-response.adoc[]
+include::{snippets}/delete-object/404-0/http-response.adoc[]
+====

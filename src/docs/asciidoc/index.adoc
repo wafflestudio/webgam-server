@@ -47,3 +47,4 @@ include::{snippets}/auth-ping/403-3001/http-response.adoc[]
 
 include::auth.adoc[]
 include::user.adoc[]
+include::object.adoc[]
