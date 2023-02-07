@@ -5,7 +5,9 @@ import com.wafflestudio.webgam.domain.`object`.exception.NonAccessiblePageObject
 import com.wafflestudio.webgam.domain.`object`.exception.PageObjectNotFoundException
 import com.wafflestudio.webgam.domain.`object`.model.PageObject
 import com.wafflestudio.webgam.domain.`object`.repository.PageObjectRepository
+import com.wafflestudio.webgam.domain.page.exception.NonAccessibleProjectPageByIdException
 import com.wafflestudio.webgam.domain.page.exception.NonAccessibleProjectPageException
+import com.wafflestudio.webgam.domain.page.exception.ProjectPageNotFoundByIdException
 import com.wafflestudio.webgam.domain.page.exception.ProjectPageNotFoundException
 import com.wafflestudio.webgam.domain.page.repository.ProjectPageRepository
 import com.wafflestudio.webgam.domain.project.exception.NonAccessibleProjectException
@@ -43,8 +45,8 @@ class PageObjectService(
 
     @Transactional
     fun createObject(myId: Long, request: CreateRequest): SimpleResponse {
-        val page = projectPageRepository.findUndeletedProjectPageById(request.pageId!!) ?: throw ProjectPageNotFoundException(request.pageId)
-        if (!page.isAccessibleTo(myId)) throw NonAccessibleProjectPageException(request.pageId)
+        val page = projectPageRepository.findUndeletedProjectPageById(request.pageId!!) ?: throw ProjectPageNotFoundByIdException(request.pageId)
+        if (!page.isAccessibleTo(myId)) throw NonAccessibleProjectPageByIdException(request.pageId)
 
         val pageObject = pageObjectRepository.save(PageObject(page, request))
 

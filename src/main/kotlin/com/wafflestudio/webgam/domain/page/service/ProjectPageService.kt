@@ -23,17 +23,17 @@ class ProjectPageService (
         private val projectRepository: ProjectRepository
 ){
         fun getProjectPage(myId: Long, projectId: Long, name: String): DetailedResponse {
-                val projectPage = projectPageRepository.findByProjectIdAndName(projectId, name)
+                val projectPage = projectPageRepository.findUndeletedProjectPageByProjectIdAndName(projectId, name)
                         ?: throw ProjectPageNotFoundException(projectId, name)
                 if (!projectPage.isAccessibleTo(myId)) throw NonAccessibleProjectPageException(projectId, name)
                 return DetailedResponse(projectPage)
         }
 
         fun getProjectPages(myId: Long, projectId: Long): ListResponse<SimpleResponse> {
-                val project = projectRepository.findProjectById(projectId)
+                val project = projectRepository.findUndeletedProjectById(projectId)
                         ?: throw ProjectNotFoundException(projectId)
                 if (!project.isAccessibleTo(myId)) throw NonAccessibleProjectException(projectId)
-                val projectPages = projectPageRepository.findAllByProjectId(projectId)
+                val projectPages = projectPageRepository.findAllUndeletedProjectPageByProjectId(projectId)
 
                 val accessiblePages = mutableListOf<ProjectPage>()
                 for (projectPage in projectPages){
@@ -43,7 +43,7 @@ class ProjectPageService (
         }
 
         fun createProjectPage(myId: Long, projectId: Long, request: CreateRequest): DetailedResponse {
-                val project = projectRepository.findProjectById(projectId)
+                val project = projectRepository.findUndeletedProjectById(projectId)
                         ?: throw ProjectNotFoundException(projectId)
                 if (!project.isAccessibleTo(myId)) throw NonAccessibleProjectException(projectId)
                 val projectPage = ProjectPage(project, request)
@@ -52,7 +52,7 @@ class ProjectPageService (
 
         fun patchProjectPage(myId: Long, projectId: Long, name: String, request: PatchRequest)
         : DetailedResponse{
-                val projectPage = projectPageRepository.findByProjectIdAndName(projectId, name)
+                val projectPage = projectPageRepository.findUndeletedProjectPageByProjectIdAndName(projectId, name)
                         ?: throw ProjectPageNotFoundException(projectId, name)
                 if (!projectPage.isAccessibleTo(myId)) throw NonAccessibleProjectPageException(projectId, name)
                 request.name ?.let{projectPage.name = it}
@@ -61,7 +61,7 @@ class ProjectPageService (
 
         fun deleteProjectPage(myId: Long, projectId: Long, name:String)
         : SimpleResponse {
-                val projectPage = projectPageRepository.findByProjectIdAndName(projectId, name)
+                val projectPage = projectPageRepository.findUndeletedProjectPageByProjectIdAndName(projectId, name)
                         ?: throw ProjectPageNotFoundException(projectId, name)
                 if (!projectPage.isAccessibleTo(myId)) throw NonAccessibleProjectPageException(projectId, name)
                 projectPage.isDeleted = true

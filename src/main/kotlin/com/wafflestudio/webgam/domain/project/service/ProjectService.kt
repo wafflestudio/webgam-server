@@ -26,7 +26,7 @@ class ProjectService (
 ){
 
     fun getProject(myId: Long, projectId: Long): DetailedResponse {
-        val project = projectRepository.findProjectById(projectId) ?: throw ProjectNotFoundException(projectId)
+        val project = projectRepository.findUndeletedProjectById(projectId) ?: throw ProjectNotFoundException(projectId)
         if (!project.isAccessibleTo(myId)) throw NonAccessibleProjectException(projectId)
         return DetailedResponse(project)
     }
@@ -52,7 +52,7 @@ class ProjectService (
 
     @Transactional
     fun patchProject(myId: Long, projectId: Long, request: PatchRequest): DetailedResponse {
-        val project = projectRepository.findProjectById(projectId) ?: throw ProjectNotFoundException(projectId)
+        val project = projectRepository.findUndeletedProjectById(projectId) ?: throw ProjectNotFoundException(projectId)
         if (!project.isAccessibleTo(myId)) throw NonAccessibleProjectException(projectId)
         request.title ?.let { project.title = it }
         return DetailedResponse(project)
@@ -60,7 +60,7 @@ class ProjectService (
 
     @Transactional
     fun deleteProject(myId: Long, projectId: Long): DetailedResponse {
-        val project = projectRepository.findProjectById(projectId) ?: throw ProjectNotFoundException(projectId)
+        val project = projectRepository.findUndeletedProjectById(projectId) ?: throw ProjectNotFoundException(projectId)
         if (!project.isAccessibleTo(myId)) throw NonAccessibleProjectException(projectId)
         project.isDeleted = true
         return DetailedResponse(project)

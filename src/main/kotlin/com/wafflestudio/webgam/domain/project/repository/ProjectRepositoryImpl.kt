@@ -22,4 +22,12 @@ class ProjectRepositoryImpl(
         .leftJoin(project.owner, user).fetchJoin()
         .where(id(id), undeletedProject(), undeletedUser())
         .fetchOne()
+
+    override fun findAllByOwnerIdEquals(ownerId: Long): List<Project> = jpaQueryFactory
+            .select(project)
+            .from(project)
+            .leftJoin(project.owner, user).fetchJoin()
+            .where(user.id.eq(ownerId), undeletedProject(), undeletedUser())
+            .fetch()
+
 }
