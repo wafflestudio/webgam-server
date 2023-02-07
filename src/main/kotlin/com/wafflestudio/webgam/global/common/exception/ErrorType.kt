@@ -28,7 +28,8 @@ enum class ErrorType {
     enum class Forbidden(private val code: Int): Error {
         DEFAULT(3000),
         NO_ACCESS(3001),
-        NON_ACCESSIBLE_PROJECT(3002)
+        NON_ACCESSIBLE_PROJECT(3002),
+        NON_ACCESSIBLE_PROJECT_PAGE(3003)
         ;
 
         override fun code(): Int {
@@ -39,7 +40,8 @@ enum class ErrorType {
     enum class NotFound(private val code: Int): Error {
         DEFAULT(4000),
         USER_NOT_FOUND(4001),
-        PROJECT_NOT_FOUND(4002)
+        PROJECT_NOT_FOUND(4002),
+        PROJECTPAGE_NOT_FOUND(4003)
         ;
 
         override fun code(): Int {

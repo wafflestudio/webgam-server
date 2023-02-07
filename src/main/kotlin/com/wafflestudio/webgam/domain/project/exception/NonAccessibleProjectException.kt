@@ -5,5 +5,5 @@ import com.wafflestudio.webgam.global.common.exception.WebgamException
 
 class NonAccessibleProjectException(id: Long): WebgamException.Forbidden(
         ErrorType.Forbidden.NON_ACCESSIBLE_PROJECT,
-        "Project with id $id does not exist."
+        "You have no access to Project with id $id"
 )

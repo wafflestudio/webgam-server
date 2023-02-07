@@ -21,11 +21,11 @@ class ProjectController(
         private val projectService: ProjectService,
 ) {
     @GetMapping("/{id}")
-    fun getProjectInfo(@PathVariable("id") @Positive projectId: Long): ResponseEntity<DetailedResponse> {
-        return ResponseEntity.ok(projectService.getProject(projectId))
+    fun getProjectInfo(@CurrentUser myId: Long, @PathVariable("id") projectId: Long): ResponseEntity<DetailedResponse> {
+        return ResponseEntity.ok(projectService.getProject(myId, projectId))
     }
 
-    @GetMapping("/")
+    @GetMapping("")
     fun getProjects(
             @RequestParam(required = false, defaultValue = "0") page: Int,
             @RequestParam(required = false, defaultValue = "10") size: Int,
@@ -40,7 +40,7 @@ class ProjectController(
         return ResponseEntity.ok(projectList)
     }
 
-    @PostMapping("/")
+    @PostMapping("")
     fun createProject(@CurrentUser myId: Long, @RequestBody @Valid request: CreateRequest)
     : ResponseEntity<DetailedResponse> {
         System.err.println(request.toString())

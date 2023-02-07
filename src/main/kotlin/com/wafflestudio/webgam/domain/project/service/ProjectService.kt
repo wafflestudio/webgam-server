@@ -25,8 +25,9 @@ class ProjectService (
         private val userRepository: UserRepository
 ){
 
-    fun getProject(projectId: Long): DetailedResponse {
+    fun getProject(myId: Long, projectId: Long): DetailedResponse {
         val project = projectRepository.findProjectById(projectId) ?: throw ProjectNotFoundException(projectId)
+        if (!project.isAccessibleTo(myId)) throw NonAccessibleProjectException(projectId)
         return DetailedResponse(project)
     }
 
@@ -36,8 +37,8 @@ class ProjectService (
         return PageResponse(projects.content.map{SimpleResponse(it)}, page, size, projects.size)
     }
 
-    fun getUserProject(id: Long): ListResponse<SimpleResponse> {
-        val projects = projectRepository.findAllByOwnerIdEquals(id)
+    fun getUserProject(userId: Long): ListResponse<SimpleResponse> {
+        val projects = projectRepository.findAllByOwnerIdEquals(userId)
         return ListResponse(projects.map{ SimpleResponse(it) })
     }
 
@@ -46,7 +47,6 @@ class ProjectService (
         val me = userRepository.findUserById(myId)!!
         var project = Project(me, request)
         project = projectRepository.save(project)
-        me.projects.add(project)
         return DetailedResponse(project)
     }
 

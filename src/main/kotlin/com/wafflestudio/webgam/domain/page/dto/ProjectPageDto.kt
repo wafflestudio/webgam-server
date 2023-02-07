@@ -15,6 +15,11 @@ class ProjectPageDto {
         val name: String?,
     )
 
+    data class PatchRequest(
+            @field:NotBlank
+            val name: String?,
+    )
+
     data class SimpleResponse(
         override val id: Long,
         override val createdAt: LocalDateTime,
