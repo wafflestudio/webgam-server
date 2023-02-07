@@ -33,7 +33,7 @@ class SecurityConfig(
 ) {
     companion object {
         private val CORS_WHITELIST: MutableList<String> = mutableListOf()
-        private val GET_WHITELIST: Array<String> = arrayOf("/ping")
+        private val GET_WHITELIST: Array<String> = arrayOf("/ping", "/project")
         private val POST_WHITELIST: Array<String> = arrayOf("/signup", "/login/**", "/logout", "/refresh")
     }
 
