@@ -14,7 +14,8 @@ class ProjectDto {
     )
 
     data class PatchRequest(
-        val title: String?
+        @field:NotBlank
+        val title: String?,
     )
 
     data class SimpleResponse(

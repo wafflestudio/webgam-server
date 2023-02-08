@@ -26,19 +26,4 @@ class ProjectPageRepositoryImpl(
         .where(id(id), undeletedProjectPage(), undeletedProject(), undeletedUser())
         .fetchOne()
 
-    override fun findUndeletedProjectPageByProjectIdAndName(projectId: Long, name: String): ProjectPage? = jpaQueryFactory
-            .select(projectPage)
-            .from(projectPage)
-            .leftJoin(projectPage.project, project).fetchJoin()
-            .leftJoin(project.owner, user).fetchJoin()
-            .where(project.id.eq(projectId), projectPage.name.eq(name), undeletedProjectPage(), undeletedProject(), undeletedUser())
-            .fetchOne()
-
-    override fun findAllUndeletedProjectPageByProjectId(projectId: Long): List<ProjectPage> = jpaQueryFactory
-            .select(projectPage)
-            .from(projectPage)
-            .leftJoin(projectPage.project, project).fetchJoin()
-            .leftJoin(project.owner, user).fetchJoin()
-            .where(project.id.eq(projectId), undeletedProjectPage(), undeletedProject(), undeletedUser())
-            .fetch()
 }

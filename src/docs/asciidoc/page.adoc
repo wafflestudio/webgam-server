@@ -1,0 +1,60 @@
+[[PAGE]]
+== Page API
+=== 페이지 조회하기
+====
+.Request
+include::{snippets}/get-project-page/200/http-request.adoc[]
+.Path Parameter
+include::{snippets}/get-project-page/200/path-parameters.adoc[]
+.Response
+include::{snippets}/get-project-page/200/http-response.adoc[]
+.Error Response
+include::{snippets}/get-project-page/400-0/http-response.adoc[]
+include::{snippets}/get-project-page/403-0/http-response.adoc[]
+include::{snippets}/get-project-page/404-0/http-response.adoc[]
+====
+
+=== 페이지 생성하기
+====
+.Request
+include::{snippets}/create-project-page/200/http-request.adoc[]
+.Request Body
+include::{snippets}/create-project-page/200/request-fields.adoc[]
+.Response
+include::{snippets}/create-project-page/200/http-response.adoc[]
+.Error Response
+include::{snippets}/create-project-page/400-0/http-response.adoc[]
+include::{snippets}/create-project-page/400-1/http-response.adoc[]
+include::{snippets}/create-project-page/403-0/http-response.adoc[]
+include::{snippets}/create-project-page/404-0/http-response.adoc[]
+====
+
+=== 페이지 수정하기
+====
+.Request
+include::{snippets}/patch-project-page/200/http-request.adoc[]
+.Path Parameter
+include::{snippets}/patch-project-page/200/path-parameters.adoc[]
+.Request Body
+include::{snippets}/patch-project-page/200/request-fields.adoc[]
+.Response
+include::{snippets}/patch-project-page/200/http-response.adoc[]
+.Error Response
+include::{snippets}/patch-project-page/400-0/http-response.adoc[]
+include::{snippets}/patch-project-page/403-0/http-response.adoc[]
+include::{snippets}/patch-project-page/404-0/http-response.adoc[]
+====
+
+=== 페이지 삭제하기
+====
+.Request
+include::{snippets}/delete-project-page/200/http-request.adoc[]
+.Path Parameter
+include::{snippets}/delete-project-page/200/path-parameters.adoc[]
+.Response
+include::{snippets}/delete-project-page/200/http-response.adoc[]
+.Error Response
+include::{snippets}/delete-project-page/400-0/http-response.adoc[]
+include::{snippets}/delete-project-page/403-0/http-response.adoc[]
+include::{snippets}/delete-project-page/404-0/http-response.adoc[]
+====

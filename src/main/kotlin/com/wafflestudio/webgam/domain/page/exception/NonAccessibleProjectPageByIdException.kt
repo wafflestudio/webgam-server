@@ -1,9 +1,0 @@
-package com.wafflestudio.webgam.domain.page.exception
-
-import com.wafflestudio.webgam.global.common.exception.ErrorType
-import com.wafflestudio.webgam.global.common.exception.WebgamException
-
-class NonAccessibleProjectPageByIdException(id: Long): WebgamException.Forbidden(
-        ErrorType.Forbidden.NON_ACCESSIBLE_PROJECT_PAGE,
-        "You have no access to ProjectPage with id $id"
-)

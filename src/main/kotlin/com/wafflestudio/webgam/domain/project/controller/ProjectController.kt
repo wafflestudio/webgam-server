@@ -21,7 +21,7 @@ class ProjectController(
         private val projectService: ProjectService,
 ) {
     @GetMapping("/{id}")
-    fun getProjectInfo(@CurrentUser myId: Long, @PathVariable("id") projectId: Long): ResponseEntity<DetailedResponse> {
+    fun getProjectInfo(@CurrentUser myId: Long, @PathVariable("id") @Positive projectId: Long): ResponseEntity<DetailedResponse> {
         return ResponseEntity.ok(projectService.getProject(myId, projectId))
     }
 
@@ -49,7 +49,7 @@ class ProjectController(
     }
 
     @PatchMapping("/{id}")
-    fun patchProject(@CurrentUser myId: Long, @PathVariable("id") id: Long, @RequestBody @Valid request: PatchRequest)
+    fun patchProject(@CurrentUser myId: Long, @PathVariable("id") @Positive id: Long, @RequestBody @Valid request: PatchRequest)
     : ResponseEntity<DetailedResponse> {
         System.err.println(request.toString())
         val project = projectService.patchProject(myId, id, request)
@@ -57,7 +57,7 @@ class ProjectController(
     }
 
     @DeleteMapping("/{id}")
-    fun deleteProject(@CurrentUser myId: Long, @PathVariable("id") id: Long)
+    fun deleteProject(@CurrentUser myId: Long, @PathVariable("id") @Positive id: Long)
     : ResponseEntity<DetailedResponse> {
         val project = projectService.deleteProject(myId, id)
         return ResponseEntity.ok(project)

@@ -469,6 +469,24 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_user_다른_유저_정보_조회하기">User: 다른 유저 정보 조회하기</a></li>
 </ul>
 </li>
+<li><a href="#PROJECT">Project API</a>
+<ul class="sectlevel2">
+<li><a href="#_프로젝트_조회하기">프로젝트 조회하기</a></li>
+<li><a href="#_모든_프로젝트_조회하기">모든 프로젝트 조회하기</a></li>
+<li><a href="#_나의_모든_프로젝트_조회하기">나의 모든 프로젝트 조회하기</a></li>
+<li><a href="#_프로젝트_생성하기">프로젝트 생성하기</a></li>
+<li><a href="#_프로젝트_수정하기">프로젝트 수정하기</a></li>
+<li><a href="#_프로젝트_삭제하기">프로젝트 삭제하기</a></li>
+</ul>
+</li>
+<li><a href="#PAGE">Page API</a>
+<ul class="sectlevel2">
+<li><a href="#_페이지_조회하기">페이지 조회하기</a></li>
+<li><a href="#_페이지_생성하기">페이지 생성하기</a></li>
+<li><a href="#_페이지_수정하기">페이지 수정하기</a></li>
+<li><a href="#_페이지_삭제하기">페이지 삭제하기</a></li>
+</ul>
+</li>
 <li><a href="#Object">Object API</a>
 <ul class="sectlevel2">
 <li><a href="#_프로젝트_내_모든_오브젝트_조회하기">프로젝트 내 모든 오브젝트 조회하기</a></li>
@@ -523,7 +541,7 @@ pong</code></pre>
 <div class="title">Request</div>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /auth-ping HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmb29JZCIsImlhdCI6MTY3NTY3MDgxNCwiZXhwIjoxNjc1Njc4MDE0LCJyb2xlIjoiVVNFUiJ9.DuB6Jm_9f8SvYg-tRnEHqv1_aqyrBWUlAbLLFOKCZ9s
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmb29JZCIsImlhdCI6MTY3NTg2OTI2NywiZXhwIjoxNjc1ODc2NDY3LCJyb2xlIjoiVVNFUiJ9.PJuJeraoquDCqjJgXS3LQq79OznIuVF5seYJsH4mZR0
 Host: docs.api.com</code></pre>
 </div>
 </div>
@@ -549,7 +567,7 @@ auth-pong</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 401 Unauthorized
 Content-Type: application/json;charset=utf-8
-Content-Length: 114
+Content-Length: 118
 
 {
   "error_code" : 1000,
@@ -570,7 +588,7 @@ Content-Length: 114
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 401 Unauthorized
 Content-Type: application/json;charset=utf-8
-Content-Length: 110
+Content-Length: 114
 
 {
   "error_code" : 1002,
@@ -591,7 +609,7 @@ Content-Length: 110
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 403 Forbidden
 Content-Type: application/json;charset=utf-8
-Content-Length: 111
+Content-Length: 115
 
 {
   "error_code" : 3001,
@@ -617,7 +635,7 @@ Content-Length: 111
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /signup HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 110
+Content-Length: 115
 Host: docs.api.com
 
 {
@@ -691,9 +709,9 @@ Host: docs.api.com
 <div class="title">Response</div>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
-Set-Cookie: refresh_token=Bearer+eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmb29JZCIsImlhdCI6MTY3NTY3MDgxMywiZXhwIjoxNjc2ODgwNDEzfQ.unpT3MP7s-hMUCK9BFC1ZwWrw0l-N1vD7xz9Edbodf0; Path=/; HttpOnly; SameSite=None
+Set-Cookie: refresh_token=Bearer+eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmb29JZCIsImlhdCI6MTY3NTg2OTI2NiwiZXhwIjoxNjc3MDc4ODY2fQ.Db47SdAlOlLSn4qxj6nTVdlWYDX-IYfbfQp6oycog-4; Path=/; HttpOnly; SameSite=None
 Content-Type: application/json
-Content-Length: 316
+Content-Length: 324
 
 {
   "user" : {
@@ -702,7 +720,7 @@ Content-Length: 316
     "email" : "foo@wafflestudio.com"
   },
   "message" : "login success",
-  "access_token" : "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmb29JZCIsImlhdCI6MTY3NTY3MDgxMywiZXhwIjoxNjc1Njc4MDEzLCJyb2xlIjoiVVNFUiJ9.aYG9Muh-oXGznphRs1R2JPe6GIIpZBRyyP4Msp8RxCE"
+  "access_token" : "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmb29JZCIsImlhdCI6MTY3NTg2OTI2NiwiZXhwIjoxNjc1ODc2NDY2LCJyb2xlIjoiVVNFUiJ9.F2G_g1weJ4WhbRBbgpJlZQ3gHnvqu5uBwmLs3MVGY-s"
 }</code></pre>
 </div>
 </div>
@@ -711,12 +729,12 @@ Content-Length: 316
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 400 Bad Request
 Content-Type: application/json
-Content-Length: 228
+Content-Length: 232
 
 {
   "error_code" : 1,
   "error_message" : "Invalid request parameter or request body",
-  "detail" : "userId must not be blank. email must be a well-formed email address. username must not be blank. password must not be blank."
+  "detail" : "password must not be blank. username must not be blank. userId must not be blank. email must be a well-formed email address."
 }</code></pre>
 </div>
 </div>
@@ -724,7 +742,7 @@ Content-Length: 228
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 409 Conflict
 Content-Type: application/json
-Content-Length: 133
+Content-Length: 137
 
 {
   "error_code" : 9001,
@@ -745,7 +763,7 @@ Content-Length: 133
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /login HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 70
+Content-Length: 74
 Host: docs.api.com
 
 {
@@ -809,9 +827,9 @@ Host: docs.api.com
 <div class="title">Response</div>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
-Set-Cookie: refresh_token=Bearer+eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmb29JZCIsImlhdCI6MTY3NTY3MDgxMywiZXhwIjoxNjc2ODgwNDEzfQ.unpT3MP7s-hMUCK9BFC1ZwWrw0l-N1vD7xz9Edbodf0; Path=/; HttpOnly; SameSite=None
+Set-Cookie: refresh_token=Bearer+eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmb29JZCIsImlhdCI6MTY3NTg2OTI2NiwiZXhwIjoxNjc3MDc4ODY2fQ.Db47SdAlOlLSn4qxj6nTVdlWYDX-IYfbfQp6oycog-4; Path=/; HttpOnly; SameSite=None
 Content-Type: application/json
-Content-Length: 319
+Content-Length: 327
 
 {
   "user" : {
@@ -820,7 +838,7 @@ Content-Length: 319
     "email" : "unqiue@wafflestudio.com"
   },
   "message" : "login success",
-  "access_token" : "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmb29JZCIsImlhdCI6MTY3NTY3MDgxMywiZXhwIjoxNjc1Njc4MDEzLCJyb2xlIjoiVVNFUiJ9.aYG9Muh-oXGznphRs1R2JPe6GIIpZBRyyP4Msp8RxCE"
+  "access_token" : "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmb29JZCIsImlhdCI6MTY3NTg2OTI2NiwiZXhwIjoxNjc1ODc2NDY2LCJyb2xlIjoiVVNFUiJ9.F2G_g1weJ4WhbRBbgpJlZQ3gHnvqu5uBwmLs3MVGY-s"
 }</code></pre>
 </div>
 </div>
@@ -829,7 +847,7 @@ Content-Length: 319
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 401 Unauthorized
 Content-Type: application/json
-Content-Length: 131
+Content-Length: 135
 
 {
   "error_code" : 1001,
@@ -853,7 +871,7 @@ Content-Length: 131
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /refresh HTTP/1.1
 Host: docs.api.com
-Cookie: refresh_token=Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmb29JZCIsImlhdCI6MTY3NTY3MDgxNCwiZXhwIjoxNjc2ODgwNDE0fQ.-LVQXmf6I_3XVVQwfZQmajMu2cSqMO7TjOBjXIY1iKs
+Cookie: refresh_token=Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmb29JZCIsImlhdCI6MTY3NTg2OTI2NywiZXhwIjoxNjc3MDc4ODY3fQ.fJuWNI4Bu-qD8tXC-Y1MBSazrb_PnLVfwC-iGK5x4Kc
 Content-Type: application/x-www-form-urlencoded</code></pre>
 </div>
 </div>
@@ -880,12 +898,12 @@ Content-Type: application/x-www-form-urlencoded</code></pre>
 <div class="title">Response</div>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
-Set-Cookie: refresh_token=Bearer+eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmb29JZCIsImlhdCI6MTY3NTY3MDgxNCwiZXhwIjoxNjc2ODgwNDE0fQ.-LVQXmf6I_3XVVQwfZQmajMu2cSqMO7TjOBjXIY1iKs; Path=/; HttpOnly; SameSite=None
+Set-Cookie: refresh_token=Bearer+eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmb29JZCIsImlhdCI6MTY3NTg2OTI2NywiZXhwIjoxNjc3MDc4ODY3fQ.fJuWNI4Bu-qD8tXC-Y1MBSazrb_PnLVfwC-iGK5x4Kc; Path=/; HttpOnly; SameSite=None
 Content-Type: application/json
-Content-Length: 163
+Content-Length: 165
 
 {
-  "access_token" : "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmb29JZCIsImlhdCI6MTY3NTY3MDgxNCwiZXhwIjoxNjc1Njc4MDE0fQ.CXYAZbV1cB2_gtikaMFXrNckd-Y_9aRTBIpvV3MAT00"
+  "access_token" : "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmb29JZCIsImlhdCI6MTY3NTg2OTI2NywiZXhwIjoxNjc1ODc2NDY3fQ.U3bReM4D7ae_vOW9I0X7YCY8tcTp_IUE3TacbvoQNbg"
 }</code></pre>
 </div>
 </div>
@@ -894,7 +912,7 @@ Content-Length: 163
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 400 Bad Request
 Content-Type: application/json
-Content-Length: 168
+Content-Length: 172
 
 {
   "error_code" : 2,
@@ -907,7 +925,7 @@ Content-Length: 168
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 401 Unauthorized
 Content-Type: application/json
-Content-Length: 110
+Content-Length: 114
 
 {
   "error_code" : 1002,
@@ -965,7 +983,7 @@ Host: docs.api.com</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
 Content-Type: application/json
-Content-Length: 83
+Content-Length: 87
 
 {
   "user_id" : "fooId",
@@ -986,7 +1004,7 @@ Content-Length: 83
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">PATCH /api/v1/users/me HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 65
+Content-Length: 68
 Host: docs.api.com
 
 {
@@ -1041,7 +1059,7 @@ Host: docs.api.com
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
 Content-Type: application/json
-Content-Length: 88
+Content-Length: 92
 
 {
   "user_id" : "fooId",
@@ -1055,12 +1073,12 @@ Content-Length: 88
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 400 Bad Request
 Content-Type: application/json
-Content-Length: 186
+Content-Length: 190
 
 {
   "error_code" : 1,
   "error_message" : "Invalid request parameter or request body",
-  "detail" : "username can be nullable but not blank. email must be a well-formed email address."
+  "detail" : "email must be a well-formed email address. username can be nullable but not blank."
 }</code></pre>
 </div>
 </div>
@@ -1122,7 +1140,7 @@ Host: docs.api.com</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
 Content-Type: application/json
-Content-Length: 83
+Content-Length: 87
 
 {
   "user_id" : "barId",
@@ -1136,7 +1154,7 @@ Content-Length: 83
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 400 Bad Request
 Content-Type: application/json
-Content-Length: 121
+Content-Length: 125
 
 {
   "error_code" : 3,
@@ -1149,12 +1167,1003 @@ Content-Length: 121
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 404 Not Found
 Content-Type: application/json
-Content-Length: 112
+Content-Length: 116
 
 {
   "error_code" : 4001,
   "error_message" : "USER_NOT_FOUND",
   "detail" : "User with id 39 does not exists."
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="PROJECT"><a class="link" href="#PROJECT">Project API</a></h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_프로젝트_조회하기"><a class="link" href="#_프로젝트_조회하기">프로젝트 조회하기</a></h3>
+<div class="exampleblock">
+<div class="content">
+<div class="listingblock">
+<div class="title">Request</div>
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/v1/project/1 HTTP/1.1
+Host: docs.api.com</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 6. /api/v1/project/{id}</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>id</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">프로젝트 ID</p></td>
+</tr>
+</tbody>
+</table>
+<div class="listingblock">
+<div class="title">Response</div>
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 318
+
+{
+  "id" : 1,
+  "created_at" : "2023-02-09T00:14:09.328584",
+  "created_by" : "",
+  "modified_at" : "2023-02-09T00:14:09.328584",
+  "modified_by" : "",
+  "title" : "default-project",
+  "owner" : {
+    "user_id" : "fooId",
+    "username" : "foo",
+    "email" : "foo@wafflestudio.com"
+  },
+  "pages" : [ ]
+}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Error Response</div>
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 400 Bad Request
+Content-Type: application/json
+Content-Length: 128
+
+{
+  "error_code" : 3,
+  "error_message" : "Constraint violations",
+  "detail" : "projectId must be greater than 0, but 0."
+}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 403 Forbidden
+Content-Type: application/json
+Content-Length: 131
+
+{
+  "error_code" : 3100,
+  "error_message" : "NON_ACCESSIBLE_PROJECT",
+  "detail" : "You have no access to Project with id 2"
+}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 404 Not Found
+Content-Type: application/json
+Content-Length: 120
+
+{
+  "error_code" : 4200,
+  "error_message" : "PROJECT_NOT_FOUND",
+  "detail" : "Project with id 3 does not exist."
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_모든_프로젝트_조회하기"><a class="link" href="#_모든_프로젝트_조회하기">모든 프로젝트 조회하기</a></h3>
+<div class="exampleblock">
+<div class="content">
+<div class="listingblock">
+<div class="title">Request</div>
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/v1/project?page=0&amp;size=10 HTTP/1.1
+Host: docs.api.com</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 7. Query Parameter</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>page</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">페이지 번호</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>size</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">페이지 당 프로젝트 수</p></td>
+</tr>
+</tbody>
+</table>
+<div class="listingblock">
+<div class="title">Response</div>
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 699
+
+{
+  "content" : [ {
+    "id" : 1,
+    "created_at" : "2023-02-09T00:14:09.328584",
+    "created_by" : "",
+    "modified_at" : "2023-02-09T00:14:09.328584",
+    "modified_by" : "",
+    "title" : "default-project"
+  }, {
+    "id" : 2,
+    "created_at" : "2023-02-09T00:14:09.370577",
+    "created_by" : "",
+    "modified_at" : "2023-02-09T00:14:09.370577",
+    "modified_by" : "",
+    "title" : "dummy-project"
+  }, {
+    "id" : 3,
+    "created_at" : "2023-02-09T00:14:09.451581",
+    "created_by" : "",
+    "modified_at" : "2023-02-09T00:14:09.451581",
+    "modified_by" : "",
+    "title" : "deleted-project"
+  } ],
+  "page" : 0,
+  "size" : 10,
+  "number_of_elements" : 10
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_나의_모든_프로젝트_조회하기"><a class="link" href="#_나의_모든_프로젝트_조회하기">나의 모든 프로젝트 조회하기</a></h3>
+<div class="exampleblock">
+<div class="content">
+<div class="listingblock">
+<div class="title">Request</div>
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/v1/project/me HTTP/1.1
+Host: docs.api.com</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Response</div>
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 241
+
+{
+  "count" : 1,
+  "data" : [ {
+    "id" : 1,
+    "created_at" : "2023-02-09T00:14:09.328584",
+    "created_by" : "",
+    "modified_at" : "2023-02-09T00:14:09.328584",
+    "modified_by" : "",
+    "title" : "default-project"
+  } ]
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_프로젝트_생성하기"><a class="link" href="#_프로젝트_생성하기">프로젝트 생성하기</a></h3>
+<div class="exampleblock">
+<div class="content">
+<div class="listingblock">
+<div class="title">Request</div>
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /api/v1/project HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Content-Length: 29
+Host: docs.api.com
+
+{
+  "title" : "new_title"
+}</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 8. Request Body</caption>
+<colgroup>
+<col style="width: 14.2857%;">
+<col style="width: 14.2857%;">
+<col style="width: 14.2857%;">
+<col style="width: 14.2857%;">
+<col style="width: 14.2857%;">
+<col style="width: 14.2857%;">
+<col style="width: 14.2858%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">필드명</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">타입</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">필수여부</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Default 값</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">포맷 및 제약조건</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">설명</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">예시</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>title</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">제목</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+</tbody>
+</table>
+<div class="listingblock">
+<div class="title">Response</div>
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 324
+
+{
+  "id" : 4,
+  "created_at" : "2023-02-09T00:14:10.4685819",
+  "created_by" : "fooId",
+  "modified_at" : "2023-02-09T00:14:10.4685819",
+  "modified_by" : "fooId",
+  "title" : "new_title",
+  "owner" : {
+    "user_id" : "fooId",
+    "username" : "foo",
+    "email" : "foo@wafflestudio.com"
+  },
+  "pages" : [ ]
+}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Error Response</div>
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 400 Bad Request
+Content-Type: application/json
+Content-Length: 132
+
+{
+  "error_code" : 1,
+  "error_message" : "Invalid request parameter or request body",
+  "detail" : "title must not be blank."
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_프로젝트_수정하기"><a class="link" href="#_프로젝트_수정하기">프로젝트 수정하기</a></h3>
+<div class="exampleblock">
+<div class="content">
+<div class="listingblock">
+<div class="title">Request</div>
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">PATCH /api/v1/project/1 HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Content-Length: 33
+Host: docs.api.com
+
+{
+  "title" : "title_changed"
+}</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 9. /api/v1/project/{id}</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>id</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">프로젝트 ID</p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 10. Request Body</caption>
+<colgroup>
+<col style="width: 14.2857%;">
+<col style="width: 14.2857%;">
+<col style="width: 14.2857%;">
+<col style="width: 14.2857%;">
+<col style="width: 14.2857%;">
+<col style="width: 14.2857%;">
+<col style="width: 14.2858%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">필드명</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">타입</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">필수여부</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Default 값</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">포맷 및 제약조건</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">설명</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">예시</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>title</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">제목</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+</tbody>
+</table>
+<div class="listingblock">
+<div class="title">Response</div>
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 316
+
+{
+  "id" : 1,
+  "created_at" : "2023-02-09T00:14:09.328584",
+  "created_by" : "",
+  "modified_at" : "2023-02-09T00:14:09.328584",
+  "modified_by" : "",
+  "title" : "title_changed",
+  "owner" : {
+    "user_id" : "fooId",
+    "username" : "foo",
+    "email" : "foo@wafflestudio.com"
+  },
+  "pages" : [ ]
+}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Error Response</div>
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 400 Bad Request
+Content-Type: application/json
+Content-Length: 132
+
+{
+  "error_code" : 1,
+  "error_message" : "Invalid request parameter or request body",
+  "detail" : "title must not be blank."
+}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 400 Bad Request
+Content-Type: application/json
+Content-Length: 121
+
+{
+  "error_code" : 3,
+  "error_message" : "Constraint violations",
+  "detail" : "id must be greater than 0, but 0."
+}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 403 Forbidden
+Content-Type: application/json
+Content-Length: 131
+
+{
+  "error_code" : 3100,
+  "error_message" : "NON_ACCESSIBLE_PROJECT",
+  "detail" : "You have no access to Project with id 2"
+}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 404 Not Found
+Content-Type: application/json
+Content-Length: 120
+
+{
+  "error_code" : 4200,
+  "error_message" : "PROJECT_NOT_FOUND",
+  "detail" : "Project with id 3 does not exist."
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_프로젝트_삭제하기"><a class="link" href="#_프로젝트_삭제하기">프로젝트 삭제하기</a></h3>
+<div class="exampleblock">
+<div class="content">
+<div class="listingblock">
+<div class="title">Request</div>
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">DELETE /api/v1/project/1 HTTP/1.1
+Host: docs.api.com</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 11. /api/v1/project/{id}</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>id</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">프로젝트 ID</p></td>
+</tr>
+</tbody>
+</table>
+<div class="listingblock">
+<div class="title">Response</div>
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 320
+
+{
+  "id" : 1,
+  "created_at" : "2023-02-09T00:14:09.328584",
+  "created_by" : "",
+  "modified_at" : "2023-02-09T00:14:10.75158",
+  "modified_by" : "fooId",
+  "title" : "title_changed",
+  "owner" : {
+    "user_id" : "fooId",
+    "username" : "foo",
+    "email" : "foo@wafflestudio.com"
+  },
+  "pages" : [ ]
+}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Error Response</div>
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 400 Bad Request
+Content-Type: application/json
+Content-Length: 121
+
+{
+  "error_code" : 3,
+  "error_message" : "Constraint violations",
+  "detail" : "id must be greater than 0, but 0."
+}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 403 Forbidden
+Content-Type: application/json
+Content-Length: 131
+
+{
+  "error_code" : 3100,
+  "error_message" : "NON_ACCESSIBLE_PROJECT",
+  "detail" : "You have no access to Project with id 2"
+}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 404 Not Found
+Content-Type: application/json
+Content-Length: 120
+
+{
+  "error_code" : 4200,
+  "error_message" : "PROJECT_NOT_FOUND",
+  "detail" : "Project with id 3 does not exist."
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="PAGE"><a class="link" href="#PAGE">Page API</a></h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_페이지_조회하기"><a class="link" href="#_페이지_조회하기">페이지 조회하기</a></h3>
+<div class="exampleblock">
+<div class="content">
+<div class="listingblock">
+<div class="title">Request</div>
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/v1/page/1 HTTP/1.1
+Host: docs.api.com</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 12. /api/v1/page/{id}</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>id</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">프로젝트 페이지 ID</p></td>
+</tr>
+</tbody>
+</table>
+<div class="listingblock">
+<div class="title">Response</div>
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 224
+
+{
+  "id" : 1,
+  "created_at" : "2023-02-09T00:13:59.845697",
+  "created_by" : "",
+  "modified_at" : "2023-02-09T00:13:59.845697",
+  "modified_by" : "",
+  "name" : "test-page",
+  "project_id" : 1,
+  "objects" : [ ]
+}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Error Response</div>
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 400 Bad Request
+Content-Type: application/json
+Content-Length: 128
+
+{
+  "error_code" : 3,
+  "error_message" : "Constraint violations",
+  "detail" : "projectId must be greater than 0, but 0."
+}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 403 Forbidden
+Content-Type: application/json
+Content-Length: 140
+
+{
+  "error_code" : 3200,
+  "error_message" : "NON_ACCESSIBLE_PROJECT_PAGE",
+  "detail" : "You have no access to ProjectPage with id 2"
+}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 404 Not Found
+Content-Type: application/json
+Content-Length: 129
+
+{
+  "error_code" : 4300,
+  "error_message" : "PROJECT_PAGE_NOT_FOUND",
+  "detail" : "ProjectPage with id 3 does not exist."
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_페이지_생성하기"><a class="link" href="#_페이지_생성하기">페이지 생성하기</a></h3>
+<div class="exampleblock">
+<div class="content">
+<div class="listingblock">
+<div class="title">Request</div>
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /api/v1/page HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Content-Length: 44
+Host: docs.api.com
+
+{
+  "project_id" : 1,
+  "name" : "name"
+}</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 13. Request Body</caption>
+<colgroup>
+<col style="width: 14.2857%;">
+<col style="width: 14.2857%;">
+<col style="width: 14.2857%;">
+<col style="width: 14.2857%;">
+<col style="width: 14.2857%;">
+<col style="width: 14.2857%;">
+<col style="width: 14.2858%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">필드명</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">타입</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">필수여부</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Default 값</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">포맷 및 제약조건</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">설명</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">예시</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>project_id</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">프로젝트 ID</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>name</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">페이지 이름</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+</tbody>
+</table>
+<div class="listingblock">
+<div class="title">Response</div>
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 221
+
+{
+  "id" : 0,
+  "created_at" : "2023-02-09T00:14:00.7446974",
+  "created_by" : "",
+  "modified_at" : "2023-02-09T00:14:00.7446974",
+  "modified_by" : "",
+  "name" : "name",
+  "project_id" : 1,
+  "objects" : [ ]
+}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Error Response</div>
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 400 Bad Request
+Content-Type: application/json
+Content-Length: 131
+
+{
+  "error_code" : 1,
+  "error_message" : "Invalid request parameter or request body",
+  "detail" : "name must not be blank."
+}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 400 Bad Request
+Content-Type: application/json
+Content-Length: 107
+
+{
+  "error_code" : 4,
+  "error_message" : "Json parse error",
+  "detail" : "Check your request body."
+}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 403 Forbidden
+Content-Type: application/json
+Content-Length: 131
+
+{
+  "error_code" : 3100,
+  "error_message" : "NON_ACCESSIBLE_PROJECT",
+  "detail" : "You have no access to Project with id 2"
+}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 404 Not Found
+Content-Type: application/json
+Content-Length: 120
+
+{
+  "error_code" : 4200,
+  "error_message" : "PROJECT_NOT_FOUND",
+  "detail" : "Project with id 3 does not exist."
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_페이지_수정하기"><a class="link" href="#_페이지_수정하기">페이지 수정하기</a></h3>
+<div class="exampleblock">
+<div class="content">
+<div class="listingblock">
+<div class="title">Request</div>
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">PATCH /api/v1/page/1 HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Content-Length: 36
+Host: docs.api.com
+
+{
+  "name" : "page_name_changed"
+}</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 14. /api/v1/page/{id}</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>id</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">프로젝트 페이지 ID</p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 15. Request Body</caption>
+<colgroup>
+<col style="width: 14.2857%;">
+<col style="width: 14.2857%;">
+<col style="width: 14.2857%;">
+<col style="width: 14.2857%;">
+<col style="width: 14.2857%;">
+<col style="width: 14.2857%;">
+<col style="width: 14.2858%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">필드명</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">타입</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">필수여부</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Default 값</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">포맷 및 제약조건</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">설명</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">예시</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>name</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">페이지 이름</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+</tbody>
+</table>
+<div class="listingblock">
+<div class="title">Response</div>
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 232
+
+{
+  "id" : 1,
+  "created_at" : "2023-02-09T00:13:59.845697",
+  "created_by" : "",
+  "modified_at" : "2023-02-09T00:13:59.845697",
+  "modified_by" : "",
+  "name" : "page_name_changed",
+  "project_id" : 1,
+  "objects" : [ ]
+}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Error Response</div>
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 400 Bad Request
+Content-Type: application/json
+Content-Length: 121
+
+{
+  "error_code" : 3,
+  "error_message" : "Constraint violations",
+  "detail" : "id must be greater than 0, but 0."
+}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 403 Forbidden
+Content-Type: application/json
+Content-Length: 140
+
+{
+  "error_code" : 3200,
+  "error_message" : "NON_ACCESSIBLE_PROJECT_PAGE",
+  "detail" : "You have no access to ProjectPage with id 2"
+}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 404 Not Found
+Content-Type: application/json
+Content-Length: 129
+
+{
+  "error_code" : 4300,
+  "error_message" : "PROJECT_PAGE_NOT_FOUND",
+  "detail" : "ProjectPage with id 3 does not exist."
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_페이지_삭제하기"><a class="link" href="#_페이지_삭제하기">페이지 삭제하기</a></h3>
+<div class="exampleblock">
+<div class="content">
+<div class="listingblock">
+<div class="title">Request</div>
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">DELETE /api/v1/page/1 HTTP/1.1
+Host: docs.api.com</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 16. /api/v1/page/{id}</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>id</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">프로젝트 페이지 ID</p></td>
+</tr>
+</tbody>
+</table>
+<div class="listingblock">
+<div class="title">Response</div>
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 183
+
+{
+  "id" : 1,
+  "created_at" : "2023-02-09T00:13:59.845697",
+  "created_by" : "",
+  "modified_at" : "2023-02-09T00:13:59.845697",
+  "modified_by" : "",
+  "name" : "test-page"
+}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Error Response</div>
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 400 Bad Request
+Content-Type: application/json
+Content-Length: 121
+
+{
+  "error_code" : 3,
+  "error_message" : "Constraint violations",
+  "detail" : "id must be greater than 0, but 0."
+}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 403 Forbidden
+Content-Type: application/json
+Content-Length: 140
+
+{
+  "error_code" : 3200,
+  "error_message" : "NON_ACCESSIBLE_PROJECT_PAGE",
+  "detail" : "You have no access to ProjectPage with id 2"
+}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 404 Not Found
+Content-Type: application/json
+Content-Length: 129
+
+{
+  "error_code" : 4300,
+  "error_message" : "PROJECT_PAGE_NOT_FOUND",
+  "detail" : "ProjectPage with id 3 does not exist."
 }</code></pre>
 </div>
 </div>
@@ -1178,7 +2187,7 @@ Host: docs.api.com</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 6. Query Parameter</caption>
+<caption class="title">Table 17. Query Parameter</caption>
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -1201,15 +2210,15 @@ Host: docs.api.com</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
 Content-Type: application/json
-Content-Length: 1658
+Content-Length: 1725
 
 {
   "count" : 3,
   "data" : [ {
     "id" : 1,
-    "created_at" : "2023-02-06T17:06:47.592226",
+    "created_at" : "2023-02-09T00:13:28.983333",
     "created_by" : "",
-    "modified_at" : "2023-02-06T17:06:47.592226",
+    "modified_at" : "2023-02-09T00:13:28.983333",
     "modified_by" : "",
     "name" : "default-object",
     "type" : "DEFAULT",
@@ -1222,20 +2231,20 @@ Content-Length: 1658
     "is_interactive" : true,
     "event" : {
       "id" : 1,
-      "created_at" : "2023-02-06T17:06:47.690692",
+      "created_at" : "2023-02-09T00:13:29.675333",
       "created_by" : "",
-      "modified_at" : "2023-02-06T17:06:47.690692",
+      "modified_at" : "2023-02-09T00:13:29.675333",
       "modified_by" : "",
       "transition_type" : "DEFAULT"
     },
+    "yposition" : 0,
     "zindex" : 0,
-    "xposition" : 0,
-    "yposition" : 0
+    "xposition" : 0
   }, {
     "id" : 4,
-    "created_at" : "2023-02-06T17:06:47.750719",
+    "created_at" : "2023-02-09T00:13:30.102463",
     "created_by" : "",
-    "modified_at" : "2023-02-06T17:06:47.750719",
+    "modified_at" : "2023-02-09T00:13:30.102463",
     "modified_by" : "",
     "name" : "image-object",
     "type" : "IMAGE",
@@ -1247,14 +2256,14 @@ Content-Length: 1658
     "page_id" : 1,
     "is_interactive" : false,
     "event" : null,
+    "yposition" : 40,
     "zindex" : 1,
-    "xposition" : 30,
-    "yposition" : 40
+    "xposition" : 30
   }, {
     "id" : 5,
-    "created_at" : "2023-02-06T17:06:47.752435",
+    "created_at" : "2023-02-09T00:13:30.110462",
     "created_by" : "",
-    "modified_at" : "2023-02-06T17:06:47.752435",
+    "modified_at" : "2023-02-09T00:13:30.110462",
     "modified_by" : "",
     "name" : "text-object",
     "type" : "TEXT",
@@ -1266,9 +2275,9 @@ Content-Length: 1658
     "page_id" : 1,
     "is_interactive" : false,
     "event" : null,
+    "yposition" : -20,
     "zindex" : 2,
-    "xposition" : -10,
-    "yposition" : -20
+    "xposition" : -10
   } ]
 }</code></pre>
 </div>
@@ -1278,7 +2287,7 @@ Content-Length: 1658
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 400 Bad Request
 Content-Type: application/json
-Content-Length: 124
+Content-Length: 128
 
 {
   "error_code" : 3,
@@ -1291,7 +2300,7 @@ Content-Length: 124
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 403 Forbidden
 Content-Type: application/json
-Content-Length: 127
+Content-Length: 131
 
 {
   "error_code" : 3100,
@@ -1304,12 +2313,12 @@ Content-Length: 127
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 404 Not Found
 Content-Type: application/json
-Content-Length: 117
+Content-Length: 120
 
 {
   "error_code" : 4200,
   "error_message" : "PROJECT_NOT_FOUND",
-  "detail" : "Project with id 3 does not exists."
+  "detail" : "Project with id 3 does not exist."
 }</code></pre>
 </div>
 </div>
@@ -1325,7 +2334,7 @@ Content-Length: 117
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /api/v1/objects HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 216
+Content-Length: 226
 Host: docs.api.com
 
 {
@@ -1342,7 +2351,7 @@ Host: docs.api.com
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 7. Request Body</caption>
+<caption class="title">Table 18. Request Body</caption>
 <colgroup>
 <col style="width: 14.2857%;">
 <col style="width: 14.2857%;">
@@ -1468,13 +2477,13 @@ Host: docs.api.com
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
 Content-Type: application/json
-Content-Length: 405
+Content-Length: 423
 
 {
   "id" : 6,
-  "created_at" : "2023-02-06T17:06:48.573344",
+  "created_at" : "2023-02-09T00:13:35.4954633",
   "created_by" : "fooId",
-  "modified_at" : "2023-02-06T17:06:48.573344",
+  "modified_at" : "2023-02-09T00:13:35.4954633",
   "modified_by" : "fooId",
   "name" : "create object test: image",
   "type" : "IMAGE",
@@ -1483,9 +2492,9 @@ Content-Length: 405
   "text_content" : null,
   "font_size" : null,
   "image_source" : "http://sampe-image.url",
+  "yposition" : -10,
   "zindex" : 2,
-  "xposition" : 20,
-  "yposition" : -10
+  "xposition" : 20
 }</code></pre>
 </div>
 </div>
@@ -1494,12 +2503,12 @@ Content-Length: 405
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 400 Bad Request
 Content-Type: application/json
-Content-Length: 288
+Content-Length: 292
 
 {
   "error_code" : 1,
   "error_message" : "Invalid request parameter or request body",
-  "detail" : "width must not be null. name must not be blank. pageId must be greater than 0. zIndex must not be null. xPosition must not be null. height must not be null. yPosition must not be null."
+  "detail" : "width must not be null. xPosition must not be null. yPosition must not be null. pageId must be greater than 0. zIndex must not be null. height must not be null. name must not be blank."
 }</code></pre>
 </div>
 </div>
@@ -1507,7 +2516,7 @@ Content-Length: 288
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 400 Bad Request
 Content-Type: application/json
-Content-Length: 103
+Content-Length: 107
 
 {
   "error_code" : 4,
@@ -1520,12 +2529,12 @@ Content-Length: 103
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 403 Forbidden
 Content-Type: application/json
-Content-Length: 129
+Content-Length: 140
 
 {
   "error_code" : 3200,
   "error_message" : "NON_ACCESSIBLE_PROJECT_PAGE",
-  "detail" : "You have no access to Page with id 2"
+  "detail" : "You have no access to ProjectPage with id 2"
 }</code></pre>
 </div>
 </div>
@@ -1533,12 +2542,12 @@ Content-Length: 129
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 404 Not Found
 Content-Type: application/json
-Content-Length: 119
+Content-Length: 129
 
 {
   "error_code" : 4300,
   "error_message" : "PROJECT_PAGE_NOT_FOUND",
-  "detail" : "Page with id 3 does not exists."
+  "detail" : "ProjectPage with id 3 does not exist."
 }</code></pre>
 </div>
 </div>
@@ -1557,7 +2566,7 @@ Host: docs.api.com</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 8. /api/v1/objects/{id}</caption>
+<caption class="title">Table 19. /api/v1/objects/{id}</caption>
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -1580,13 +2589,13 @@ Host: docs.api.com</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
 Content-Type: application/json
-Content-Length: 619
+Content-Length: 645
 
 {
   "id" : 1,
-  "created_at" : "2023-02-06T17:06:47.592226",
+  "created_at" : "2023-02-09T00:13:28.983333",
   "created_by" : "",
-  "modified_at" : "2023-02-06T17:06:47.592226",
+  "modified_at" : "2023-02-09T00:13:28.983333",
   "modified_by" : "",
   "name" : "default-object",
   "type" : "DEFAULT",
@@ -1599,15 +2608,15 @@ Content-Length: 619
   "is_interactive" : true,
   "event" : {
     "id" : 1,
-    "created_at" : "2023-02-06T17:06:47.690692",
+    "created_at" : "2023-02-09T00:13:29.675333",
     "created_by" : "",
-    "modified_at" : "2023-02-06T17:06:47.690692",
+    "modified_at" : "2023-02-09T00:13:29.675333",
     "modified_by" : "",
     "transition_type" : "DEFAULT"
   },
+  "yposition" : 0,
   "zindex" : 0,
-  "xposition" : 0,
-  "yposition" : 0
+  "xposition" : 0
 }</code></pre>
 </div>
 </div>
@@ -1616,7 +2625,7 @@ Content-Length: 619
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 400 Bad Request
 Content-Type: application/json
-Content-Length: 123
+Content-Length: 127
 
 {
   "error_code" : 3,
@@ -1629,7 +2638,7 @@ Content-Length: 123
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 403 Forbidden
 Content-Type: application/json
-Content-Length: 130
+Content-Length: 134
 
 {
   "error_code" : 3300,
@@ -1642,7 +2651,7 @@ Content-Length: 130
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 404 Not Found
 Content-Type: application/json
-Content-Length: 120
+Content-Length: 124
 
 {
   "error_code" : 4400,
@@ -1663,7 +2672,7 @@ Content-Length: 120
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">PATCH /api/v1/objects/1 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 189
+Content-Length: 199
 Host: docs.api.com
 
 {
@@ -1680,7 +2689,7 @@ Host: docs.api.com
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 9. /api/v1/objects/{id}</caption>
+<caption class="title">Table 20. /api/v1/objects/{id}</caption>
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -1699,7 +2708,7 @@ Host: docs.api.com
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 10. Request Body</caption>
+<caption class="title">Table 21. Request Body</caption>
 <colgroup>
 <col style="width: 14.2857%;">
 <col style="width: 14.2857%;">
@@ -1807,13 +2816,13 @@ Host: docs.api.com
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
 Content-Type: application/json
-Content-Length: 622
+Content-Length: 648
 
 {
   "id" : 1,
-  "created_at" : "2023-02-06T17:06:47.592226",
+  "created_at" : "2023-02-09T00:13:28.983333",
   "created_by" : "",
-  "modified_at" : "2023-02-06T17:06:47.592226",
+  "modified_at" : "2023-02-09T00:13:28.983333",
   "modified_by" : "",
   "name" : "default-object",
   "type" : "TEXT",
@@ -1826,15 +2835,15 @@ Content-Length: 622
   "is_interactive" : true,
   "event" : {
     "id" : 1,
-    "created_at" : "2023-02-06T17:06:47.690692",
+    "created_at" : "2023-02-09T00:13:29.675333",
     "created_by" : "",
-    "modified_at" : "2023-02-06T17:06:47.690692",
+    "modified_at" : "2023-02-09T00:13:29.675333",
     "modified_by" : "",
     "transition_type" : "DEFAULT"
   },
+  "yposition" : 10,
   "zindex" : 0,
-  "xposition" : -20,
-  "yposition" : 10
+  "xposition" : -20
 }</code></pre>
 </div>
 </div>
@@ -1843,7 +2852,7 @@ Content-Length: 622
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 400 Bad Request
 Content-Type: application/json
-Content-Length: 123
+Content-Length: 127
 
 {
   "error_code" : 3,
@@ -1856,7 +2865,7 @@ Content-Length: 123
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 400 Bad Request
 Content-Type: application/json
-Content-Length: 103
+Content-Length: 107
 
 {
   "error_code" : 4,
@@ -1869,7 +2878,7 @@ Content-Length: 103
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 403 Forbidden
 Content-Type: application/json
-Content-Length: 130
+Content-Length: 134
 
 {
   "error_code" : 3300,
@@ -1882,7 +2891,7 @@ Content-Length: 130
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 404 Not Found
 Content-Type: application/json
-Content-Length: 120
+Content-Length: 124
 
 {
   "error_code" : 4400,
@@ -1906,7 +2915,7 @@ Host: docs.api.com</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 11. /api/v1/objects/{id}</caption>
+<caption class="title">Table 22. /api/v1/objects/{id}</caption>
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -1935,7 +2944,7 @@ Host: docs.api.com</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 400 Bad Request
 Content-Type: application/json
-Content-Length: 123
+Content-Length: 127
 
 {
   "error_code" : 3,
@@ -1948,7 +2957,7 @@ Content-Length: 123
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 403 Forbidden
 Content-Type: application/json
-Content-Length: 130
+Content-Length: 134
 
 {
   "error_code" : 3300,
@@ -1961,7 +2970,7 @@ Content-Length: 130
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 404 Not Found
 Content-Type: application/json
-Content-Length: 120
+Content-Length: 124
 
 {
   "error_code" : 4400,
@@ -1979,7 +2988,7 @@ Content-Length: 120
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2023-02-06 16:47:02 +0900
+Last updated 2023-02-07 22:47:15 +0900
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/github.min.css">
