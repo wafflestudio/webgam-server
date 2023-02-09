@@ -34,10 +34,13 @@ class PageObject(
 
     var imageSource: String?,
 
+    @OneToOne(fetch = FetchType.LAZY)
+    var event: ObjectEvent?,
+
     /* From Here: Not saved in DB */
 
-    @OneToOne(mappedBy = "object", orphanRemoval = true, cascade = [CascadeType.ALL])
-    var event: ObjectEvent?,
+    @OneToMany(mappedBy = "object", orphanRemoval = true, cascade = [CascadeType.ALL])
+    val deletedEvents: MutableList<ObjectEvent> = mutableListOf(),
 
     ): BaseTimeTraceLazyDeletedEntity(), WebgamAccessModel {
     override fun isAccessibleTo(currentUserId: Long): Boolean {
@@ -63,6 +66,10 @@ class PageObject(
 
     override fun delete() {
         isDeleted = true
-        event?.delete()
+        event?.let {
+            it.delete()
+            this.event = null
+            deletedEvents.add(it)
+        }
     }
 }
