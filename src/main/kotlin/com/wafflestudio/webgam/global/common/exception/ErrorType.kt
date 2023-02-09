@@ -57,6 +57,7 @@ enum class ErrorType {
     enum class Conflict(private val code: Int): Error {
         DEFAULT(9000),
         DUPLICATE_USER_IDENTIFIER(9001),
+        ONLY_SINGLE_EVENT_PER_OBJECT(9400),
         ;
 
         override fun code(): Int {
