@@ -12,7 +12,7 @@ class ObjectEventDto {
     data class CreateRequest(
         @field:[NotNull Positive]
         val objectId: Long?,
-        val transitionType: TransitionType? = DEFAULT,
+        val transitionType: TransitionType = DEFAULT,
         /* Optional */
         @field:Positive
         val nextPageId: Long?,

@@ -1,7 +1,6 @@
 package com.wafflestudio.webgam.domain.event.model
 
 import com.wafflestudio.webgam.domain.event.dto.ObjectEventDto
-import com.wafflestudio.webgam.domain.event.model.TransitionType.DEFAULT
 import com.wafflestudio.webgam.domain.`object`.model.PageObject
 import com.wafflestudio.webgam.domain.page.model.ProjectPage
 import com.wafflestudio.webgam.global.common.model.BaseTimeTraceLazyDeletedEntity
@@ -29,7 +28,7 @@ class ObjectEvent(
     constructor(createRequest: ObjectEventDto.CreateRequest, `object`: PageObject, nextPage: ProjectPage? = null): this(
         `object` = `object`,
         nextPage = nextPage,
-        transitionType = createRequest.transitionType ?: DEFAULT,
+        transitionType = createRequest.transitionType,
     ) {
         `object`.event = this
         nextPage?.triggeredEvents?.add(this)
@@ -37,5 +36,6 @@ class ObjectEvent(
 
     override fun delete() {
         isDeleted = true
+        `object`.deletedEvents.add(this)
     }
 }
