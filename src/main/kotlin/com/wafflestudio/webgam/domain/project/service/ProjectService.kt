@@ -34,7 +34,7 @@ class ProjectService (
     fun getProjectList(page: Int, size:Int): PageResponse<SimpleResponse> {
         val pageRequest = PageRequest.of(page, size)
         val projects = projectRepository.findAll(pageRequest)
-        return PageResponse(projects.content.map{SimpleResponse(it)}, page, size, projects.size) // TODO fix num_of_elements
+        return PageResponse(projects.content.map{SimpleResponse(it)}, page, size, projects.numberOfElements)
     }
 
     fun getUserProject(userId: Long): ListResponse<SimpleResponse> {
