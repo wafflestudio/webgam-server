@@ -1,6 +1,5 @@
 package com.wafflestudio.webgam.domain.event.repository
 
-import com.querydsl.core.types.Predicate
 import com.querydsl.core.types.dsl.BooleanExpression
 import com.querydsl.jpa.impl.JPAQueryFactory
 import com.wafflestudio.webgam.domain.event.model.ObjectEvent
@@ -19,21 +18,13 @@ class ObjectEventRepositoryImpl(
     fun id(id: Long): BooleanExpression = objectEvent.id.eq(id)
     fun undeletedObjectEvent(): BooleanExpression = objectEvent.isDeleted.isFalse
 
-    private fun findByConditions(vararg conditions: Predicate): ObjectEvent? = jpaQueryFactory
+    override fun findUndeletedObjectEventById(id: Long): ObjectEvent? = jpaQueryFactory
         .select(objectEvent)
         .from(objectEvent)
         .leftJoin(objectEvent.`object`, pageObject).fetchJoin()
         .leftJoin(pageObject.page, projectPage).fetchJoin()
         .leftJoin(projectPage.project, project).fetchJoin()
         .leftJoin(project.owner, user).fetchJoin()
-        .where(*conditions)
+        .where(id(id), undeletedObjectEvent())
         .fetchOne()
-
-    override fun findUndeletedObjectEventById(id: Long): ObjectEvent? = findByConditions(
-        id(id), undeletedObjectEvent()
-    )
-
-    override fun findByObjectId(objectId: Long): ObjectEvent? = findByConditions(
-        objectEvent.`object`.id.eq(objectId)
-    )
 }
