@@ -469,6 +469,15 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_user_다른_유저_정보_조회하기">User: 다른 유저 정보 조회하기</a></li>
 </ul>
 </li>
+<li><a href="#Object">Object API</a>
+<ul class="sectlevel2">
+<li><a href="#_프로젝트_내_모든_오브젝트_조회하기">프로젝트 내 모든 오브젝트 조회하기</a></li>
+<li><a href="#_오브젝트_생성하기">오브젝트 생성하기</a></li>
+<li><a href="#_오브젝트_조회하기">오브젝트 조회하기</a></li>
+<li><a href="#_오브젝트_수정하기">오브젝트 수정하기</a></li>
+<li><a href="#_오브젝트_삭제하기">오브젝트 삭제하기</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
@@ -514,7 +523,7 @@ pong</code></pre>
 <div class="title">Request</div>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /auth-ping HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmb29JZCIsImlhdCI6MTY3NTE3NjExMSwiZXhwIjoxNjc1MTgzMzExLCJyb2xlIjoiVVNFUiJ9.2ukm6gI_LjnI6MTEMVEyPmTW0818fdL3laKP0vSYGIY
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmb29JZCIsImlhdCI6MTY3NTY3MDgxNCwiZXhwIjoxNjc1Njc4MDE0LCJyb2xlIjoiVVNFUiJ9.DuB6Jm_9f8SvYg-tRnEHqv1_aqyrBWUlAbLLFOKCZ9s
 Host: docs.api.com</code></pre>
 </div>
 </div>
@@ -682,7 +691,7 @@ Host: docs.api.com
 <div class="title">Response</div>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
-Set-Cookie: refresh_token=Bearer+eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmb29JZCIsImlhdCI6MTY3NTE3NjExMSwiZXhwIjoxNjc2Mzg1NzExfQ.lJgxNQHJTo-EywUUksPAothbG7UKXt2CGwV47ZZWc5Y; Path=/; HttpOnly; SameSite=None
+Set-Cookie: refresh_token=Bearer+eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmb29JZCIsImlhdCI6MTY3NTY3MDgxMywiZXhwIjoxNjc2ODgwNDEzfQ.unpT3MP7s-hMUCK9BFC1ZwWrw0l-N1vD7xz9Edbodf0; Path=/; HttpOnly; SameSite=None
 Content-Type: application/json
 Content-Length: 316
 
@@ -693,7 +702,7 @@ Content-Length: 316
     "email" : "foo@wafflestudio.com"
   },
   "message" : "login success",
-  "access_token" : "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmb29JZCIsImlhdCI6MTY3NTE3NjExMSwiZXhwIjoxNjc1MTgzMzExLCJyb2xlIjoiVVNFUiJ9.2ukm6gI_LjnI6MTEMVEyPmTW0818fdL3laKP0vSYGIY"
+  "access_token" : "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmb29JZCIsImlhdCI6MTY3NTY3MDgxMywiZXhwIjoxNjc1Njc4MDEzLCJyb2xlIjoiVVNFUiJ9.aYG9Muh-oXGznphRs1R2JPe6GIIpZBRyyP4Msp8RxCE"
 }</code></pre>
 </div>
 </div>
@@ -707,7 +716,7 @@ Content-Length: 228
 {
   "error_code" : 1,
   "error_message" : "Invalid request parameter or request body",
-  "detail" : "username must not be blank. password must not be blank. userId must not be blank. email must be a well-formed email address."
+  "detail" : "userId must not be blank. email must be a well-formed email address. username must not be blank. password must not be blank."
 }</code></pre>
 </div>
 </div>
@@ -800,7 +809,7 @@ Host: docs.api.com
 <div class="title">Response</div>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
-Set-Cookie: refresh_token=Bearer+eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmb29JZCIsImlhdCI6MTY3NTE3NjExMSwiZXhwIjoxNjc2Mzg1NzExfQ.lJgxNQHJTo-EywUUksPAothbG7UKXt2CGwV47ZZWc5Y; Path=/; HttpOnly; SameSite=None
+Set-Cookie: refresh_token=Bearer+eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmb29JZCIsImlhdCI6MTY3NTY3MDgxMywiZXhwIjoxNjc2ODgwNDEzfQ.unpT3MP7s-hMUCK9BFC1ZwWrw0l-N1vD7xz9Edbodf0; Path=/; HttpOnly; SameSite=None
 Content-Type: application/json
 Content-Length: 319
 
@@ -811,7 +820,7 @@ Content-Length: 319
     "email" : "unqiue@wafflestudio.com"
   },
   "message" : "login success",
-  "access_token" : "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmb29JZCIsImlhdCI6MTY3NTE3NjExMSwiZXhwIjoxNjc1MTgzMzExLCJyb2xlIjoiVVNFUiJ9.2ukm6gI_LjnI6MTEMVEyPmTW0818fdL3laKP0vSYGIY"
+  "access_token" : "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmb29JZCIsImlhdCI6MTY3NTY3MDgxMywiZXhwIjoxNjc1Njc4MDEzLCJyb2xlIjoiVVNFUiJ9.aYG9Muh-oXGznphRs1R2JPe6GIIpZBRyyP4Msp8RxCE"
 }</code></pre>
 </div>
 </div>
@@ -844,7 +853,7 @@ Content-Length: 131
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /refresh HTTP/1.1
 Host: docs.api.com
-Cookie: refresh_token=Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmb29JZCIsImlhdCI6MTY3NTE3NjExMSwiZXhwIjoxNjc2Mzg1NzExfQ.lJgxNQHJTo-EywUUksPAothbG7UKXt2CGwV47ZZWc5Y
+Cookie: refresh_token=Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmb29JZCIsImlhdCI6MTY3NTY3MDgxNCwiZXhwIjoxNjc2ODgwNDE0fQ.-LVQXmf6I_3XVVQwfZQmajMu2cSqMO7TjOBjXIY1iKs
 Content-Type: application/x-www-form-urlencoded</code></pre>
 </div>
 </div>
@@ -871,12 +880,12 @@ Content-Type: application/x-www-form-urlencoded</code></pre>
 <div class="title">Response</div>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
-Set-Cookie: refresh_token=Bearer+eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmb29JZCIsImlhdCI6MTY3NTE3NjExMSwiZXhwIjoxNjc2Mzg1NzExfQ.lJgxNQHJTo-EywUUksPAothbG7UKXt2CGwV47ZZWc5Y; Path=/; HttpOnly; SameSite=None
+Set-Cookie: refresh_token=Bearer+eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmb29JZCIsImlhdCI6MTY3NTY3MDgxNCwiZXhwIjoxNjc2ODgwNDE0fQ.-LVQXmf6I_3XVVQwfZQmajMu2cSqMO7TjOBjXIY1iKs; Path=/; HttpOnly; SameSite=None
 Content-Type: application/json
 Content-Length: 163
 
 {
-  "access_token" : "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmb29JZCIsImlhdCI6MTY3NTE3NjExMSwiZXhwIjoxNjc1MTgzMzExfQ.kvxsSyu22yS_OjCFnbAUpX0Rau9IAbmP9yKo9Rx_-1E"
+  "access_token" : "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmb29JZCIsImlhdCI6MTY3NTY3MDgxNCwiZXhwIjoxNjc1Njc4MDE0fQ.CXYAZbV1cB2_gtikaMFXrNckd-Y_9aRTBIpvV3MAT00"
 }</code></pre>
 </div>
 </div>
@@ -1051,7 +1060,7 @@ Content-Length: 186
 {
   "error_code" : 1,
   "error_message" : "Invalid request parameter or request body",
-  "detail" : "email must be a well-formed email address. username can be nullable but not blank."
+  "detail" : "username can be nullable but not blank. email must be a well-formed email address."
 }</code></pre>
 </div>
 </div>
@@ -1154,11 +1163,823 @@ Content-Length: 112
 </div>
 </div>
 </div>
+<div class="sect1">
+<h2 id="Object"><a class="link" href="#Object">Object API</a></h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_프로젝트_내_모든_오브젝트_조회하기"><a class="link" href="#_프로젝트_내_모든_오브젝트_조회하기">프로젝트 내 모든 오브젝트 조회하기</a></h3>
+<div class="exampleblock">
+<div class="content">
+<div class="listingblock">
+<div class="title">Request</div>
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/v1/objects?project-id=1 HTTP/1.1
+Host: docs.api.com</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 6. Query Parameter</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>project-id</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">조회할 프로젝트 ID</p></td>
+</tr>
+</tbody>
+</table>
+<div class="listingblock">
+<div class="title">Response</div>
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 1658
+
+{
+  "count" : 3,
+  "data" : [ {
+    "id" : 1,
+    "created_at" : "2023-02-06T17:06:47.592226",
+    "created_by" : "",
+    "modified_at" : "2023-02-06T17:06:47.592226",
+    "modified_by" : "",
+    "name" : "default-object",
+    "type" : "DEFAULT",
+    "width" : 10,
+    "height" : 10,
+    "text_content" : null,
+    "font_size" : null,
+    "image_source" : null,
+    "page_id" : 1,
+    "is_interactive" : true,
+    "event" : {
+      "id" : 1,
+      "created_at" : "2023-02-06T17:06:47.690692",
+      "created_by" : "",
+      "modified_at" : "2023-02-06T17:06:47.690692",
+      "modified_by" : "",
+      "transition_type" : "DEFAULT"
+    },
+    "zindex" : 0,
+    "xposition" : 0,
+    "yposition" : 0
+  }, {
+    "id" : 4,
+    "created_at" : "2023-02-06T17:06:47.750719",
+    "created_by" : "",
+    "modified_at" : "2023-02-06T17:06:47.750719",
+    "modified_by" : "",
+    "name" : "image-object",
+    "type" : "IMAGE",
+    "width" : 100,
+    "height" : 20,
+    "text_content" : null,
+    "font_size" : null,
+    "image_source" : "http://image-source.url",
+    "page_id" : 1,
+    "is_interactive" : false,
+    "event" : null,
+    "zindex" : 1,
+    "xposition" : 30,
+    "yposition" : 40
+  }, {
+    "id" : 5,
+    "created_at" : "2023-02-06T17:06:47.752435",
+    "created_by" : "",
+    "modified_at" : "2023-02-06T17:06:47.752435",
+    "modified_by" : "",
+    "name" : "text-object",
+    "type" : "TEXT",
+    "width" : 30,
+    "height" : 60,
+    "text_content" : "some text",
+    "font_size" : 16,
+    "image_source" : null,
+    "page_id" : 1,
+    "is_interactive" : false,
+    "event" : null,
+    "zindex" : 2,
+    "xposition" : -10,
+    "yposition" : -20
+  } ]
+}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Error Response</div>
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 400 Bad Request
+Content-Type: application/json
+Content-Length: 124
+
+{
+  "error_code" : 3,
+  "error_message" : "Constraint violations",
+  "detail" : "projectId must be greater than 0, but 0."
+}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 403 Forbidden
+Content-Type: application/json
+Content-Length: 127
+
+{
+  "error_code" : 3100,
+  "error_message" : "NON_ACCESSIBLE_PROJECT",
+  "detail" : "You have no access to Project with id 2"
+}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 404 Not Found
+Content-Type: application/json
+Content-Length: 117
+
+{
+  "error_code" : 4200,
+  "error_message" : "PROJECT_NOT_FOUND",
+  "detail" : "Project with id 3 does not exists."
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_오브젝트_생성하기"><a class="link" href="#_오브젝트_생성하기">오브젝트 생성하기</a></h3>
+<div class="exampleblock">
+<div class="content">
+<div class="listingblock">
+<div class="title">Request</div>
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /api/v1/objects HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Content-Length: 216
+Host: docs.api.com
+
+{
+  "page_id" : 1,
+  "name" : "create object test: image",
+  "type" : "IMAGE",
+  "width" : 200,
+  "height" : 50,
+  "x_position" : 20,
+  "y_position" : -10,
+  "z_index" : 2,
+  "image_source" : "https://docs.api.com"
+}</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 7. Request Body</caption>
+<colgroup>
+<col style="width: 14.2857%;">
+<col style="width: 14.2857%;">
+<col style="width: 14.2857%;">
+<col style="width: 14.2857%;">
+<col style="width: 14.2857%;">
+<col style="width: 14.2857%;">
+<col style="width: 14.2858%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">필드명</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">타입</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">필수여부</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Default 값</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">포맷 및 제약조건</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">설명</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">예시</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>page_id</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0 초과</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">페이지 ID</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>name</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">오브젝트 이름</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>type</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">DEFAULT</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">DEFAULT|TEXT|IMAGE</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">오브젝트 타입</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>width</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0 초과</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">너비</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>height</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0 초과</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">높이</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>x_position</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">x축 위치</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>y_position</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">y축 위치</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>z_index</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0 이상</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">깊이</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>text_content</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">텍스트 내용</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>font_size</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0 초과</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">텍스트 폰트 크기</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>image_source</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">유효한 URL</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">이미지 URL</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+</tbody>
+</table>
+<div class="listingblock">
+<div class="title">Response</div>
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 405
+
+{
+  "id" : 6,
+  "created_at" : "2023-02-06T17:06:48.573344",
+  "created_by" : "fooId",
+  "modified_at" : "2023-02-06T17:06:48.573344",
+  "modified_by" : "fooId",
+  "name" : "create object test: image",
+  "type" : "IMAGE",
+  "width" : 200,
+  "height" : 50,
+  "text_content" : null,
+  "font_size" : null,
+  "image_source" : "http://sampe-image.url",
+  "zindex" : 2,
+  "xposition" : 20,
+  "yposition" : -10
+}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Error Response</div>
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 400 Bad Request
+Content-Type: application/json
+Content-Length: 288
+
+{
+  "error_code" : 1,
+  "error_message" : "Invalid request parameter or request body",
+  "detail" : "width must not be null. name must not be blank. pageId must be greater than 0. zIndex must not be null. xPosition must not be null. height must not be null. yPosition must not be null."
+}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 400 Bad Request
+Content-Type: application/json
+Content-Length: 103
+
+{
+  "error_code" : 4,
+  "error_message" : "Json parse error",
+  "detail" : "Check your request body."
+}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 403 Forbidden
+Content-Type: application/json
+Content-Length: 129
+
+{
+  "error_code" : 3200,
+  "error_message" : "NON_ACCESSIBLE_PROJECT_PAGE",
+  "detail" : "You have no access to Page with id 2"
+}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 404 Not Found
+Content-Type: application/json
+Content-Length: 119
+
+{
+  "error_code" : 4300,
+  "error_message" : "PROJECT_PAGE_NOT_FOUND",
+  "detail" : "Page with id 3 does not exists."
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_오브젝트_조회하기"><a class="link" href="#_오브젝트_조회하기">오브젝트 조회하기</a></h3>
+<div class="exampleblock">
+<div class="content">
+<div class="listingblock">
+<div class="title">Request</div>
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/v1/objects/1 HTTP/1.1
+Host: docs.api.com</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 8. /api/v1/objects/{id}</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>id</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">오브젝트 ID</p></td>
+</tr>
+</tbody>
+</table>
+<div class="listingblock">
+<div class="title">Response</div>
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 619
+
+{
+  "id" : 1,
+  "created_at" : "2023-02-06T17:06:47.592226",
+  "created_by" : "",
+  "modified_at" : "2023-02-06T17:06:47.592226",
+  "modified_by" : "",
+  "name" : "default-object",
+  "type" : "DEFAULT",
+  "width" : 10,
+  "height" : 10,
+  "text_content" : null,
+  "font_size" : null,
+  "image_source" : null,
+  "page_id" : 1,
+  "is_interactive" : true,
+  "event" : {
+    "id" : 1,
+    "created_at" : "2023-02-06T17:06:47.690692",
+    "created_by" : "",
+    "modified_at" : "2023-02-06T17:06:47.690692",
+    "modified_by" : "",
+    "transition_type" : "DEFAULT"
+  },
+  "zindex" : 0,
+  "xposition" : 0,
+  "yposition" : 0
+}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Error Response</div>
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 400 Bad Request
+Content-Type: application/json
+Content-Length: 123
+
+{
+  "error_code" : 3,
+  "error_message" : "Constraint violations",
+  "detail" : "objectId must be greater than 0, but 0."
+}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 403 Forbidden
+Content-Type: application/json
+Content-Length: 130
+
+{
+  "error_code" : 3300,
+  "error_message" : "NON_ACCESSIBLE_PAGE_OBJECT",
+  "detail" : "You have no access to Object with id 2"
+}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 404 Not Found
+Content-Type: application/json
+Content-Length: 120
+
+{
+  "error_code" : 4400,
+  "error_message" : "PAGE_OBJECT_NOT_FOUND",
+  "detail" : "Object with id 3 does not exists."
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_오브젝트_수정하기"><a class="link" href="#_오브젝트_수정하기">오브젝트 수정하기</a></h3>
+<div class="exampleblock">
+<div class="content">
+<div class="listingblock">
+<div class="title">Request</div>
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">PATCH /api/v1/objects/1 HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Content-Length: 189
+Host: docs.api.com
+
+{
+  "type" : "TEXT",
+  "width" : 20,
+  "height" : 100,
+  "x_position" : -20,
+  "y_position" : 10,
+  "z_index" : 0,
+  "text_content" : "new text",
+  "font_size" : 20,
+  "image_source" : ""
+}</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 9. /api/v1/objects/{id}</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>id</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">오브젝트 ID</p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 10. Request Body</caption>
+<colgroup>
+<col style="width: 14.2857%;">
+<col style="width: 14.2857%;">
+<col style="width: 14.2857%;">
+<col style="width: 14.2857%;">
+<col style="width: 14.2857%;">
+<col style="width: 14.2857%;">
+<col style="width: 14.2858%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">필드명</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">타입</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">필수여부</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Default 값</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">포맷 및 제약조건</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">설명</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">예시</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>type</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">DEFAULT|TEXT|IMAGE</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">오브젝트 타입</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>width</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0 초과</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">너비</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>height</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0 초과</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">높이</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>x_position</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">x축 위치</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>y_position</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">y축 위치</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>z_index</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0 이상</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">깊이</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>text_content</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">텍스트 내용</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>font_size</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0 초과</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">텍스트 폰트 크기</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>image_source</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">유효한 URL</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">이미지 URL</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+</tbody>
+</table>
+<div class="listingblock">
+<div class="title">Response</div>
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 622
+
+{
+  "id" : 1,
+  "created_at" : "2023-02-06T17:06:47.592226",
+  "created_by" : "",
+  "modified_at" : "2023-02-06T17:06:47.592226",
+  "modified_by" : "",
+  "name" : "default-object",
+  "type" : "TEXT",
+  "width" : 20,
+  "height" : 100,
+  "text_content" : "new text",
+  "font_size" : 20,
+  "image_source" : "",
+  "page_id" : 1,
+  "is_interactive" : true,
+  "event" : {
+    "id" : 1,
+    "created_at" : "2023-02-06T17:06:47.690692",
+    "created_by" : "",
+    "modified_at" : "2023-02-06T17:06:47.690692",
+    "modified_by" : "",
+    "transition_type" : "DEFAULT"
+  },
+  "zindex" : 0,
+  "xposition" : -20,
+  "yposition" : 10
+}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Error Response</div>
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 400 Bad Request
+Content-Type: application/json
+Content-Length: 123
+
+{
+  "error_code" : 3,
+  "error_message" : "Constraint violations",
+  "detail" : "objectId must be greater than 0, but 0."
+}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 400 Bad Request
+Content-Type: application/json
+Content-Length: 103
+
+{
+  "error_code" : 4,
+  "error_message" : "Json parse error",
+  "detail" : "Check your request body."
+}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 403 Forbidden
+Content-Type: application/json
+Content-Length: 130
+
+{
+  "error_code" : 3300,
+  "error_message" : "NON_ACCESSIBLE_PAGE_OBJECT",
+  "detail" : "You have no access to Object with id 2"
+}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 404 Not Found
+Content-Type: application/json
+Content-Length: 120
+
+{
+  "error_code" : 4400,
+  "error_message" : "PAGE_OBJECT_NOT_FOUND",
+  "detail" : "Object with id 3 does not exists."
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_오브젝트_삭제하기"><a class="link" href="#_오브젝트_삭제하기">오브젝트 삭제하기</a></h3>
+<div class="exampleblock">
+<div class="content">
+<div class="listingblock">
+<div class="title">Request</div>
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">DELETE /api/v1/objects/1 HTTP/1.1
+Host: docs.api.com</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 11. /api/v1/objects/{id}</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>id</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">오브젝트 ID</p></td>
+</tr>
+</tbody>
+</table>
+<div class="listingblock">
+<div class="title">Response</div>
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Error Response</div>
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 400 Bad Request
+Content-Type: application/json
+Content-Length: 123
+
+{
+  "error_code" : 3,
+  "error_message" : "Constraint violations",
+  "detail" : "objectId must be greater than 0, but 0."
+}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 403 Forbidden
+Content-Type: application/json
+Content-Length: 130
+
+{
+  "error_code" : 3300,
+  "error_message" : "NON_ACCESSIBLE_PAGE_OBJECT",
+  "detail" : "You have no access to Object with id 2"
+}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 404 Not Found
+Content-Type: application/json
+Content-Length: 120
+
+{
+  "error_code" : 4400,
+  "error_message" : "PAGE_OBJECT_NOT_FOUND",
+  "detail" : "Object with id 3 does not exists."
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
 </div>
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2023-01-31 23:34:18 +0900
+Last updated 2023-02-06 16:47:02 +0900
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/github.min.css">

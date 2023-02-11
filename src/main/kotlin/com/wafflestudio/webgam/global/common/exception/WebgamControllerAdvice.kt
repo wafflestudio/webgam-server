@@ -1,10 +1,12 @@
 package com.wafflestudio.webgam.global.common.exception
 
+import com.wafflestudio.webgam.global.common.exception.ErrorType.BadRequest.JSON_PARSE_ERROR
 import jakarta.validation.ConstraintViolationException
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.http.converter.HttpMessageNotReadableException
 import org.springframework.web.bind.MethodArgumentNotValidException
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.RestControllerAdvice
@@ -28,7 +30,7 @@ class WebgamControllerAdvice {
     }
 
     @ExceptionHandler(ConstraintViolationException::class)
-    fun constraintViolation(e: ConstraintViolationException): ResponseEntity<ErrorResponse?> {
+    fun constraintViolation(e: ConstraintViolationException): ResponseEntity<ErrorResponse> {
         return ResponseEntity(
             ErrorResponse(
             ErrorType.BadRequest.CONSTRAINT_VIOLATION.code(),
@@ -39,6 +41,14 @@ class WebgamControllerAdvice {
             }
         ), HttpStatus.BAD_REQUEST)
     }
+
+    @ExceptionHandler(HttpMessageNotReadableException::class)
+    fun jsonParseError(e: HttpMessageNotReadableException): ResponseEntity<ErrorResponse> {
+        return ResponseEntity(
+            ErrorResponse(JSON_PARSE_ERROR.code(), "Json parse error", "Check your request body."),
+            HttpStatus.BAD_REQUEST)
+    }
+
 
     @ExceptionHandler(WebgamException.Unauthorized::class)
     fun unauthorized(webgamException: WebgamException): ResponseEntity<ErrorResponse> {

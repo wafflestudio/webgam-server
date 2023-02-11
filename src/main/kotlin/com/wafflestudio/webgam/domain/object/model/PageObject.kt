@@ -60,4 +60,9 @@ class PageObject(
     ) {
         page.objects.add(this)
     }
+
+    override fun delete() {
+        isDeleted = true
+        event?.delete()
+    }
 }
