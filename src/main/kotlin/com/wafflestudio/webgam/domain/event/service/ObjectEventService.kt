@@ -58,6 +58,7 @@ class ObjectEventService(
             val page = projectPageRepository.findUndeletedProjectPageById(it) ?: throw ProjectPageNotFoundException(request.nextPageId)
             if (!page.isAccessibleTo(myId)) throw NonAccessibleProjectPageException(request.nextPageId)
             event.nextPage = page
+            page.triggeredEvents.add(event)
         }
 
         return SimpleResponse(event)
