@@ -25,4 +25,5 @@ class ProjectPageRepositoryImpl(
         .leftJoin(project.owner, user).fetchJoin()
         .where(id(id), undeletedProjectPage(), undeletedProject(), undeletedUser())
         .fetchOne()
+
 }

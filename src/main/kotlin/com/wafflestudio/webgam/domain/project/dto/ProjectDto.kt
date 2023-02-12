@@ -13,6 +13,11 @@ class ProjectDto {
         val title: String?,
     )
 
+    data class PatchRequest(
+        @field:NotBlank
+        val title: String?,
+    )
+
     data class SimpleResponse(
         override val id: Long,
         override val createdAt: LocalDateTime,

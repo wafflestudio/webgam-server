@@ -31,7 +31,10 @@ class Project(
     }
 
     constructor(user: User, createRequest: ProjectDto.CreateRequest): this(
-        owner = user,
-        title = createRequest.title!!,
-    )
+            owner = user,
+            title = createRequest.title!!,
+    ){
+        owner.projects.add(this)
+    }
+
 }

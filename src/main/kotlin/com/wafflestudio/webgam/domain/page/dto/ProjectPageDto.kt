@@ -10,9 +10,14 @@ import java.time.LocalDateTime
 class ProjectPageDto {
     data class CreateRequest(
         @field:NotNull
-        val projectId: Long?,
+        val projectId: Long,
         @field:NotBlank
         val name: String?,
+    )
+
+    data class PatchRequest(
+            @field:NotBlank
+            val name: String?,
     )
 
     data class SimpleResponse(
