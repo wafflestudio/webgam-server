@@ -50,7 +50,7 @@ class ProjectPageService (
                 val projectPage = projectPageRepository.findUndeletedProjectPageById(id)
                         ?: throw ProjectPageNotFoundException(id)
                 if (!projectPage.isAccessibleTo(myId)) throw NonAccessibleProjectPageException(id)
-                projectPage.isDeleted = true
+                projectPage.delete()
                 return SimpleResponse(projectPage)
         }
 

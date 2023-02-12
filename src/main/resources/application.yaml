@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: test
+    active: local
 
   jpa:
     open-in-view: false
@@ -27,7 +27,7 @@ spring:
       on-profile: local
 
   datasource:
-    url: jdbc:mysql://localhost/webgam_db
+    url: jdbc:mysql://localhost:3306/webgam_db
     username: webgam_admin
     password: WEBGAM_admin_01
 
@@ -48,7 +48,7 @@ spring:
       on-profile: test
 
   datasource:
-    url: jdbc:mysql://localhost/webgam_db_test
+    url: jdbc:mysql://localhost:3306/webgam_db_test
     username: webgam_admin
     password: WEBGAM_admin_01
 

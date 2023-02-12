@@ -541,7 +541,7 @@ pong</code></pre>
 <div class="title">Request</div>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /auth-ping HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmb29JZCIsImlhdCI6MTY3NTg2OTI2NywiZXhwIjoxNjc1ODc2NDY3LCJyb2xlIjoiVVNFUiJ9.PJuJeraoquDCqjJgXS3LQq79OznIuVF5seYJsH4mZR0
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmb29JZCIsImlhdCI6MTY3NjIwMzcyNywiZXhwIjoxNjc2MjEwOTI3LCJyb2xlIjoiVVNFUiJ9.HG71UQV5MOMNw-iXq1tyK8W0P42VVDqrpT3xRv14JQQ
 Host: docs.api.com</code></pre>
 </div>
 </div>
@@ -709,7 +709,7 @@ Host: docs.api.com
 <div class="title">Response</div>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
-Set-Cookie: refresh_token=Bearer+eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmb29JZCIsImlhdCI6MTY3NTg2OTI2NiwiZXhwIjoxNjc3MDc4ODY2fQ.Db47SdAlOlLSn4qxj6nTVdlWYDX-IYfbfQp6oycog-4; Path=/; HttpOnly; SameSite=None
+Set-Cookie: refresh_token=Bearer+eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmb29JZCIsImlhdCI6MTY3NjIwMzcyNSwiZXhwIjoxNjc3NDEzMzI1fQ.oFm_Ddevj14zFbSFjUIo7a8GvLmFeHusEEqJhpAkDRA; Path=/; HttpOnly; SameSite=None
 Content-Type: application/json
 Content-Length: 324
 
@@ -720,7 +720,7 @@ Content-Length: 324
     "email" : "foo@wafflestudio.com"
   },
   "message" : "login success",
-  "access_token" : "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmb29JZCIsImlhdCI6MTY3NTg2OTI2NiwiZXhwIjoxNjc1ODc2NDY2LCJyb2xlIjoiVVNFUiJ9.F2G_g1weJ4WhbRBbgpJlZQ3gHnvqu5uBwmLs3MVGY-s"
+  "access_token" : "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmb29JZCIsImlhdCI6MTY3NjIwMzcyNSwiZXhwIjoxNjc2MjEwOTI1LCJyb2xlIjoiVVNFUiJ9.q5r3H5bPguW1DYutMhFVpbzn8MgCGT3aLF8bt8i_KoA"
 }</code></pre>
 </div>
 </div>
@@ -734,7 +734,7 @@ Content-Length: 232
 {
   "error_code" : 1,
   "error_message" : "Invalid request parameter or request body",
-  "detail" : "password must not be blank. username must not be blank. userId must not be blank. email must be a well-formed email address."
+  "detail" : "userId must not be blank. password must not be blank. username must not be blank. email must be a well-formed email address."
 }</code></pre>
 </div>
 </div>
@@ -827,7 +827,7 @@ Host: docs.api.com
 <div class="title">Response</div>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
-Set-Cookie: refresh_token=Bearer+eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmb29JZCIsImlhdCI6MTY3NTg2OTI2NiwiZXhwIjoxNjc3MDc4ODY2fQ.Db47SdAlOlLSn4qxj6nTVdlWYDX-IYfbfQp6oycog-4; Path=/; HttpOnly; SameSite=None
+Set-Cookie: refresh_token=Bearer+eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmb29JZCIsImlhdCI6MTY3NjIwMzcyNiwiZXhwIjoxNjc3NDEzMzI2fQ.ombCXITz4TfFgYXxPQSerR1MoKY9HngLwU4ywt8xBKM; Path=/; HttpOnly; SameSite=None
 Content-Type: application/json
 Content-Length: 327
 
@@ -838,7 +838,7 @@ Content-Length: 327
     "email" : "unqiue@wafflestudio.com"
   },
   "message" : "login success",
-  "access_token" : "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmb29JZCIsImlhdCI6MTY3NTg2OTI2NiwiZXhwIjoxNjc1ODc2NDY2LCJyb2xlIjoiVVNFUiJ9.F2G_g1weJ4WhbRBbgpJlZQ3gHnvqu5uBwmLs3MVGY-s"
+  "access_token" : "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmb29JZCIsImlhdCI6MTY3NjIwMzcyNiwiZXhwIjoxNjc2MjEwOTI2LCJyb2xlIjoiVVNFUiJ9.rl9GvdVdehVASjaLriWOIfeUK3F72rDsqTeMgTgRkYg"
 }</code></pre>
 </div>
 </div>
@@ -871,7 +871,7 @@ Content-Length: 135
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /refresh HTTP/1.1
 Host: docs.api.com
-Cookie: refresh_token=Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmb29JZCIsImlhdCI6MTY3NTg2OTI2NywiZXhwIjoxNjc3MDc4ODY3fQ.fJuWNI4Bu-qD8tXC-Y1MBSazrb_PnLVfwC-iGK5x4Kc
+Cookie: refresh_token=Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmb29JZCIsImlhdCI6MTY3NjIwMzcyNiwiZXhwIjoxNjc3NDEzMzI2fQ.ombCXITz4TfFgYXxPQSerR1MoKY9HngLwU4ywt8xBKM
 Content-Type: application/x-www-form-urlencoded</code></pre>
 </div>
 </div>
@@ -898,12 +898,12 @@ Content-Type: application/x-www-form-urlencoded</code></pre>
 <div class="title">Response</div>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
-Set-Cookie: refresh_token=Bearer+eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmb29JZCIsImlhdCI6MTY3NTg2OTI2NywiZXhwIjoxNjc3MDc4ODY3fQ.fJuWNI4Bu-qD8tXC-Y1MBSazrb_PnLVfwC-iGK5x4Kc; Path=/; HttpOnly; SameSite=None
+Set-Cookie: refresh_token=Bearer+eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmb29JZCIsImlhdCI6MTY3NjIwMzcyNiwiZXhwIjoxNjc3NDEzMzI2fQ.ombCXITz4TfFgYXxPQSerR1MoKY9HngLwU4ywt8xBKM; Path=/; HttpOnly; SameSite=None
 Content-Type: application/json
 Content-Length: 165
 
 {
-  "access_token" : "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmb29JZCIsImlhdCI6MTY3NTg2OTI2NywiZXhwIjoxNjc1ODc2NDY3fQ.U3bReM4D7ae_vOW9I0X7YCY8tcTp_IUE3TacbvoQNbg"
+  "access_token" : "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmb29JZCIsImlhdCI6MTY3NjIwMzcyNiwiZXhwIjoxNjc2MjEwOTI2fQ._Wj6FZjN5Mh3um9_rXiyjKJP7J0uJ0ekvis8eQOaeEc"
 }</code></pre>
 </div>
 </div>
@@ -1078,7 +1078,7 @@ Content-Length: 190
 {
   "error_code" : 1,
   "error_message" : "Invalid request parameter or request body",
-  "detail" : "email must be a well-formed email address. username can be nullable but not blank."
+  "detail" : "username can be nullable but not blank. email must be a well-formed email address."
 }</code></pre>
 </div>
 </div>
@@ -1223,9 +1223,9 @@ Content-Length: 318
 
 {
   "id" : 1,
-  "created_at" : "2023-02-09T00:14:09.328584",
+  "created_at" : "2023-02-12T21:08:26.592249",
   "created_by" : "",
-  "modified_at" : "2023-02-09T00:14:09.328584",
+  "modified_at" : "2023-02-12T21:08:26.592249",
   "modified_by" : "",
   "title" : "default-project",
   "owner" : {
@@ -1319,34 +1319,34 @@ Host: docs.api.com</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
 Content-Type: application/json
-Content-Length: 699
+Content-Length: 698
 
 {
   "content" : [ {
     "id" : 1,
-    "created_at" : "2023-02-09T00:14:09.328584",
+    "created_at" : "2023-02-12T21:08:26.592249",
     "created_by" : "",
-    "modified_at" : "2023-02-09T00:14:09.328584",
+    "modified_at" : "2023-02-12T21:08:26.592249",
     "modified_by" : "",
     "title" : "default-project"
   }, {
     "id" : 2,
-    "created_at" : "2023-02-09T00:14:09.370577",
+    "created_at" : "2023-02-12T21:08:26.663249",
     "created_by" : "",
-    "modified_at" : "2023-02-09T00:14:09.370577",
+    "modified_at" : "2023-02-12T21:08:26.663249",
     "modified_by" : "",
     "title" : "dummy-project"
   }, {
     "id" : 3,
-    "created_at" : "2023-02-09T00:14:09.451581",
+    "created_at" : "2023-02-12T21:08:26.769247",
     "created_by" : "",
-    "modified_at" : "2023-02-09T00:14:09.451581",
+    "modified_at" : "2023-02-12T21:08:26.769247",
     "modified_by" : "",
     "title" : "deleted-project"
   } ],
   "page" : 0,
   "size" : 10,
-  "number_of_elements" : 10
+  "number_of_elements" : 3
 }</code></pre>
 </div>
 </div>
@@ -1375,9 +1375,9 @@ Content-Length: 241
   "count" : 1,
   "data" : [ {
     "id" : 1,
-    "created_at" : "2023-02-09T00:14:09.328584",
+    "created_at" : "2023-02-12T21:08:26.592249",
     "created_by" : "",
-    "modified_at" : "2023-02-09T00:14:09.328584",
+    "modified_at" : "2023-02-12T21:08:26.592249",
     "modified_by" : "",
     "title" : "default-project"
   } ]
@@ -1445,9 +1445,9 @@ Content-Length: 324
 
 {
   "id" : 4,
-  "created_at" : "2023-02-09T00:14:10.4685819",
+  "created_at" : "2023-02-12T21:08:27.8762486",
   "created_by" : "fooId",
-  "modified_at" : "2023-02-09T00:14:10.4685819",
+  "modified_at" : "2023-02-12T21:08:27.8762486",
   "modified_by" : "fooId",
   "title" : "new_title",
   "owner" : {
@@ -1553,9 +1553,9 @@ Content-Length: 316
 
 {
   "id" : 1,
-  "created_at" : "2023-02-09T00:14:09.328584",
+  "created_at" : "2023-02-12T21:08:26.592249",
   "created_by" : "",
-  "modified_at" : "2023-02-09T00:14:09.328584",
+  "modified_at" : "2023-02-12T21:08:26.592249",
   "modified_by" : "",
   "title" : "title_changed",
   "owner" : {
@@ -1658,13 +1658,13 @@ Host: docs.api.com</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
 Content-Type: application/json
-Content-Length: 320
+Content-Length: 321
 
 {
   "id" : 1,
-  "created_at" : "2023-02-09T00:14:09.328584",
+  "created_at" : "2023-02-12T21:08:26.592249",
   "created_by" : "",
-  "modified_at" : "2023-02-09T00:14:10.75158",
+  "modified_at" : "2023-02-12T21:08:28.441251",
   "modified_by" : "fooId",
   "title" : "title_changed",
   "owner" : {
@@ -1763,9 +1763,9 @@ Content-Length: 224
 
 {
   "id" : 1,
-  "created_at" : "2023-02-09T00:13:59.845697",
+  "created_at" : "2023-02-12T21:08:15.465623",
   "created_by" : "",
-  "modified_at" : "2023-02-09T00:13:59.845697",
+  "modified_at" : "2023-02-12T21:08:15.465623",
   "modified_by" : "",
   "name" : "test-page",
   "project_id" : 1,
@@ -1880,13 +1880,13 @@ Host: docs.api.com
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
 Content-Type: application/json
-Content-Length: 221
+Content-Length: 219
 
 {
   "id" : 0,
-  "created_at" : "2023-02-09T00:14:00.7446974",
+  "created_at" : "2023-02-12T21:08:17.189165",
   "created_by" : "",
-  "modified_at" : "2023-02-09T00:14:00.7446974",
+  "modified_at" : "2023-02-12T21:08:17.189165",
   "modified_by" : "",
   "name" : "name",
   "project_id" : 1,
@@ -2027,9 +2027,9 @@ Content-Length: 232
 
 {
   "id" : 1,
-  "created_at" : "2023-02-09T00:13:59.845697",
+  "created_at" : "2023-02-12T21:08:15.465623",
   "created_by" : "",
-  "modified_at" : "2023-02-09T00:13:59.845697",
+  "modified_at" : "2023-02-12T21:08:15.465623",
   "modified_by" : "",
   "name" : "page_name_changed",
   "project_id" : 1,
@@ -2119,9 +2119,9 @@ Content-Length: 183
 
 {
   "id" : 1,
-  "created_at" : "2023-02-09T00:13:59.845697",
+  "created_at" : "2023-02-12T21:08:15.465623",
   "created_by" : "",
-  "modified_at" : "2023-02-09T00:13:59.845697",
+  "modified_at" : "2023-02-12T21:08:15.465623",
   "modified_by" : "",
   "name" : "test-page"
 }</code></pre>
@@ -2216,9 +2216,9 @@ Content-Length: 1725
   "count" : 3,
   "data" : [ {
     "id" : 1,
-    "created_at" : "2023-02-09T00:13:28.983333",
+    "created_at" : "2023-02-12T21:07:34.717645",
     "created_by" : "",
-    "modified_at" : "2023-02-09T00:13:28.983333",
+    "modified_at" : "2023-02-12T21:07:34.717645",
     "modified_by" : "",
     "name" : "default-object",
     "type" : "DEFAULT",
@@ -2231,20 +2231,20 @@ Content-Length: 1725
     "is_interactive" : true,
     "event" : {
       "id" : 1,
-      "created_at" : "2023-02-09T00:13:29.675333",
+      "created_at" : "2023-02-12T21:07:35.439143",
       "created_by" : "",
-      "modified_at" : "2023-02-09T00:13:29.675333",
+      "modified_at" : "2023-02-12T21:07:35.439143",
       "modified_by" : "",
       "transition_type" : "DEFAULT"
     },
-    "yposition" : 0,
     "zindex" : 0,
+    "yposition" : 0,
     "xposition" : 0
   }, {
     "id" : 4,
-    "created_at" : "2023-02-09T00:13:30.102463",
+    "created_at" : "2023-02-12T21:07:36.024708",
     "created_by" : "",
-    "modified_at" : "2023-02-09T00:13:30.102463",
+    "modified_at" : "2023-02-12T21:07:36.024708",
     "modified_by" : "",
     "name" : "image-object",
     "type" : "IMAGE",
@@ -2256,14 +2256,14 @@ Content-Length: 1725
     "page_id" : 1,
     "is_interactive" : false,
     "event" : null,
-    "yposition" : 40,
     "zindex" : 1,
+    "yposition" : 40,
     "xposition" : 30
   }, {
     "id" : 5,
-    "created_at" : "2023-02-09T00:13:30.110462",
+    "created_at" : "2023-02-12T21:07:36.033726",
     "created_by" : "",
-    "modified_at" : "2023-02-09T00:13:30.110462",
+    "modified_at" : "2023-02-12T21:07:36.033726",
     "modified_by" : "",
     "name" : "text-object",
     "type" : "TEXT",
@@ -2275,8 +2275,8 @@ Content-Length: 1725
     "page_id" : 1,
     "is_interactive" : false,
     "event" : null,
-    "yposition" : -20,
     "zindex" : 2,
+    "yposition" : -20,
     "xposition" : -10
   } ]
 }</code></pre>
@@ -2481,9 +2481,9 @@ Content-Length: 423
 
 {
   "id" : 6,
-  "created_at" : "2023-02-09T00:13:35.4954633",
+  "created_at" : "2023-02-12T21:07:42.4932959",
   "created_by" : "fooId",
-  "modified_at" : "2023-02-09T00:13:35.4954633",
+  "modified_at" : "2023-02-12T21:07:42.4932959",
   "modified_by" : "fooId",
   "name" : "create object test: image",
   "type" : "IMAGE",
@@ -2492,8 +2492,8 @@ Content-Length: 423
   "text_content" : null,
   "font_size" : null,
   "image_source" : "http://sampe-image.url",
-  "yposition" : -10,
   "zindex" : 2,
+  "yposition" : -10,
   "xposition" : 20
 }</code></pre>
 </div>
@@ -2508,7 +2508,7 @@ Content-Length: 292
 {
   "error_code" : 1,
   "error_message" : "Invalid request parameter or request body",
-  "detail" : "width must not be null. xPosition must not be null. yPosition must not be null. pageId must be greater than 0. zIndex must not be null. height must not be null. name must not be blank."
+  "detail" : "yPosition must not be null. width must not be null. height must not be null. xPosition must not be null. zIndex must not be null. pageId must be greater than 0. name must not be blank."
 }</code></pre>
 </div>
 </div>
@@ -2593,9 +2593,9 @@ Content-Length: 645
 
 {
   "id" : 1,
-  "created_at" : "2023-02-09T00:13:28.983333",
+  "created_at" : "2023-02-12T21:07:34.717645",
   "created_by" : "",
-  "modified_at" : "2023-02-09T00:13:28.983333",
+  "modified_at" : "2023-02-12T21:07:34.717645",
   "modified_by" : "",
   "name" : "default-object",
   "type" : "DEFAULT",
@@ -2608,14 +2608,14 @@ Content-Length: 645
   "is_interactive" : true,
   "event" : {
     "id" : 1,
-    "created_at" : "2023-02-09T00:13:29.675333",
+    "created_at" : "2023-02-12T21:07:35.439143",
     "created_by" : "",
-    "modified_at" : "2023-02-09T00:13:29.675333",
+    "modified_at" : "2023-02-12T21:07:35.439143",
     "modified_by" : "",
     "transition_type" : "DEFAULT"
   },
-  "yposition" : 0,
   "zindex" : 0,
+  "yposition" : 0,
   "xposition" : 0
 }</code></pre>
 </div>
@@ -2820,9 +2820,9 @@ Content-Length: 648
 
 {
   "id" : 1,
-  "created_at" : "2023-02-09T00:13:28.983333",
+  "created_at" : "2023-02-12T21:07:34.717645",
   "created_by" : "",
-  "modified_at" : "2023-02-09T00:13:28.983333",
+  "modified_at" : "2023-02-12T21:07:34.717645",
   "modified_by" : "",
   "name" : "default-object",
   "type" : "TEXT",
@@ -2835,14 +2835,14 @@ Content-Length: 648
   "is_interactive" : true,
   "event" : {
     "id" : 1,
-    "created_at" : "2023-02-09T00:13:29.675333",
+    "created_at" : "2023-02-12T21:07:35.439143",
     "created_by" : "",
-    "modified_at" : "2023-02-09T00:13:29.675333",
+    "modified_at" : "2023-02-12T21:07:35.439143",
     "modified_by" : "",
     "transition_type" : "DEFAULT"
   },
-  "yposition" : 10,
   "zindex" : 0,
+  "yposition" : 10,
   "xposition" : -20
 }</code></pre>
 </div>

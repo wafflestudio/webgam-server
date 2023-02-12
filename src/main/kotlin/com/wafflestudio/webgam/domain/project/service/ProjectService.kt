@@ -62,7 +62,7 @@ class ProjectService (
     fun deleteProject(myId: Long, projectId: Long): DetailedResponse {
         val project = projectRepository.findUndeletedProjectById(projectId) ?: throw ProjectNotFoundException(projectId)
         if (!project.isAccessibleTo(myId)) throw NonAccessibleProjectException(projectId)
-        project.isDeleted = true
+        project.delete()
         return DetailedResponse(project)
     }
 }
