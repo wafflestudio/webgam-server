@@ -101,8 +101,8 @@ class PageObjectControllerTest(
                 listOf("valid-object-name").map { it to null },
                 listOf(null).map { it to INVALID_FIELD.code() }).flatten()
             val objectTypes = listOf(
-                listOf("DEFAULT", "TEXT", "IMAGE", "else-falls-to-default", null).map { it to null },
-                ).flatten()
+                listOf("DEFAULT", "TEXT", "IMAGE", null).map { it to null },
+                listOf("not-enum", "default", "text", "image").map { it to JSON_PARSE_ERROR.code() }).flatten()
             val widths = listOf(
                 listOf(1, 3).map { it to null },
                 listOf(-1, 0, null).map { it to INVALID_FIELD.code() },
@@ -147,24 +147,12 @@ class PageObjectControllerTest(
                 imageSources
             )
 
-            val fields = listOf("page_id", "name", "object_type", "width", "height", "x_position", "y_position",
+            val fields = listOf("page_id", "name", "type", "width", "height", "x_position", "y_position",
                 "z_index", "text_content", "font_size", "image_source")
 
             combinations.forAll { (l, t) ->
                 val (idx, code) = t
-                val request = mapOf(
-                    "page_id" to l[0],
-                    "name" to l[1],
-                    "object_type" to l[2],
-                    "width" to l[3],
-                    "height" to l[4],
-                    "x_position" to l[5],
-                    "y_position" to l[6],
-                    "z_index" to l[7],
-                    "text_content" to l[8],
-                    "font_size" to l[9],
-                    "image_source" to l[10],
-                )
+                val request = l.mapIndexed { index, field -> fields[index] to field }.toMap()
 
                 when (idx) {
                     -1 -> { context("Body의 모든 field가 올바르면") {

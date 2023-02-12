@@ -496,6 +496,15 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_오브젝트_삭제하기">오브젝트 삭제하기</a></li>
 </ul>
 </li>
+<li><a href="#EVENT">Event API</a>
+<ul class="sectlevel2">
+<li><a href="#_이벤트_생성하기">이벤트 생성하기</a></li>
+<li><a href="#_이벤트_조회하기">이벤트 조회하기</a></li>
+<li><a href="#_이벤트_수정하기">이벤트 수정하기</a></li>
+<li><a href="#_이벤트_삭제하기">이벤트 삭제하기</a></li>
+<li><a href="#_error_response">Error Response</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
@@ -541,7 +550,7 @@ pong</code></pre>
 <div class="title">Request</div>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /auth-ping HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmb29JZCIsImlhdCI6MTY3NjIwMzcyNywiZXhwIjoxNjc2MjEwOTI3LCJyb2xlIjoiVVNFUiJ9.HG71UQV5MOMNw-iXq1tyK8W0P42VVDqrpT3xRv14JQQ
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmb29JZCIsImlhdCI6MTY3NjIwODQ0NiwiZXhwIjoxNjc2MjE1NjQ2LCJyb2xlIjoiVVNFUiJ9.ijfYR-zmlg1rpdu_FxV7MwXE57lPyBHeyfZmGbRqp3s
 Host: docs.api.com</code></pre>
 </div>
 </div>
@@ -567,7 +576,7 @@ auth-pong</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 401 Unauthorized
 Content-Type: application/json;charset=utf-8
-Content-Length: 118
+Content-Length: 114
 
 {
   "error_code" : 1000,
@@ -588,7 +597,7 @@ Content-Length: 118
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 401 Unauthorized
 Content-Type: application/json;charset=utf-8
-Content-Length: 114
+Content-Length: 110
 
 {
   "error_code" : 1002,
@@ -609,7 +618,7 @@ Content-Length: 114
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 403 Forbidden
 Content-Type: application/json;charset=utf-8
-Content-Length: 115
+Content-Length: 111
 
 {
   "error_code" : 3001,
@@ -635,7 +644,7 @@ Content-Length: 115
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /signup HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 115
+Content-Length: 110
 Host: docs.api.com
 
 {
@@ -709,9 +718,9 @@ Host: docs.api.com
 <div class="title">Response</div>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
-Set-Cookie: refresh_token=Bearer+eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmb29JZCIsImlhdCI6MTY3NjIwMzcyNSwiZXhwIjoxNjc3NDEzMzI1fQ.oFm_Ddevj14zFbSFjUIo7a8GvLmFeHusEEqJhpAkDRA; Path=/; HttpOnly; SameSite=None
+Set-Cookie: refresh_token=Bearer+eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmb29JZCIsImlhdCI6MTY3NjIwODQ0NSwiZXhwIjoxNjc3NDE4MDQ1fQ.clP-CGfqXttA33cHvo_ITcPj7B96mf1Vw2ieB9aoNKk; Path=/; HttpOnly; SameSite=None
 Content-Type: application/json
-Content-Length: 324
+Content-Length: 316
 
 {
   "user" : {
@@ -720,7 +729,7 @@ Content-Length: 324
     "email" : "foo@wafflestudio.com"
   },
   "message" : "login success",
-  "access_token" : "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmb29JZCIsImlhdCI6MTY3NjIwMzcyNSwiZXhwIjoxNjc2MjEwOTI1LCJyb2xlIjoiVVNFUiJ9.q5r3H5bPguW1DYutMhFVpbzn8MgCGT3aLF8bt8i_KoA"
+  "access_token" : "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmb29JZCIsImlhdCI6MTY3NjIwODQ0NSwiZXhwIjoxNjc2MjE1NjQ1LCJyb2xlIjoiVVNFUiJ9.qMwlwID9Io5YKmLrB63ehC9vwwcSn-mZ8cPFKfhyq94"
 }</code></pre>
 </div>
 </div>
@@ -729,12 +738,12 @@ Content-Length: 324
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 400 Bad Request
 Content-Type: application/json
-Content-Length: 232
+Content-Length: 228
 
 {
   "error_code" : 1,
   "error_message" : "Invalid request parameter or request body",
-  "detail" : "userId must not be blank. password must not be blank. username must not be blank. email must be a well-formed email address."
+  "detail" : "email must be a well-formed email address. username must not be blank. password must not be blank. userId must not be blank."
 }</code></pre>
 </div>
 </div>
@@ -742,7 +751,7 @@ Content-Length: 232
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 409 Conflict
 Content-Type: application/json
-Content-Length: 137
+Content-Length: 133
 
 {
   "error_code" : 9001,
@@ -763,7 +772,7 @@ Content-Length: 137
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /login HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 74
+Content-Length: 70
 Host: docs.api.com
 
 {
@@ -827,9 +836,9 @@ Host: docs.api.com
 <div class="title">Response</div>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
-Set-Cookie: refresh_token=Bearer+eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmb29JZCIsImlhdCI6MTY3NjIwMzcyNiwiZXhwIjoxNjc3NDEzMzI2fQ.ombCXITz4TfFgYXxPQSerR1MoKY9HngLwU4ywt8xBKM; Path=/; HttpOnly; SameSite=None
+Set-Cookie: refresh_token=Bearer+eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmb29JZCIsImlhdCI6MTY3NjIwODQ0NiwiZXhwIjoxNjc3NDE4MDQ2fQ.T4paY12KKMt2HAS4JMr-iWwr6qsm3BVE7JdxNDmMat8; Path=/; HttpOnly; SameSite=None
 Content-Type: application/json
-Content-Length: 327
+Content-Length: 319
 
 {
   "user" : {
@@ -838,7 +847,7 @@ Content-Length: 327
     "email" : "unqiue@wafflestudio.com"
   },
   "message" : "login success",
-  "access_token" : "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmb29JZCIsImlhdCI6MTY3NjIwMzcyNiwiZXhwIjoxNjc2MjEwOTI2LCJyb2xlIjoiVVNFUiJ9.rl9GvdVdehVASjaLriWOIfeUK3F72rDsqTeMgTgRkYg"
+  "access_token" : "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmb29JZCIsImlhdCI6MTY3NjIwODQ0NiwiZXhwIjoxNjc2MjE1NjQ2LCJyb2xlIjoiVVNFUiJ9.ijfYR-zmlg1rpdu_FxV7MwXE57lPyBHeyfZmGbRqp3s"
 }</code></pre>
 </div>
 </div>
@@ -847,7 +856,7 @@ Content-Length: 327
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 401 Unauthorized
 Content-Type: application/json
-Content-Length: 135
+Content-Length: 131
 
 {
   "error_code" : 1001,
@@ -871,7 +880,7 @@ Content-Length: 135
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /refresh HTTP/1.1
 Host: docs.api.com
-Cookie: refresh_token=Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmb29JZCIsImlhdCI6MTY3NjIwMzcyNiwiZXhwIjoxNjc3NDEzMzI2fQ.ombCXITz4TfFgYXxPQSerR1MoKY9HngLwU4ywt8xBKM
+Cookie: refresh_token=Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmb29JZCIsImlhdCI6MTY3NjIwODQ0NiwiZXhwIjoxNjc3NDE4MDQ2fQ.T4paY12KKMt2HAS4JMr-iWwr6qsm3BVE7JdxNDmMat8
 Content-Type: application/x-www-form-urlencoded</code></pre>
 </div>
 </div>
@@ -898,12 +907,12 @@ Content-Type: application/x-www-form-urlencoded</code></pre>
 <div class="title">Response</div>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
-Set-Cookie: refresh_token=Bearer+eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmb29JZCIsImlhdCI6MTY3NjIwMzcyNiwiZXhwIjoxNjc3NDEzMzI2fQ.ombCXITz4TfFgYXxPQSerR1MoKY9HngLwU4ywt8xBKM; Path=/; HttpOnly; SameSite=None
+Set-Cookie: refresh_token=Bearer+eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmb29JZCIsImlhdCI6MTY3NjIwODQ0NiwiZXhwIjoxNjc3NDE4MDQ2fQ.T4paY12KKMt2HAS4JMr-iWwr6qsm3BVE7JdxNDmMat8; Path=/; HttpOnly; SameSite=None
 Content-Type: application/json
-Content-Length: 165
+Content-Length: 163
 
 {
-  "access_token" : "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmb29JZCIsImlhdCI6MTY3NjIwMzcyNiwiZXhwIjoxNjc2MjEwOTI2fQ._Wj6FZjN5Mh3um9_rXiyjKJP7J0uJ0ekvis8eQOaeEc"
+  "access_token" : "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmb29JZCIsImlhdCI6MTY3NjIwODQ0NiwiZXhwIjoxNjc2MjE1NjQ2fQ.n7NgFb43k0ZmfNkrqX3QIgp8vGoumlqzfvGEDSkVOi8"
 }</code></pre>
 </div>
 </div>
@@ -912,7 +921,7 @@ Content-Length: 165
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 400 Bad Request
 Content-Type: application/json
-Content-Length: 172
+Content-Length: 168
 
 {
   "error_code" : 2,
@@ -925,7 +934,7 @@ Content-Length: 172
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 401 Unauthorized
 Content-Type: application/json
-Content-Length: 114
+Content-Length: 110
 
 {
   "error_code" : 1002,
@@ -983,7 +992,7 @@ Host: docs.api.com</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
 Content-Type: application/json
-Content-Length: 87
+Content-Length: 83
 
 {
   "user_id" : "fooId",
@@ -1004,7 +1013,7 @@ Content-Length: 87
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">PATCH /api/v1/users/me HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 68
+Content-Length: 65
 Host: docs.api.com
 
 {
@@ -1059,7 +1068,7 @@ Host: docs.api.com
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
 Content-Type: application/json
-Content-Length: 92
+Content-Length: 88
 
 {
   "user_id" : "fooId",
@@ -1073,12 +1082,12 @@ Content-Length: 92
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 400 Bad Request
 Content-Type: application/json
-Content-Length: 190
+Content-Length: 186
 
 {
   "error_code" : 1,
   "error_message" : "Invalid request parameter or request body",
-  "detail" : "username can be nullable but not blank. email must be a well-formed email address."
+  "detail" : "email must be a well-formed email address. username can be nullable but not blank."
 }</code></pre>
 </div>
 </div>
@@ -1140,7 +1149,7 @@ Host: docs.api.com</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
 Content-Type: application/json
-Content-Length: 87
+Content-Length: 83
 
 {
   "user_id" : "barId",
@@ -1154,7 +1163,7 @@ Content-Length: 87
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 400 Bad Request
 Content-Type: application/json
-Content-Length: 125
+Content-Length: 121
 
 {
   "error_code" : 3,
@@ -1167,7 +1176,7 @@ Content-Length: 125
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 404 Not Found
 Content-Type: application/json
-Content-Length: 116
+Content-Length: 112
 
 {
   "error_code" : 4001,
@@ -1219,13 +1228,13 @@ Host: docs.api.com</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
 Content-Type: application/json
-Content-Length: 318
+Content-Length: 305
 
 {
   "id" : 1,
-  "created_at" : "2023-02-12T21:08:26.592249",
+  "created_at" : "2023-02-12T22:27:22.812322",
   "created_by" : "",
-  "modified_at" : "2023-02-12T21:08:26.592249",
+  "modified_at" : "2023-02-12T22:27:22.812322",
   "modified_by" : "",
   "title" : "default-project",
   "owner" : {
@@ -1242,7 +1251,7 @@ Content-Length: 318
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 400 Bad Request
 Content-Type: application/json
-Content-Length: 128
+Content-Length: 124
 
 {
   "error_code" : 3,
@@ -1255,7 +1264,7 @@ Content-Length: 128
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 403 Forbidden
 Content-Type: application/json
-Content-Length: 131
+Content-Length: 127
 
 {
   "error_code" : 3100,
@@ -1268,10 +1277,10 @@ Content-Length: 131
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 404 Not Found
 Content-Type: application/json
-Content-Length: 120
+Content-Length: 116
 
 {
-  "error_code" : 4200,
+  "error_code" : 4100,
   "error_message" : "PROJECT_NOT_FOUND",
   "detail" : "Project with id 3 does not exist."
 }</code></pre>
@@ -1319,28 +1328,28 @@ Host: docs.api.com</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
 Content-Type: application/json
-Content-Length: 698
+Content-Length: 672
 
 {
   "content" : [ {
     "id" : 1,
-    "created_at" : "2023-02-12T21:08:26.592249",
+    "created_at" : "2023-02-12T22:27:22.812322",
     "created_by" : "",
-    "modified_at" : "2023-02-12T21:08:26.592249",
+    "modified_at" : "2023-02-12T22:27:22.812322",
     "modified_by" : "",
     "title" : "default-project"
   }, {
     "id" : 2,
-    "created_at" : "2023-02-12T21:08:26.663249",
+    "created_at" : "2023-02-12T22:27:22.821389",
     "created_by" : "",
-    "modified_at" : "2023-02-12T21:08:26.663249",
+    "modified_at" : "2023-02-12T22:27:22.821389",
     "modified_by" : "",
     "title" : "dummy-project"
   }, {
     "id" : 3,
-    "created_at" : "2023-02-12T21:08:26.769247",
+    "created_at" : "2023-02-12T22:27:22.831331",
     "created_by" : "",
-    "modified_at" : "2023-02-12T21:08:26.769247",
+    "modified_at" : "2023-02-12T22:27:22.831331",
     "modified_by" : "",
     "title" : "deleted-project"
   } ],
@@ -1369,15 +1378,15 @@ Host: docs.api.com</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
 Content-Type: application/json
-Content-Length: 241
+Content-Length: 231
 
 {
   "count" : 1,
   "data" : [ {
     "id" : 1,
-    "created_at" : "2023-02-12T21:08:26.592249",
+    "created_at" : "2023-02-12T22:27:22.812322",
     "created_by" : "",
-    "modified_at" : "2023-02-12T21:08:26.592249",
+    "modified_at" : "2023-02-12T22:27:22.812322",
     "modified_by" : "",
     "title" : "default-project"
   } ]
@@ -1396,7 +1405,7 @@ Content-Length: 241
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /api/v1/project HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 29
+Content-Length: 27
 Host: docs.api.com
 
 {
@@ -1441,13 +1450,13 @@ Host: docs.api.com
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
 Content-Type: application/json
-Content-Length: 324
+Content-Length: 309
 
 {
   "id" : 4,
-  "created_at" : "2023-02-12T21:08:27.8762486",
+  "created_at" : "2023-02-12T22:27:22.994421",
   "created_by" : "fooId",
-  "modified_at" : "2023-02-12T21:08:27.8762486",
+  "modified_at" : "2023-02-12T22:27:22.994421",
   "modified_by" : "fooId",
   "title" : "new_title",
   "owner" : {
@@ -1464,7 +1473,7 @@ Content-Length: 324
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 400 Bad Request
 Content-Type: application/json
-Content-Length: 132
+Content-Length: 128
 
 {
   "error_code" : 1,
@@ -1485,7 +1494,7 @@ Content-Length: 132
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">PATCH /api/v1/project/1 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 33
+Content-Length: 31
 Host: docs.api.com
 
 {
@@ -1549,13 +1558,13 @@ Host: docs.api.com
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
 Content-Type: application/json
-Content-Length: 316
+Content-Length: 303
 
 {
   "id" : 1,
-  "created_at" : "2023-02-12T21:08:26.592249",
+  "created_at" : "2023-02-12T22:27:22.812322",
   "created_by" : "",
-  "modified_at" : "2023-02-12T21:08:26.592249",
+  "modified_at" : "2023-02-12T22:27:22.812322",
   "modified_by" : "",
   "title" : "title_changed",
   "owner" : {
@@ -1572,7 +1581,7 @@ Content-Length: 316
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 400 Bad Request
 Content-Type: application/json
-Content-Length: 132
+Content-Length: 128
 
 {
   "error_code" : 1,
@@ -1585,7 +1594,7 @@ Content-Length: 132
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 400 Bad Request
 Content-Type: application/json
-Content-Length: 121
+Content-Length: 117
 
 {
   "error_code" : 3,
@@ -1598,7 +1607,7 @@ Content-Length: 121
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 403 Forbidden
 Content-Type: application/json
-Content-Length: 131
+Content-Length: 127
 
 {
   "error_code" : 3100,
@@ -1611,10 +1620,10 @@ Content-Length: 131
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 404 Not Found
 Content-Type: application/json
-Content-Length: 120
+Content-Length: 116
 
 {
-  "error_code" : 4200,
+  "error_code" : 4100,
   "error_message" : "PROJECT_NOT_FOUND",
   "detail" : "Project with id 3 does not exist."
 }</code></pre>
@@ -1658,13 +1667,13 @@ Host: docs.api.com</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
 Content-Type: application/json
-Content-Length: 321
+Content-Length: 307
 
 {
   "id" : 1,
-  "created_at" : "2023-02-12T21:08:26.592249",
+  "created_at" : "2023-02-12T22:27:22.812322",
   "created_by" : "",
-  "modified_at" : "2023-02-12T21:08:28.441251",
+  "modified_at" : "2023-02-12T22:27:23.03736",
   "modified_by" : "fooId",
   "title" : "title_changed",
   "owner" : {
@@ -1681,7 +1690,7 @@ Content-Length: 321
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 400 Bad Request
 Content-Type: application/json
-Content-Length: 121
+Content-Length: 117
 
 {
   "error_code" : 3,
@@ -1694,7 +1703,7 @@ Content-Length: 121
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 403 Forbidden
 Content-Type: application/json
-Content-Length: 131
+Content-Length: 127
 
 {
   "error_code" : 3100,
@@ -1707,10 +1716,10 @@ Content-Length: 131
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 404 Not Found
 Content-Type: application/json
-Content-Length: 120
+Content-Length: 116
 
 {
-  "error_code" : 4200,
+  "error_code" : 4100,
   "error_message" : "PROJECT_NOT_FOUND",
   "detail" : "Project with id 3 does not exist."
 }</code></pre>
@@ -1759,13 +1768,13 @@ Host: docs.api.com</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
 Content-Type: application/json
-Content-Length: 224
+Content-Length: 215
 
 {
   "id" : 1,
-  "created_at" : "2023-02-12T21:08:15.465623",
+  "created_at" : "2023-02-12T22:27:21.657888",
   "created_by" : "",
-  "modified_at" : "2023-02-12T21:08:15.465623",
+  "modified_at" : "2023-02-12T22:27:21.657888",
   "modified_by" : "",
   "name" : "test-page",
   "project_id" : 1,
@@ -1778,7 +1787,7 @@ Content-Length: 224
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 400 Bad Request
 Content-Type: application/json
-Content-Length: 128
+Content-Length: 124
 
 {
   "error_code" : 3,
@@ -1791,7 +1800,7 @@ Content-Length: 128
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 403 Forbidden
 Content-Type: application/json
-Content-Length: 140
+Content-Length: 136
 
 {
   "error_code" : 3200,
@@ -1804,10 +1813,10 @@ Content-Length: 140
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 404 Not Found
 Content-Type: application/json
-Content-Length: 129
+Content-Length: 125
 
 {
-  "error_code" : 4300,
+  "error_code" : 4200,
   "error_message" : "PROJECT_PAGE_NOT_FOUND",
   "detail" : "ProjectPage with id 3 does not exist."
 }</code></pre>
@@ -1825,7 +1834,7 @@ Content-Length: 129
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /api/v1/page HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 44
+Content-Length: 41
 Host: docs.api.com
 
 {
@@ -1880,13 +1889,13 @@ Host: docs.api.com
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
 Content-Type: application/json
-Content-Length: 219
+Content-Length: 210
 
 {
   "id" : 0,
-  "created_at" : "2023-02-12T21:08:17.189165",
+  "created_at" : "2023-02-12T22:27:21.770141",
   "created_by" : "",
-  "modified_at" : "2023-02-12T21:08:17.189165",
+  "modified_at" : "2023-02-12T22:27:21.770142",
   "modified_by" : "",
   "name" : "name",
   "project_id" : 1,
@@ -1899,7 +1908,7 @@ Content-Length: 219
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 400 Bad Request
 Content-Type: application/json
-Content-Length: 131
+Content-Length: 127
 
 {
   "error_code" : 1,
@@ -1912,7 +1921,7 @@ Content-Length: 131
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 400 Bad Request
 Content-Type: application/json
-Content-Length: 107
+Content-Length: 103
 
 {
   "error_code" : 4,
@@ -1925,7 +1934,7 @@ Content-Length: 107
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 403 Forbidden
 Content-Type: application/json
-Content-Length: 131
+Content-Length: 127
 
 {
   "error_code" : 3100,
@@ -1938,10 +1947,10 @@ Content-Length: 131
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 404 Not Found
 Content-Type: application/json
-Content-Length: 120
+Content-Length: 116
 
 {
-  "error_code" : 4200,
+  "error_code" : 4100,
   "error_message" : "PROJECT_NOT_FOUND",
   "detail" : "Project with id 3 does not exist."
 }</code></pre>
@@ -1959,7 +1968,7 @@ Content-Length: 120
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">PATCH /api/v1/page/1 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 36
+Content-Length: 34
 Host: docs.api.com
 
 {
@@ -2023,13 +2032,13 @@ Host: docs.api.com
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
 Content-Type: application/json
-Content-Length: 232
+Content-Length: 223
 
 {
   "id" : 1,
-  "created_at" : "2023-02-12T21:08:15.465623",
+  "created_at" : "2023-02-12T22:27:21.657888",
   "created_by" : "",
-  "modified_at" : "2023-02-12T21:08:15.465623",
+  "modified_at" : "2023-02-12T22:27:21.657888",
   "modified_by" : "",
   "name" : "page_name_changed",
   "project_id" : 1,
@@ -2042,7 +2051,7 @@ Content-Length: 232
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 400 Bad Request
 Content-Type: application/json
-Content-Length: 121
+Content-Length: 117
 
 {
   "error_code" : 3,
@@ -2055,7 +2064,7 @@ Content-Length: 121
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 403 Forbidden
 Content-Type: application/json
-Content-Length: 140
+Content-Length: 136
 
 {
   "error_code" : 3200,
@@ -2068,10 +2077,10 @@ Content-Length: 140
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 404 Not Found
 Content-Type: application/json
-Content-Length: 129
+Content-Length: 125
 
 {
-  "error_code" : 4300,
+  "error_code" : 4200,
   "error_message" : "PROJECT_PAGE_NOT_FOUND",
   "detail" : "ProjectPage with id 3 does not exist."
 }</code></pre>
@@ -2115,13 +2124,13 @@ Host: docs.api.com</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
 Content-Type: application/json
-Content-Length: 183
+Content-Length: 176
 
 {
   "id" : 1,
-  "created_at" : "2023-02-12T21:08:15.465623",
+  "created_at" : "2023-02-12T22:27:21.657888",
   "created_by" : "",
-  "modified_at" : "2023-02-12T21:08:15.465623",
+  "modified_at" : "2023-02-12T22:27:21.657888",
   "modified_by" : "",
   "name" : "test-page"
 }</code></pre>
@@ -2132,7 +2141,7 @@ Content-Length: 183
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 400 Bad Request
 Content-Type: application/json
-Content-Length: 121
+Content-Length: 117
 
 {
   "error_code" : 3,
@@ -2145,7 +2154,7 @@ Content-Length: 121
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 403 Forbidden
 Content-Type: application/json
-Content-Length: 140
+Content-Length: 136
 
 {
   "error_code" : 3200,
@@ -2158,10 +2167,10 @@ Content-Length: 140
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 404 Not Found
 Content-Type: application/json
-Content-Length: 129
+Content-Length: 125
 
 {
-  "error_code" : 4300,
+  "error_code" : 4200,
   "error_message" : "PROJECT_PAGE_NOT_FOUND",
   "detail" : "ProjectPage with id 3 does not exist."
 }</code></pre>
@@ -2210,15 +2219,15 @@ Host: docs.api.com</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
 Content-Type: application/json
-Content-Length: 1725
+Content-Length: 1450
 
 {
   "count" : 3,
   "data" : [ {
     "id" : 1,
-    "created_at" : "2023-02-12T21:07:34.717645",
+    "created_at" : "2023-02-12T22:27:18.882364",
     "created_by" : "",
-    "modified_at" : "2023-02-12T21:07:34.717645",
+    "modified_at" : "2023-02-12T22:27:18.882364",
     "modified_by" : "",
     "name" : "default-object",
     "type" : "DEFAULT",
@@ -2228,23 +2237,16 @@ Content-Length: 1725
     "font_size" : null,
     "image_source" : null,
     "page_id" : 1,
-    "is_interactive" : true,
-    "event" : {
-      "id" : 1,
-      "created_at" : "2023-02-12T21:07:35.439143",
-      "created_by" : "",
-      "modified_at" : "2023-02-12T21:07:35.439143",
-      "modified_by" : "",
-      "transition_type" : "DEFAULT"
-    },
-    "zindex" : 0,
+    "is_interactive" : false,
+    "event" : null,
+    "xposition" : 0,
     "yposition" : 0,
-    "xposition" : 0
+    "zindex" : 0
   }, {
     "id" : 4,
-    "created_at" : "2023-02-12T21:07:36.024708",
+    "created_at" : "2023-02-12T22:27:18.921994",
     "created_by" : "",
-    "modified_at" : "2023-02-12T21:07:36.024708",
+    "modified_at" : "2023-02-12T22:27:18.921994",
     "modified_by" : "",
     "name" : "image-object",
     "type" : "IMAGE",
@@ -2256,14 +2258,14 @@ Content-Length: 1725
     "page_id" : 1,
     "is_interactive" : false,
     "event" : null,
-    "zindex" : 1,
+    "xposition" : 30,
     "yposition" : 40,
-    "xposition" : 30
+    "zindex" : 1
   }, {
     "id" : 5,
-    "created_at" : "2023-02-12T21:07:36.033726",
+    "created_at" : "2023-02-12T22:27:18.923416",
     "created_by" : "",
-    "modified_at" : "2023-02-12T21:07:36.033726",
+    "modified_at" : "2023-02-12T22:27:18.923416",
     "modified_by" : "",
     "name" : "text-object",
     "type" : "TEXT",
@@ -2275,9 +2277,9 @@ Content-Length: 1725
     "page_id" : 1,
     "is_interactive" : false,
     "event" : null,
-    "zindex" : 2,
+    "xposition" : -10,
     "yposition" : -20,
-    "xposition" : -10
+    "zindex" : 2
   } ]
 }</code></pre>
 </div>
@@ -2287,7 +2289,7 @@ Content-Length: 1725
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 400 Bad Request
 Content-Type: application/json
-Content-Length: 128
+Content-Length: 124
 
 {
   "error_code" : 3,
@@ -2300,7 +2302,7 @@ Content-Length: 128
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 403 Forbidden
 Content-Type: application/json
-Content-Length: 131
+Content-Length: 127
 
 {
   "error_code" : 3100,
@@ -2313,10 +2315,10 @@ Content-Length: 131
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 404 Not Found
 Content-Type: application/json
-Content-Length: 120
+Content-Length: 116
 
 {
-  "error_code" : 4200,
+  "error_code" : 4100,
   "error_message" : "PROJECT_NOT_FOUND",
   "detail" : "Project with id 3 does not exist."
 }</code></pre>
@@ -2334,7 +2336,7 @@ Content-Length: 120
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /api/v1/objects HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 226
+Content-Length: 216
 Host: docs.api.com
 
 {
@@ -2477,13 +2479,13 @@ Host: docs.api.com
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
 Content-Type: application/json
-Content-Length: 423
+Content-Length: 405
 
 {
   "id" : 6,
-  "created_at" : "2023-02-12T21:07:42.4932959",
+  "created_at" : "2023-02-12T22:27:19.073732",
   "created_by" : "fooId",
-  "modified_at" : "2023-02-12T21:07:42.4932959",
+  "modified_at" : "2023-02-12T22:27:19.073732",
   "modified_by" : "fooId",
   "name" : "create object test: image",
   "type" : "IMAGE",
@@ -2492,9 +2494,9 @@ Content-Length: 423
   "text_content" : null,
   "font_size" : null,
   "image_source" : "http://sampe-image.url",
-  "zindex" : 2,
+  "xposition" : 20,
   "yposition" : -10,
-  "xposition" : 20
+  "zindex" : 2
 }</code></pre>
 </div>
 </div>
@@ -2503,12 +2505,12 @@ Content-Length: 423
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 400 Bad Request
 Content-Type: application/json
-Content-Length: 292
+Content-Length: 288
 
 {
   "error_code" : 1,
   "error_message" : "Invalid request parameter or request body",
-  "detail" : "yPosition must not be null. width must not be null. height must not be null. xPosition must not be null. zIndex must not be null. pageId must be greater than 0. name must not be blank."
+  "detail" : "name must not be blank. height must not be null. pageId must be greater than 0. width must not be null. yPosition must not be null. zIndex must not be null. xPosition must not be null."
 }</code></pre>
 </div>
 </div>
@@ -2516,7 +2518,7 @@ Content-Length: 292
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 400 Bad Request
 Content-Type: application/json
-Content-Length: 107
+Content-Length: 103
 
 {
   "error_code" : 4,
@@ -2529,7 +2531,7 @@ Content-Length: 107
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 403 Forbidden
 Content-Type: application/json
-Content-Length: 140
+Content-Length: 136
 
 {
   "error_code" : 3200,
@@ -2542,10 +2544,10 @@ Content-Length: 140
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 404 Not Found
 Content-Type: application/json
-Content-Length: 129
+Content-Length: 125
 
 {
-  "error_code" : 4300,
+  "error_code" : 4200,
   "error_message" : "PROJECT_PAGE_NOT_FOUND",
   "detail" : "ProjectPage with id 3 does not exist."
 }</code></pre>
@@ -2589,13 +2591,13 @@ Host: docs.api.com</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
 Content-Type: application/json
-Content-Length: 645
+Content-Length: 425
 
 {
   "id" : 1,
-  "created_at" : "2023-02-12T21:07:34.717645",
+  "created_at" : "2023-02-12T22:27:18.882364",
   "created_by" : "",
-  "modified_at" : "2023-02-12T21:07:34.717645",
+  "modified_at" : "2023-02-12T22:27:18.882364",
   "modified_by" : "",
   "name" : "default-object",
   "type" : "DEFAULT",
@@ -2605,18 +2607,11 @@ Content-Length: 645
   "font_size" : null,
   "image_source" : null,
   "page_id" : 1,
-  "is_interactive" : true,
-  "event" : {
-    "id" : 1,
-    "created_at" : "2023-02-12T21:07:35.439143",
-    "created_by" : "",
-    "modified_at" : "2023-02-12T21:07:35.439143",
-    "modified_by" : "",
-    "transition_type" : "DEFAULT"
-  },
-  "zindex" : 0,
+  "is_interactive" : false,
+  "event" : null,
+  "xposition" : 0,
   "yposition" : 0,
-  "xposition" : 0
+  "zindex" : 0
 }</code></pre>
 </div>
 </div>
@@ -2625,7 +2620,7 @@ Content-Length: 645
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 400 Bad Request
 Content-Type: application/json
-Content-Length: 127
+Content-Length: 123
 
 {
   "error_code" : 3,
@@ -2638,7 +2633,7 @@ Content-Length: 127
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 403 Forbidden
 Content-Type: application/json
-Content-Length: 134
+Content-Length: 130
 
 {
   "error_code" : 3300,
@@ -2651,10 +2646,10 @@ Content-Length: 134
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 404 Not Found
 Content-Type: application/json
-Content-Length: 124
+Content-Length: 120
 
 {
-  "error_code" : 4400,
+  "error_code" : 4300,
   "error_message" : "PAGE_OBJECT_NOT_FOUND",
   "detail" : "Object with id 3 does not exists."
 }</code></pre>
@@ -2672,7 +2667,7 @@ Content-Length: 124
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">PATCH /api/v1/objects/1 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 199
+Content-Length: 189
 Host: docs.api.com
 
 {
@@ -2816,13 +2811,13 @@ Host: docs.api.com
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
 Content-Type: application/json
-Content-Length: 648
+Content-Length: 428
 
 {
   "id" : 1,
-  "created_at" : "2023-02-12T21:07:34.717645",
+  "created_at" : "2023-02-12T22:27:18.882364",
   "created_by" : "",
-  "modified_at" : "2023-02-12T21:07:34.717645",
+  "modified_at" : "2023-02-12T22:27:18.882364",
   "modified_by" : "",
   "name" : "default-object",
   "type" : "TEXT",
@@ -2832,18 +2827,11 @@ Content-Length: 648
   "font_size" : 20,
   "image_source" : "",
   "page_id" : 1,
-  "is_interactive" : true,
-  "event" : {
-    "id" : 1,
-    "created_at" : "2023-02-12T21:07:35.439143",
-    "created_by" : "",
-    "modified_at" : "2023-02-12T21:07:35.439143",
-    "modified_by" : "",
-    "transition_type" : "DEFAULT"
-  },
-  "zindex" : 0,
+  "is_interactive" : false,
+  "event" : null,
+  "xposition" : -20,
   "yposition" : 10,
-  "xposition" : -20
+  "zindex" : 0
 }</code></pre>
 </div>
 </div>
@@ -2852,7 +2840,7 @@ Content-Length: 648
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 400 Bad Request
 Content-Type: application/json
-Content-Length: 127
+Content-Length: 123
 
 {
   "error_code" : 3,
@@ -2865,7 +2853,7 @@ Content-Length: 127
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 400 Bad Request
 Content-Type: application/json
-Content-Length: 107
+Content-Length: 103
 
 {
   "error_code" : 4,
@@ -2878,7 +2866,7 @@ Content-Length: 107
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 403 Forbidden
 Content-Type: application/json
-Content-Length: 134
+Content-Length: 130
 
 {
   "error_code" : 3300,
@@ -2891,10 +2879,10 @@ Content-Length: 134
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 404 Not Found
 Content-Type: application/json
-Content-Length: 124
+Content-Length: 120
 
 {
-  "error_code" : 4400,
+  "error_code" : 4300,
   "error_message" : "PAGE_OBJECT_NOT_FOUND",
   "detail" : "Object with id 3 does not exists."
 }</code></pre>
@@ -2944,7 +2932,7 @@ Host: docs.api.com</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 400 Bad Request
 Content-Type: application/json
-Content-Length: 127
+Content-Length: 123
 
 {
   "error_code" : 3,
@@ -2957,7 +2945,7 @@ Content-Length: 127
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 403 Forbidden
 Content-Type: application/json
-Content-Length: 134
+Content-Length: 130
 
 {
   "error_code" : 3300,
@@ -2970,12 +2958,341 @@ Content-Length: 134
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 404 Not Found
 Content-Type: application/json
-Content-Length: 124
+Content-Length: 120
+
+{
+  "error_code" : 4300,
+  "error_message" : "PAGE_OBJECT_NOT_FOUND",
+  "detail" : "Object with id 3 does not exists."
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="EVENT"><a class="link" href="#EVENT">Event API</a></h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_이벤트_생성하기"><a class="link" href="#_이벤트_생성하기">이벤트 생성하기</a></h3>
+<div class="exampleblock">
+<div class="content">
+<div class="listingblock">
+<div class="title">Request</div>
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /api/v1/events HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Content-Length: 71
+Host: docs.api.com
+
+{
+  "object_id" : 1,
+  "transition_type" : "DEFAULT",
+  "page_id" : 1
+}</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 23. Request Body</caption>
+<colgroup>
+<col style="width: 14.2857%;">
+<col style="width: 14.2857%;">
+<col style="width: 14.2857%;">
+<col style="width: 14.2857%;">
+<col style="width: 14.2857%;">
+<col style="width: 14.2857%;">
+<col style="width: 14.2858%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">필드명</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">타입</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">필수여부</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Default 값</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">포맷 및 제약조건</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">설명</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">예시</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>object_id</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0 초과</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">오브젝트 ID</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>transition_type</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">DEFAULT</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">DEFAULT</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">전환 효과</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>page_id</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0 초과</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">다음 페이지 ID</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+</tbody>
+</table>
+<div class="listingblock">
+<div class="title">Response</div>
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 195
+
+{
+  "id" : 2,
+  "created_at" : "2023-02-12T22:27:16.018187",
+  "created_by" : "fooId",
+  "modified_at" : "2023-02-12T22:27:16.018187",
+  "modified_by" : "fooId",
+  "transition_type" : "DEFAULT"
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_이벤트_조회하기"><a class="link" href="#_이벤트_조회하기">이벤트 조회하기</a></h3>
+<div class="exampleblock">
+<div class="content">
+<div class="listingblock">
+<div class="title">Request</div>
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/v1/events/1 HTTP/1.1
+Host: docs.api.com</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 24. /api/v1/events/{id}</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>id</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">이벤트 ID</p></td>
+</tr>
+</tbody>
+</table>
+<div class="listingblock">
+<div class="title">Response</div>
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 185
+
+{
+  "id" : 1,
+  "created_at" : "2023-02-12T22:27:15.108381",
+  "created_by" : "",
+  "modified_at" : "2023-02-12T22:27:15.108381",
+  "modified_by" : "",
+  "transition_type" : "DEFAULT"
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_이벤트_수정하기"><a class="link" href="#_이벤트_수정하기">이벤트 수정하기</a></h3>
+<div class="exampleblock">
+<div class="content">
+<div class="listingblock">
+<div class="title">Request</div>
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">PATCH /api/v1/events/1 HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Content-Length: 19
+Host: docs.api.com
+
+{
+  "page_id" : 2
+}</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 25. /api/v1/events/{id}</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>id</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">이벤트 ID</p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 26. Request Body</caption>
+<colgroup>
+<col style="width: 14.2857%;">
+<col style="width: 14.2857%;">
+<col style="width: 14.2857%;">
+<col style="width: 14.2857%;">
+<col style="width: 14.2857%;">
+<col style="width: 14.2857%;">
+<col style="width: 14.2858%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">필드명</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">타입</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">필수여부</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Default 값</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">포맷 및 제약조건</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">설명</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">예시</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>transition_type</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">DEFAULT</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">DEFAULT</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">전환 효과</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>page_id</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0 초과</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">다음 페이지 ID</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+</tbody>
+</table>
+<div class="listingblock">
+<div class="title">Response</div>
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 185
+
+{
+  "id" : 1,
+  "created_at" : "2023-02-12T22:27:15.108381",
+  "created_by" : "",
+  "modified_at" : "2023-02-12T22:27:15.108381",
+  "modified_by" : "",
+  "transition_type" : "DEFAULT"
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_이벤트_삭제하기"><a class="link" href="#_이벤트_삭제하기">이벤트 삭제하기</a></h3>
+<div class="exampleblock">
+<div class="content">
+<div class="listingblock">
+<div class="title">Request</div>
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">DELETE /api/v1/events/1 HTTP/1.1
+Host: docs.api.com</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 27. /api/v1/events/{id}</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>id</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">이벤트 ID</p></td>
+</tr>
+</tbody>
+</table>
+<div class="listingblock">
+<div class="title">Response</div>
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_error_response"><a class="link" href="#_error_response">Error Response</a></h3>
+<div class="exampleblock">
+<div class="content">
+<div class="listingblock">
+<div class="title">이벤트가 삭제되거나 존재하지 않을 때</div>
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 404 Not Found
+Content-Type: application/json
+Content-Length: 120
 
 {
   "error_code" : 4400,
-  "error_message" : "PAGE_OBJECT_NOT_FOUND",
-  "detail" : "Object with id 3 does not exists."
+  "error_message" : "OBJECT_EVENT_NOT_FOUND",
+  "detail" : "Event with id 1 does not exists."
+}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">이벤트에 접근 권한이 없는 경우</div>
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 403 Forbidden
+Content-Type: application/json
+Content-Length: 130
+
+{
+  "error_code" : 3400,
+  "error_message" : "NON_ACCESSIBLE_OBJECT_EVENT",
+  "detail" : "You have no access to Event with id 1"
+}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">이벤트를 생성할 때, 기존 오브젝트에 이미 이벤트가 할당되어 있는 경우</div>
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 409 Conflict
+Content-Type: application/json
+Content-Length: 216
+
+{
+  "error_code" : 9400,
+  "error_message" : "ONLY_SINGLE_EVENT_PER_OBJECT",
+  "detail" : "Only 1 single event or none is allowed to be assigned per object. First, you need to delete the event for Object with id 1"
 }</code></pre>
 </div>
 </div>
@@ -2988,7 +3305,7 @@ Content-Length: 124
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2023-02-07 22:47:15 +0900
+Last updated 2023-02-12 22:26:36 +0900
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/github.min.css">

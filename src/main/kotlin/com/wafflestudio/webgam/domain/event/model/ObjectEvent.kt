@@ -10,11 +10,11 @@ import jakarta.persistence.*
 @Entity
 @Table(name = "object_event")
 class ObjectEvent(
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     val `object`: PageObject,
 
     @ManyToOne(fetch = FetchType.LAZY)
-    val nextPage: ProjectPage?,
+    var nextPage: ProjectPage?,
 
     @Enumerated(EnumType.STRING)
     var transitionType: TransitionType,
@@ -32,5 +32,10 @@ class ObjectEvent(
     ) {
         `object`.event = this
         nextPage?.triggeredEvents?.add(this)
+    }
+
+    override fun delete() {
+        isDeleted = true
+        `object`.deletedEvents.add(this)
     }
 }

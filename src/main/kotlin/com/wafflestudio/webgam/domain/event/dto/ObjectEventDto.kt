@@ -2,16 +2,25 @@ package com.wafflestudio.webgam.domain.event.dto
 
 import com.wafflestudio.webgam.domain.event.model.ObjectEvent
 import com.wafflestudio.webgam.domain.event.model.TransitionType
+import com.wafflestudio.webgam.domain.event.model.TransitionType.DEFAULT
 import com.wafflestudio.webgam.global.common.dto.TimeTraceEntityDto
 import jakarta.validation.constraints.NotNull
+import jakarta.validation.constraints.Positive
 import java.time.LocalDateTime
 
 class ObjectEventDto {
     data class CreateRequest(
-        @field:NotNull
+        @field:[NotNull Positive]
         val objectId: Long?,
-        val transitionType: TransitionType = TransitionType.DEFAULT,
+        val transitionType: TransitionType = DEFAULT,
         /* Optional */
+        @field:Positive
+        val nextPageId: Long?,
+    )
+
+    data class PatchRequest(
+        val transitionType: TransitionType?,
+        @field:Positive
         val nextPageId: Long?,
     )
 
