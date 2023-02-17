@@ -33,6 +33,7 @@ dependencies {
 	implementation("io.jsonwebtoken:jjwt-api:0.11.5")
 	implementation("io.hypersistence:hypersistence-utils-hibernate-60:3.0.1")
 	implementation("com.querydsl:querydsl-jpa:5.0.0:jakarta")
+	implementation("software.amazon.awssdk:secretsmanager:2.20.5")
 	kapt("com.querydsl:querydsl-apt:5.0.0:jakarta")
 	runtimeOnly("com.mysql:mysql-connector-j:8.0.31")
 	runtimeOnly("io.jsonwebtoken:jjwt-impl:0.11.5")

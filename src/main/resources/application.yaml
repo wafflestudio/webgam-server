@@ -8,16 +8,19 @@ spring:
       hibernate:
         default_batch_fetch_size: 500
     database-platform: org.hibernate.dialect.MySQLDialect
+    generate-ddl: false
+    hibernate:
+      ddl-auto: none
 
   jackson:
     property-naming-strategy: SNAKE_CASE
 
 jwt:
-  secret-key: ${WEBGAM_JWT_SECRET_KEY}
+  secret-key: QeShVmYq3t6w9z$C&F)J@NcRfUjWnZr4
 
 webgam:
-  admin-password: ${WEBGAM_ADMIN_PASSWORD}
-  dev-password: ${WEBGAM_DEV_PASSWORD}
+  admin-password: ~
+  dev-password: ~
 
 ---
 
@@ -35,10 +38,6 @@ spring:
     generate-ddl: true
     hibernate:
       ddl-auto: create
-
-logging:
-  level:
-    org.springframework.security: TRACE
 
 ---
 
@@ -77,15 +76,7 @@ spring:
     activate:
       on-profile: dev
 
-  datasource:
-    url: ${WEBGAM_DB_DEV_URL}
-    username: ${WEBGAM_DB_DEV_USERNAME}
-    password: ${WEBGAM_DB_DEV_PASSWORD}
-
-  jpa:
-    generate-ddl: true
-    hibernate:
-      ddl-auto: create
+secret-name: dev/webgam-server
 
 ---
 
@@ -94,12 +85,4 @@ spring:
     activate:
       on-profile: prod
 
-  datasource:
-    url: ${WEBGAM_DB_URL}
-    username: ${WEBGAM_DB_USERNAME}
-    password: ${WEBGAM_DB_PASSWORD}
-
-  jpa:
-    generate-ddl: true
-    hibernate:
-      ddl-auto: create
+secret-name: prod/webgam-server
