@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <th:block th:fragment="content">
+
+    <div class="container">
+      <div class="col-6">
+        <h1>Chat Room</h1>
+      </div>
+      <div>
+        <div id="msgArea" class="col"></div>
+        <div class="col-6">
+          <div class="input-group mb-3">
+            <label for="msg">Message</label>
+            <input type="text" id="msg" class="form-control">
+            <div class="input-group-append">
+              <button class="btn btn-outline-secondary" type="button" id="button-send">Send</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-6"></div>
+    </div>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.4.0/sockjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.slim.js" integrity="sha256-HwWONEZrpuoh951cQD1ov2HUK5zA5DwJ1DNUXaM6FsY=" crossorigin="anonymous"></script>
+
+  </th:block>
+
+</html>
+
+<script th:inline="javascript">
+  $(document).ready(function(){
+
+    var sockJs = new SockJS("/ws");
+    //1. SockJS를 내부에 들고있는 stomp를 내어줌
+    var stomp = Stomp.over(sockJs);
+
+
+    let headers = {Authorization: sessionStorage.getItem("access_token")};
+
+    //2. connection이 맺어지면 실행
+    stomp.connect(headers, function (){
+
+      console.log("STOMP Connection")
+
+      //4. subscribe(path, callback)으로 메세지를 받을 수 있음
+      stomp.subscribe("/topic/public", messageCallback);
+
+      //3. send(path, header, message)로 메세지를 보낼 수 있음
+      stomp.send("/app/send", {}, JSON.stringify({content: "First entry", type:"SEND"}))
+    });
+
+    $("#button-send").on("click", function(e){
+      var msg = document.getElementById("msg");
+
+      console.log(msg.value);
+      stomp.send("/app/send", {}, JSON.stringify({content: msg.value, type: "SEND"}));
+      msg.value = '';
+    });
+
+    stomp.debug = function(str){
+      console.log("#debug " + str)
+    }
+
+    function messageCallback (chat) {
+      var content = JSON.parse(chat.body);
+      console.log("MESSAGE: ", content)
+
+      var str = "";
+      str = "<div class='col-6'>";
+      str += "<div class='alert alert-warning'>";
+      str += "<b>" + content.content + "</b>";
+      str += "</div></div>";
+      $("#msgArea").append(str);
+    }
+  });
+</script>

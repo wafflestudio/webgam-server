@@ -1,18 +1,14 @@
 package com.wafflestudio.webgam.domain.page.controller
 
+import com.wafflestudio.webgam.domain.page.dto.ProjectPageDto.*
 import com.wafflestudio.webgam.domain.page.service.ProjectPageService
-import com.wafflestudio.webgam.domain.page.dto.ProjectPageDto.DetailedResponse
-import com.wafflestudio.webgam.domain.page.dto.ProjectPageDto.SimpleResponse
-import com.wafflestudio.webgam.domain.page.dto.ProjectPageDto.CreateRequest
-import com.wafflestudio.webgam.domain.page.dto.ProjectPageDto.PatchRequest
-import com.wafflestudio.webgam.domain.project.service.ProjectService
-import com.wafflestudio.webgam.global.common.dto.ListResponse
 import com.wafflestudio.webgam.global.security.CurrentUser
 import jakarta.validation.Valid
 import jakarta.validation.constraints.Positive
 import org.springframework.http.ResponseEntity
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
+
 
 @Validated
 @RestController
@@ -30,7 +26,6 @@ class ProjectPageController (
         return ResponseEntity.ok(projectPage)
     }
 
-    //TODO get all pages in project?
 
 
     @PostMapping("")

@@ -19,6 +19,7 @@ import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.crypto.factory.PasswordEncoderFactories
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.web.SecurityFilterChain
+import org.springframework.web.bind.annotation.CrossOrigin
 import org.springframework.web.cors.CorsConfiguration
 import org.springframework.web.cors.CorsConfigurationSource
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource
@@ -36,8 +37,8 @@ class SecurityConfig(
             "http://webgam-dev.s3-website.ap-northeast-2.amazonaws.com:3000",
             "http://localhost:3000",
         )
-        private val GET_WHITELIST: Array<String> = arrayOf("/ping", "/api/v1/project")
-        private val POST_WHITELIST: Array<String> = arrayOf("/signup", "/login/**", "/logout", "/refresh")
+        private val GET_WHITELIST: Array<String> = arrayOf("/ping", "/api/v1/project", "/ws/**", "/ws", "/websocket/**")
+        private val POST_WHITELIST: Array<String> = arrayOf("/signup", "/login/**", "/logout", "/refresh", "/ws/**", "/ws")
     }
 
     @Value("\${spring.profiles.active}")
