@@ -6,11 +6,11 @@
 </head>
 <body>
   <h1>Login</h1>
-  <p th:if="${loginError}" class="error">Wrong User or Password</p>
-  <form th:action="/login.html" method="post">
+  <form th:action="@{/login}" method="post">
     <label for="username"> Username </label>:
     <input type="text" id="username" name="username" autofocus="autofocus" /> <br />
     <label for="password"> Password </label>:
+    <input type="text" id="password" name="username" autofocus="autofocus" /> <br />
     <input type="submit" value="Log in"/>
   </form>
 </body>

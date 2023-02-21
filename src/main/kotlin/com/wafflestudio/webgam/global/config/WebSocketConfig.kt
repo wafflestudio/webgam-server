@@ -26,6 +26,7 @@ class WebSocketConfig (
                 .withSockJS()
         registry.addEndpoint("/ws")
                 .setAllowedOrigins("http://localhost:8080")
+
     }
 
     override fun configureClientInboundChannel(registration: ChannelRegistration) {

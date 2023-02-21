@@ -1,11 +1,10 @@
 package com.wafflestudio.webgam.global.websocket.controller
 
 import com.wafflestudio.webgam.global.security.CurrentUser
-import com.wafflestudio.webgam.global.websocket.dto.WebSocketDto.BroadcastMessage
-import com.wafflestudio.webgam.global.websocket.dto.WebSocketDto.Message
-import com.wafflestudio.webgam.global.websocket.listener.WebSocketEventListener
+import com.wafflestudio.webgam.global.websocket.dto.WebSocketDto.ChatMessage
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import org.springframework.messaging.Message
 import org.springframework.messaging.handler.annotation.MessageExceptionHandler
 import org.springframework.messaging.handler.annotation.MessageMapping
 import org.springframework.messaging.handler.annotation.Payload
@@ -18,7 +17,6 @@ import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.RestController
 
 
 @Validated
@@ -29,25 +27,23 @@ class WebSocketController (
 
     private val logger: Logger = LoggerFactory.getLogger(WebSocketController::class.java)
 
+    @MessageMapping("/test")
+    @SendTo("/topic/public")
+    fun test(){
+        logger.info("Websocket Controller MessageMapping test")
+    }
+
     @MessageMapping("/send")
-    fun sendMessage(@CurrentUser myId: Long, @Payload message: Message)
+    @SendTo("/topic/public")
+    fun sendMessage(message: Message<ChatMessage>): ChatMessage
     {
         logger.info("Controller /app/send")
-        logger.info("Message: ${message.content}, ${message.type}")
-        val sentMessage = BroadcastMessage(senderId = myId, content = message.content, type="SEND")
-        template.convertAndSend("topic/public", sentMessage)
+        logger.info("Message: ${message.payload.content}")
+        val sentMessage = message.payload
+        return sentMessage
     }
 
-    @SubscribeMapping("/subscribe")
-    @SendTo("/topic/public")
-    fun addUser(@CurrentUser myId: Long,
-                @Payload message: Message,
-                headerAccessor: SimpMessageHeaderAccessor)
-    : BroadcastMessage {
-        headerAccessor.sessionAttributes!!["user_id"] = myId
-        return BroadcastMessage(senderId = null, content="User $myId added to public", type="SUBSCRIBE")
-    }
-
+    // TODO check if this works
     @MessageExceptionHandler
     @SendToUser("/queue/errors")
     fun handleException(exception: Throwable): String? {
@@ -57,7 +53,6 @@ class WebSocketController (
     @GetMapping("websocket")
     fun getRoom(model: Model): String {
         logger.info("Controller /websocket")
-        model.addAttribute("room.name", "chat")
         return "websocket"
     }
 

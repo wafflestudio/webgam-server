@@ -36,7 +36,7 @@ dependencies {
 	implementation("software.amazon.awssdk:secretsmanager:2.20.5")
 	implementation("software.amazon.awssdk:sts:2.20.7")
 	implementation("org.springframework.boot:spring-boot-starter-websocket")
-	implementation("org.webjars:webjars-locator-core")
+	implementation("org.webjars:webjars-locator-core") // TODO delete unnecessary
 	implementation("org.webjars:sockjs-client:1.0.2")
 	implementation("org.webjars:stomp-websocket:2.3.3")
 	implementation("org.webjars:bootstrap:3.4.0")
