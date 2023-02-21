@@ -1,18 +1,14 @@
 package com.wafflestudio.webgam.global.websocket.controller
 
-import com.wafflestudio.webgam.global.security.CurrentUser
 import com.wafflestudio.webgam.global.websocket.dto.WebSocketDto.ChatMessage
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.messaging.Message
 import org.springframework.messaging.handler.annotation.MessageExceptionHandler
 import org.springframework.messaging.handler.annotation.MessageMapping
-import org.springframework.messaging.handler.annotation.Payload
 import org.springframework.messaging.handler.annotation.SendTo
-import org.springframework.messaging.simp.SimpMessageHeaderAccessor
 import org.springframework.messaging.simp.SimpMessagingTemplate
 import org.springframework.messaging.simp.annotation.SendToUser
-import org.springframework.messaging.simp.annotation.SubscribeMapping
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.validation.annotation.Validated
@@ -55,5 +51,4 @@ class WebSocketController (
         logger.info("Controller /websocket")
         return "websocket"
     }
-
 }

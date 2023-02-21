@@ -1,14 +1,26 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Hello Websocket</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.4.0/sockjs.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.slim.js" integrity="sha256-HwWONEZrpuoh951cQD1ov2HUK5zA5DwJ1DNUXaM6FsY=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
 
 </head>
 <body>
+
+<label for="login_form"> Login </label>
+<form id="login_form">
+    <label for="userId"> UserId </label>
+    <input type="text" id="userId" /> <br />
+
+    <label for="password"> Password </label>
+    <input type="text" id="password" /> <br />
+
+    <input type="submit" id="login" value="Submit" />
+</form>
+
 <div id="main-content" class="container">
     <div class="row">
         <div class="col-md-6">
@@ -66,7 +78,8 @@
     function connect(){
         var socket = new SockJS('/ws');
         stompClient = Stomp.over(socket);
-        stompClient.connect({}, function(frame){
+        let headers = {Authorization: localStorage.getItem('Authorization')};
+        stompClient.connect(headers, function(frame){
             setConnected(true);
             console.log('Connected: ' + frame);
             stompClient.subscribe('/topic/public', function(chat){
@@ -74,6 +87,27 @@
             });
             stompClient.send("/app/test", {}, "") // TEST SEND
         });
+    }
+
+    function login(userId, password){
+        const url = 'http://localhost:8080/login'
+        $.ajax(
+            {
+                type: "POST",
+                url: url,
+                data: JSON.stringify({
+                    'user_id': userId,
+                    'password': password,
+                    'auto': false
+                }),
+                dataType: 'json',
+                contentType: 'application/json',
+                success: function(result){
+                    console.log(result);
+                    localStorage.setItem("Authorization", result.access_token);
+                }
+            }
+            );
     }
 
     function disconnect(){
@@ -96,6 +130,8 @@
         $("form").on('submit', function(e){
             e.preventDefault();
         });
+        $("#login").click(function(){ login($("#userId").val(), $("#password").val()); });
+
         $("#connect").click(function(){ connect(); });
         $("#disconnect").click(function(){ disconnect(); });
         $("#send").click(function(){ sendMessage();});

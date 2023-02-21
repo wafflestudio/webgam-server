@@ -22,11 +22,10 @@ class StompHandler(
     override fun preSend(message: Message<*>, channel: MessageChannel): Message<*>? {
         val accessor = StompHeaderAccessor.wrap(message)
 
-        // TODO uncomment to enable jwt auth
-        /*if (accessor.command == StompCommand.CONNECT) {
+        if (accessor.command == StompCommand.CONNECT) {
             val token = accessor.getFirstNativeHeader("Authorization") ?: throw InvalidJwtException("")
             tokenProvider.validate(token)
-        }*/
+        }
         return message
     }
 
