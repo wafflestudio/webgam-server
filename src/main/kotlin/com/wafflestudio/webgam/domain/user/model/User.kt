@@ -35,4 +35,9 @@ class User(
     override fun isAccessibleTo(currentUserId: Long): Boolean {
         return (this.id == currentUserId)
     }
+
+    override fun delete() {
+        isDeleted = true
+        projects.forEach { it.delete() }
+    }
 }

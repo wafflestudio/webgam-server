@@ -36,6 +36,7 @@ class ObjectEvent(
 
     override fun delete() {
         isDeleted = true
+        `object`.event = null
         `object`.deletedEvents.add(this)
     }
 }

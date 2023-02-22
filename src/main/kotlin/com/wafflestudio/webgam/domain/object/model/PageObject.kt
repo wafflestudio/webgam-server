@@ -11,7 +11,7 @@ import jakarta.persistence.*
 @Table(name = "page_object")
 class PageObject(
     @ManyToOne(fetch = FetchType.LAZY)
-    var page: ProjectPage,
+    val page: ProjectPage,
 
     var name: String,
 
@@ -66,10 +66,6 @@ class PageObject(
 
     override fun delete() {
         isDeleted = true
-        event?.let {
-            it.delete()
-            this.event = null
-            deletedEvents.add(it)
-        }
+        event?.delete()
     }
 }
