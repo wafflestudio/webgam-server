@@ -58,5 +58,14 @@ class TestUtils {
             Relation withUser "user-03"
                         withProject "project-04"
         ).map { it.build() }
+
+        fun docTestData() = listOf(
+            Relation withUser "user-01"
+                        withProject "project-01"
+                            withPage "page-01"
+                                withObject "object-01" type DEFAULT
+                                    withEvent TransitionType.DEFAULT withNextPage "page-01"
+                                withObject "object-02" type TEXT
+        ).map { it.build() }
     }
 }

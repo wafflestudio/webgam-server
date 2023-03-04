@@ -4,12 +4,9 @@ import com.google.gson.FieldNamingPolicy
 import com.google.gson.GsonBuilder
 import com.ninjasquad.springmockk.MockkBean
 import com.wafflestudio.webgam.TestUtils
+import com.wafflestudio.webgam.TestUtils.Companion.pathVariableIds
 import com.wafflestudio.webgam.domain.event.dto.ObjectEventDto
-import com.wafflestudio.webgam.domain.event.model.ObjectEvent
-import com.wafflestudio.webgam.domain.event.model.TransitionType
 import com.wafflestudio.webgam.domain.event.service.ObjectEventService
-import com.wafflestudio.webgam.domain.`object`.model.PageObject
-import com.wafflestudio.webgam.domain.user.model.User
 import com.wafflestudio.webgam.global.common.exception.ErrorType.BadRequest.*
 import com.wafflestudio.webgam.global.security.model.UserPrincipal
 import com.wafflestudio.webgam.global.security.model.WebgamAuthenticationToken
@@ -19,10 +16,7 @@ import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.inspectors.forAll
 import io.mockk.every
 import io.mockk.justRun
-import io.mockk.mockk
 import org.hamcrest.core.Is
-import org.junit.jupiter.api.Tag
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext
 import org.springframework.http.MediaType
@@ -34,24 +28,20 @@ import org.springframework.test.web.servlet.*
 @WebMvcTest(ObjectEventController::class)
 @MockkBean(JpaMetamodelMappingContext::class)
 @ActiveProfiles("test")
-@Tag("Unit-Test")
 @DisplayName("ObjectEventController 단위 테스트")
 class ObjectEventControllerTest(
-    @Autowired private val mockMvc: MockMvc,
+    private val mockMvc: MockMvc,
     @MockkBean private val objectEventService: ObjectEventService,
 ): DescribeSpec() {
 
     companion object {
         private val gson = GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES).create()
-        private val user = User("", "", "", "")
+        private val user = TestUtils.testData1().first()
         private val authentication = WebgamAuthenticationToken(UserPrincipal(user), "")
-        private val pageObject = mockk<PageObject>()
-        private val event = ObjectEvent(pageObject, null, TransitionType.DEFAULT)
+        private val event = user.projects.first().pages.first { it.objects.isNotEmpty() }.objects.first { it.event != null }.event!!
 
         /* Test Parameters */
-        private val ids = listOf(
-            listOf("1", "3", "5", "100").map { it to null },
-            listOf("0", "-1", "-100").map { it to CONSTRAINT_VIOLATION.code() }).flatten()
+        private val ids = pathVariableIds()
     }
 
     override suspend fun beforeSpec(spec: Spec) {
@@ -63,8 +53,6 @@ class ObjectEventControllerTest(
 
     init {
         this.describe("이벤트를 생성할 때") {
-
-            /* Test Parameters */
             val objectIds = listOf(
                 listOf(1, 3, 4, 10).map { it to null },
                 listOf(-1, 0, null).map { it to INVALID_FIELD.code() },
@@ -140,8 +128,6 @@ class ObjectEventControllerTest(
         }
 
         this.describe("이벤트를 수정할 때") {
-
-            /* Test Parameters */
             val transitionTypes = listOf(
                 listOf("DEFAULT", null).map { it to null },
                 listOf("nonEnum", "default").map { it to JSON_PARSE_ERROR.code() }).flatten()

@@ -18,17 +18,17 @@ class ProjectPageController (
     @GetMapping("/{id}")
     fun getProjectPageInfo(
             @CurrentUser myId:Long,
-            @PathVariable("id") @Positive projectId: Long
+            @PathVariable("id") @Positive pageId: Long
     )
     : ResponseEntity<DetailedResponse> {
-        val projectPage = projectPageService.getProjectPage(myId, projectId)
+        val projectPage = projectPageService.getProjectPage(myId, pageId)
         return ResponseEntity.ok(projectPage)
     }
 
     //TODO get all pages in project?
 
 
-    @PostMapping("")
+    @PostMapping
     fun createProjectPage(
             @CurrentUser myId: Long,
             @RequestBody @Valid request: CreateRequest

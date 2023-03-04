@@ -17,16 +17,16 @@ class ProjectPageService (
         private val projectPageRepository: ProjectPageRepository,
         private val projectRepository: ProjectRepository
 ){
-        fun getProjectPage(myId: Long, projectId: Long): DetailedResponse {
-                val projectPage = projectPageRepository.findUndeletedProjectPageById(projectId)
-                        ?: throw ProjectPageNotFoundException(projectId)
-                if (!projectPage.isAccessibleTo(myId)) throw NonAccessibleProjectPageException(projectId)
+        fun getProjectPage(myId: Long, pageId: Long): DetailedResponse {
+                val projectPage = projectPageRepository.findUndeletedProjectPageById(pageId)
+                        ?: throw ProjectPageNotFoundException(pageId)
+                if (!projectPage.isAccessibleTo(myId)) throw NonAccessibleProjectPageException(pageId)
                 return DetailedResponse(projectPage)
         }
 
         @Transactional
         fun createProjectPage(myId: Long, request: CreateRequest): DetailedResponse {
-                val project = projectRepository.findUndeletedProjectById(request.projectId)
+                val project = projectRepository.findUndeletedProjectById(request.projectId!!)
                         ?: throw ProjectNotFoundException(request.projectId)
                 if (!project.isAccessibleTo(myId)) throw NonAccessibleProjectException(request.projectId)
                 val projectPage = projectPageRepository.save(ProjectPage(project, request))

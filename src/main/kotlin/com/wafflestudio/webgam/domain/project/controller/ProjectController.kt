@@ -6,6 +6,7 @@ import com.wafflestudio.webgam.global.common.dto.ListResponse
 import com.wafflestudio.webgam.global.security.CurrentUser
 import jakarta.validation.Valid
 import jakarta.validation.constraints.Positive
+import jakarta.validation.constraints.PositiveOrZero
 import org.springframework.data.domain.Slice
 import org.springframework.http.ResponseEntity
 import org.springframework.validation.annotation.Validated
@@ -24,8 +25,8 @@ class ProjectController(
 
     @GetMapping("")
     fun getProjects(
-            @RequestParam(required = false, defaultValue = "0") page: Int,
-            @RequestParam(required = false, defaultValue = "10") size: Int,
+            @RequestParam(required = false, defaultValue = "0") @PositiveOrZero page: Int,
+            @RequestParam(required = false, defaultValue = "10") @Positive size: Int,
     ): ResponseEntity<Slice<SimpleResponse>> {
         val projectList = projectService.getProjectList(page, size)
         return ResponseEntity.ok(projectList)

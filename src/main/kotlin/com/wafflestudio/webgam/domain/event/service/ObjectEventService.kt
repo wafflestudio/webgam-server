@@ -36,7 +36,7 @@ class ObjectEventService(
             .findUndeletedPageObjectById(request.objectId!!) ?: throw PageObjectNotFoundException(request.objectId)
         if (!pageObject.isAccessibleTo(myId)) throw NonAccessiblePageObjectException(request.objectId)
 
-        pageObject.event ?.let { throw MultipleEventAllocationException(pageObject.id) }
+        pageObject.event ?.let { throw MultipleEventAllocationException(request.objectId) }
 
         val nextPage = request.nextPageId?.let {
             val page = projectPageRepository.findUndeletedProjectPageById(it) ?: throw ProjectPageNotFoundException(request.nextPageId)

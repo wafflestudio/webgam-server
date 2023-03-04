@@ -5,6 +5,7 @@ import com.google.gson.FieldNamingPolicy
 import com.google.gson.GsonBuilder
 import com.ninjasquad.springmockk.MockkBean
 import com.wafflestudio.webgam.RestDocsUtils.Companion.getDocumentResponse
+import com.wafflestudio.webgam.domain.event.exception.LinkNonRelatedPageException
 import com.wafflestudio.webgam.domain.event.exception.MultipleEventAllocationException
 import com.wafflestudio.webgam.domain.event.exception.NonAccessibleObjectEventException
 import com.wafflestudio.webgam.domain.event.exception.ObjectEventNotFoundException
@@ -25,6 +26,7 @@ import com.wafflestudio.webgam.global.common.exception.ErrorType.NotFound.*
 import com.wafflestudio.webgam.global.common.exception.ErrorType.Unauthorized
 import com.wafflestudio.webgam.global.common.exception.ErrorType.Unauthorized.*
 import com.wafflestudio.webgam.global.security.exception.*
+import io.kotest.core.annotation.DisplayName
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.extensions.spring.SpringExtension
 import io.kotest.matchers.shouldBe
@@ -34,8 +36,6 @@ import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.NotNull
 import jakarta.validation.constraints.Positive
 import org.hamcrest.core.Is.`is`
-import org.junit.jupiter.api.DisplayName
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
@@ -60,7 +60,7 @@ import org.springframework.web.bind.annotation.*
 @ActiveProfiles("test")
 @DisplayName("Exception Docs 생성")
 class ExceptionDescribeSpec(
-    @Autowired private val mockMvc: MockMvc,
+    private val mockMvc: MockMvc,
     @MockkBean private val exceptionTestService: ExceptionTestService,
 ): DescribeSpec() {
     override fun extensions() = listOf(SpringExtension)
@@ -91,6 +91,11 @@ class ExceptionDescribeSpec(
 
             @PostMapping
             fun invalidField(@RequestBody @Valid request: ExceptionTestDto): ResponseEntity<Any> {
+                return ResponseEntity.ok().build()
+            }
+
+            @GetMapping("/params")
+            fun parameterTypeMismatch(@RequestParam int: Int): ResponseEntity<Any> {
                 return ResponseEntity.ok().build()
             }
         }
@@ -180,6 +185,23 @@ class ExceptionDescribeSpec(
                             .content(gson.toJson(request))
                     ).andDo(document(
                         "error/common/3",
+                        getDocumentResponse())
+                    ).andExpect(status().isBadRequest
+                    ).andExpect(jsonPath("$.error_code", `is`(code)))
+
+                    code shouldBeDomainOf COMMON
+                }
+            }
+
+            context("RequestParam에 올바르지 않은 Type이 들어올 때") {
+                val code = PARAMETER_TYPE_MISMATCH.code()
+
+                it("에러코드 $code") {
+                    mockMvc.perform(
+                        get("/error/params")
+                            .param("int", "nonInt")
+                    ).andDo(document(
+                        "error/common/4",
                         getDocumentResponse())
                     ).andExpect(status().isBadRequest
                     ).andExpect(jsonPath("$.error_code", `is`(code)))
@@ -468,6 +490,22 @@ class ExceptionDescribeSpec(
                         "error/event/3",
                         getDocumentResponse())
                     ).andExpect(status().isConflict
+                    ).andExpect(jsonPath("$.error_code", `is`(code)))
+
+                    code shouldBeDomainOf EVENT
+                }
+            }
+
+            context("이벤트의 다음 페이지를 설정할 때, 해당 페이지가 같은 프로젝트 내 없는 경우") {
+                every { exceptionTestService.error() } throws LinkNonRelatedPageException(1L)
+
+                val code = PAGE_IN_OTHER_PROJECT.code()
+                it("PAGE_IN_OTHER_PROJECT: 에러코드 $code") {
+                    mockMvc.perform(get("/error")
+                    ).andDo(document(
+                        "error/event/4",
+                        getDocumentResponse())
+                    ).andExpect(status().isBadRequest
                     ).andExpect(jsonPath("$.error_code", `is`(code)))
 
                     code shouldBeDomainOf EVENT
