@@ -1,12 +1,7 @@
 package com.wafflestudio.webgam.domain.page.controller
 
+import com.wafflestudio.webgam.domain.page.dto.ProjectPageDto.*
 import com.wafflestudio.webgam.domain.page.service.ProjectPageService
-import com.wafflestudio.webgam.domain.page.dto.ProjectPageDto.DetailedResponse
-import com.wafflestudio.webgam.domain.page.dto.ProjectPageDto.SimpleResponse
-import com.wafflestudio.webgam.domain.page.dto.ProjectPageDto.CreateRequest
-import com.wafflestudio.webgam.domain.page.dto.ProjectPageDto.PatchRequest
-import com.wafflestudio.webgam.domain.project.service.ProjectService
-import com.wafflestudio.webgam.global.common.dto.ListResponse
 import com.wafflestudio.webgam.global.security.CurrentUser
 import jakarta.validation.Valid
 import jakarta.validation.constraints.Positive
@@ -57,9 +52,9 @@ class ProjectPageController (
             @CurrentUser myId: Long,
             @PathVariable("id") @Positive id: Long
     )
-    : ResponseEntity<SimpleResponse> {
-        val projectPage = projectPageService.deleteProjectPage(myId, id)
-        return ResponseEntity.ok(projectPage)
+    : ResponseEntity<Any> {
+        projectPageService.deleteProjectPage(myId, id)
+        return ResponseEntity.ok().build()
     }
 
 }

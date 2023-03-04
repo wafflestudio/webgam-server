@@ -56,7 +56,7 @@ class ProjectController(
     @DeleteMapping("/{id}")
     fun deleteProject(@CurrentUser myId: Long, @PathVariable("id") @Positive id: Long)
     : ResponseEntity<DetailedResponse> {
-        val project = projectService.deleteProject(myId, id)
-        return ResponseEntity.ok(project)
+        projectService.deleteProject(myId, id)
+        return ResponseEntity.ok().build()
     }
 }

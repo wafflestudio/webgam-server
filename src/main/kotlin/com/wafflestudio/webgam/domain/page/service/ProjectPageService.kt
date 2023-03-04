@@ -1,9 +1,6 @@
 package com.wafflestudio.webgam.domain.page.service
 
-import com.wafflestudio.webgam.domain.page.dto.ProjectPageDto.SimpleResponse
-import com.wafflestudio.webgam.domain.page.dto.ProjectPageDto.DetailedResponse
-import com.wafflestudio.webgam.domain.page.dto.ProjectPageDto.CreateRequest
-import com.wafflestudio.webgam.domain.page.dto.ProjectPageDto.PatchRequest
+import com.wafflestudio.webgam.domain.page.dto.ProjectPageDto.*
 import com.wafflestudio.webgam.domain.page.exception.NonAccessibleProjectPageException
 import com.wafflestudio.webgam.domain.page.exception.ProjectPageNotFoundException
 import com.wafflestudio.webgam.domain.page.model.ProjectPage
@@ -11,7 +8,6 @@ import com.wafflestudio.webgam.domain.page.repository.ProjectPageRepository
 import com.wafflestudio.webgam.domain.project.exception.NonAccessibleProjectException
 import com.wafflestudio.webgam.domain.project.exception.ProjectNotFoundException
 import com.wafflestudio.webgam.domain.project.repository.ProjectRepository
-import com.wafflestudio.webgam.global.common.dto.ListResponse
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -49,12 +45,11 @@ class ProjectPageService (
 
         @Transactional
         fun deleteProjectPage(myId: Long, id:Long)
-        : SimpleResponse {
+        {
                 val projectPage = projectPageRepository.findUndeletedProjectPageById(id)
                         ?: throw ProjectPageNotFoundException(id)
                 if (!projectPage.isAccessibleTo(myId)) throw NonAccessibleProjectPageException(id)
                 projectPage.delete()
-                return SimpleResponse(projectPage)
         }
 
 
