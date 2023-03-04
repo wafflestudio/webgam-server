@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*
 
 @Validated
 @RestController
-@RequestMapping("/api/v1/page")
+@RequestMapping("/api/v1/pages")
 class ProjectPageController (
         private val projectPageService: ProjectPageService,
 ){

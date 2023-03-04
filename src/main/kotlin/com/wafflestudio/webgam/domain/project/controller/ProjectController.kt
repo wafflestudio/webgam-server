@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*
 
 @Validated
 @RestController
-@RequestMapping("/api/v1/project")
+@RequestMapping("/api/v1/projects")
 class ProjectController(
         private val projectService: ProjectService,
 ) {

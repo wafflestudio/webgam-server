@@ -36,7 +36,7 @@ class SecurityConfig(
             "http://webgam-dev.s3-website.ap-northeast-2.amazonaws.com:3000",
             "http://localhost:3000",
         )
-        private val GET_WHITELIST: Array<String> = arrayOf("/ping", "/api/v1/project")
+        private val GET_WHITELIST: Array<String> = arrayOf("/ping", "/api/v1/projects")
         private val POST_WHITELIST: Array<String> = arrayOf("/signup", "/login/**", "/logout", "/refresh")
     }
 
