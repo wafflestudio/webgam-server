@@ -1,6 +1,7 @@
 package com.wafflestudio.webgam.domain.event.service
 
 import com.wafflestudio.webgam.domain.event.dto.ObjectEventDto.*
+import com.wafflestudio.webgam.domain.event.exception.LinkNonRelatedPageException
 import com.wafflestudio.webgam.domain.event.exception.MultipleEventAllocationException
 import com.wafflestudio.webgam.domain.event.exception.NonAccessibleObjectEventException
 import com.wafflestudio.webgam.domain.event.exception.ObjectEventNotFoundException
@@ -40,6 +41,9 @@ class ObjectEventService(
         val nextPage = request.nextPageId?.let {
             val page = projectPageRepository.findUndeletedProjectPageById(it) ?: throw ProjectPageNotFoundException(request.nextPageId)
             if (!page.isAccessibleTo(myId)) throw NonAccessibleProjectPageException(request.nextPageId)
+
+            if (page.project != pageObject.page.project) throw LinkNonRelatedPageException(request.nextPageId)
+
             page
         }
 
@@ -57,6 +61,9 @@ class ObjectEventService(
         request.nextPageId?.let {
             val page = projectPageRepository.findUndeletedProjectPageById(it) ?: throw ProjectPageNotFoundException(request.nextPageId)
             if (!page.isAccessibleTo(myId)) throw NonAccessibleProjectPageException(request.nextPageId)
+
+            if (page.project != event.`object`.page.project) throw LinkNonRelatedPageException(request.nextPageId)
+
             event.nextPage = page
             page.triggeredEvents.add(event)
         }

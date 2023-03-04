@@ -8,6 +8,8 @@ enum class ErrorType {
         NO_REFRESH_TOKEN(2),
         CONSTRAINT_VIOLATION(3),
         JSON_PARSE_ERROR(4),
+        PARAMETER_TYPE_MISMATCH(5),
+        PAGE_IN_OTHER_PROJECT(400),
         ;
 
         override fun code(): Int {
