@@ -40,6 +40,5 @@ class ProjectPage(
     override fun delete() {
         isDeleted = true
         objects.forEach { it.delete() }
-        triggeredEvents.forEach { it.nextPage = null }
     }
 }

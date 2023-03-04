@@ -17,28 +17,25 @@ class PageObjectRepositoryImpl(
 
     fun id(id: Long): BooleanExpression = pageObject.id.eq(id)
     fun undeletedPageObject(): BooleanExpression = pageObject.isDeleted.isFalse
-    fun undeletedProjectPage(): BooleanExpression = projectPage.isDeleted.isFalse
-    fun undeletedProject(): BooleanExpression = project.isDeleted.isFalse
-    fun undeletedUser(): BooleanExpression = user.isDeleted.isFalse
 
     override fun findUndeletedPageObjectById(id: Long): PageObject? = jpaQueryFactory
         .select(pageObject)
         .from(pageObject)
         .leftJoin(pageObject.page, projectPage).fetchJoin()
-        .leftJoin(pageObject.event, objectEvent).fetchJoin()
+        .leftJoin(pageObject.events, objectEvent).fetchJoin()
         .leftJoin(projectPage.project, project).fetchJoin()
         .leftJoin(project.owner, user).fetchJoin()
-        .where(id(id), undeletedPageObject(), undeletedProjectPage(), undeletedProject(), undeletedUser())
+        .where(id(id), undeletedPageObject())
         .fetchOne()
 
     override fun findAllUndeletedPageObjectsInProject(projectId: Long): List<PageObject> = jpaQueryFactory
         .select(pageObject)
         .from(pageObject)
         .leftJoin(pageObject.page, projectPage).fetchJoin()
-        .leftJoin(pageObject.event, objectEvent).fetchJoin()
+        .leftJoin(pageObject.events, objectEvent).fetchJoin()
         .leftJoin(projectPage.project, project).fetchJoin()
         .leftJoin(project.owner, user).fetchJoin()
-        .where(project.id.eq(projectId), undeletedPageObject(), undeletedProjectPage(), undeletedProject(), undeletedUser())
+        .where(project.id.eq(projectId), undeletedPageObject())
         .fetch()
 
 }
