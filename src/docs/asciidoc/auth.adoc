@@ -8,9 +8,6 @@ include::{snippets}/signup/200/http-request.adoc[]
 include::{snippets}/signup/200/request-fields.adoc[]
 .Response
 include::{snippets}/signup/200/http-response.adoc[]
-.Error Response
-include::{snippets}/signup/400-0001/http-response.adoc[]
-include::{snippets}/signup/409-9001/http-response.adoc[]
 ====
 
 === Auth: 로그인
@@ -21,8 +18,6 @@ include::{snippets}/login/200/http-request.adoc[]
 include::{snippets}/login/200/request-fields.adoc[]
 .Response
 include::{snippets}/login/200/http-response.adoc[]
-.Error Response
-include::{snippets}/login/401-1001/http-response.adoc[]
 ====
 
 === Auth: 토큰 재발급
@@ -35,9 +30,6 @@ include::{snippets}/refresh/200/http-request.adoc[]
 include::{snippets}/refresh/200/request-cookies.adoc[]
 .Response
 include::{snippets}/refresh/200/http-response.adoc[]
-.Error Response
-include::{snippets}/refresh/400-0002-no-cookie/http-response.adoc[]
-include::{snippets}/refresh/401-1002/http-response.adoc[]
 ====
 
 === Auth: 로그아웃
@@ -48,4 +40,18 @@ include::{snippets}/refresh/401-1002/http-response.adoc[]
 include::{snippets}/logout/200/http-request.adoc[]
 .Response
 include::{snippets}/logout/200/http-response.adoc[]
+====
+
+=== Error Response
+.로그인 아이디가 존재하지 않거나, 비밀번호가 틀린 경우
+====
+include::{snippets}/error/auth/4/http-response.adoc[]
+====
+.회원가입할 때, 이미 아이디를 다른 사용자가 사용하고 있는 경우
+====
+include::{snippets}/error/auth/5/http-response.adoc[]
+====
+.토큰 재발급할 때, 쿠키에 토큰이 없는 경우
+====
+include::{snippets}/error/auth/6/http-response.adoc[]
 ====
