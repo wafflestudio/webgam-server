@@ -2,7 +2,10 @@ package com.wafflestudio.webgam.global.common.exception
 
 enum class ErrorType {
     ;
-    enum class BadRequest(private val code: Int): Error {
+    interface ErrorTypeInterface {
+        fun code(): Int
+    }
+    enum class BadRequest(private val code: Int): ErrorTypeInterface {
         DEFAULT(0),
         INVALID_FIELD(1),
         NO_REFRESH_TOKEN(2),
@@ -17,7 +20,7 @@ enum class ErrorType {
         }
     }
 
-    enum class Unauthorized(private val code: Int): Error {
+    enum class Unauthorized(private val code: Int): ErrorTypeInterface {
         DEFAULT(1000),
         LOGIN_FAIL(1001),
         INVALID_JWT(1002),
@@ -28,7 +31,7 @@ enum class ErrorType {
         }
     }
 
-    enum class Forbidden(private val code: Int): Error {
+    enum class Forbidden(private val code: Int): ErrorTypeInterface {
         DEFAULT(3000),
         NO_ACCESS(3001),
         NON_ACCESSIBLE_PROJECT(3100),
@@ -42,7 +45,7 @@ enum class ErrorType {
         }
     }
 
-    enum class NotFound(private val code: Int): Error {
+    enum class NotFound(private val code: Int): ErrorTypeInterface {
         DEFAULT(4000),
         USER_NOT_FOUND(4001),
         PROJECT_NOT_FOUND(4100),
@@ -56,7 +59,7 @@ enum class ErrorType {
         }
     }
 
-    enum class Conflict(private val code: Int): Error {
+    enum class Conflict(private val code: Int): ErrorTypeInterface {
         DEFAULT(9000),
         DUPLICATE_USER_IDENTIFIER(9001),
         ONLY_SINGLE_EVENT_PER_OBJECT(9400),
@@ -67,7 +70,7 @@ enum class ErrorType {
         }
     }
 
-    enum class ServerError(private val code: Int): Error {
+    enum class ServerError(private val code: Int): ErrorTypeInterface {
         DEFAULT(10000),
         ;
 

@@ -1,4 +1,6 @@
-package com.wafflestudio.webgam.global.common.exception
+package com.wafflestudio.webgam.global.common.dto
+
+import com.wafflestudio.webgam.global.common.exception.WebgamException
 
 data class ErrorResponse(
         val errorCode: Int,

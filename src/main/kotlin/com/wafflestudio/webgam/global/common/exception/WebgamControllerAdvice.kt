@@ -1,6 +1,8 @@
 package com.wafflestudio.webgam.global.common.exception
 
+import com.wafflestudio.webgam.global.common.dto.ErrorResponse
 import com.wafflestudio.webgam.global.common.exception.ErrorType.BadRequest.JSON_PARSE_ERROR
+import com.wafflestudio.webgam.global.common.exception.ErrorType.BadRequest.PARAMETER_TYPE_MISMATCH
 import jakarta.validation.ConstraintViolationException
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -10,6 +12,7 @@ import org.springframework.http.converter.HttpMessageNotReadableException
 import org.springframework.web.bind.MethodArgumentNotValidException
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.RestControllerAdvice
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException
 
 @RestControllerAdvice
 class WebgamControllerAdvice {
@@ -49,6 +52,12 @@ class WebgamControllerAdvice {
             HttpStatus.BAD_REQUEST)
     }
 
+    @ExceptionHandler(MethodArgumentTypeMismatchException::class)
+    fun parameterTypeMismatch(e: MethodArgumentTypeMismatchException): ResponseEntity<ErrorResponse> {
+        return ResponseEntity(
+            ErrorResponse(PARAMETER_TYPE_MISMATCH.code(), "Parameter type mismatch", "Check your request URL"),
+            HttpStatus.BAD_REQUEST)
+    }
 
     @ExceptionHandler(WebgamException.Unauthorized::class)
     fun unauthorized(webgamException: WebgamException): ResponseEntity<ErrorResponse> {
