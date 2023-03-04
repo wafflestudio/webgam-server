@@ -1,18 +1,15 @@
 package com.wafflestudio.webgam.domain.project.controller
 
+import com.wafflestudio.webgam.domain.project.dto.ProjectDto.*
 import com.wafflestudio.webgam.domain.project.service.ProjectService
-import com.wafflestudio.webgam.domain.project.dto.ProjectDto.SimpleResponse
-import com.wafflestudio.webgam.domain.project.dto.ProjectDto.DetailedResponse
-import com.wafflestudio.webgam.domain.project.dto.ProjectDto.CreateRequest
-import com.wafflestudio.webgam.domain.project.dto.ProjectDto.PatchRequest
 import com.wafflestudio.webgam.global.common.dto.ListResponse
+import com.wafflestudio.webgam.global.security.CurrentUser
+import jakarta.validation.Valid
 import jakarta.validation.constraints.Positive
+import org.springframework.data.domain.Slice
 import org.springframework.http.ResponseEntity
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
-import com.wafflestudio.webgam.global.common.dto.PageResponse
-import com.wafflestudio.webgam.global.security.CurrentUser
-import jakarta.validation.Valid
 
 @Validated
 @RestController
@@ -29,7 +26,7 @@ class ProjectController(
     fun getProjects(
             @RequestParam(required = false, defaultValue = "0") page: Int,
             @RequestParam(required = false, defaultValue = "10") size: Int,
-    ): ResponseEntity<PageResponse<SimpleResponse>> {
+    ): ResponseEntity<Slice<SimpleResponse>> {
         val projectList = projectService.getProjectList(page, size)
         return ResponseEntity.ok(projectList)
     }

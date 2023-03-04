@@ -13,6 +13,7 @@ import com.wafflestudio.webgam.domain.user.repository.UserRepository
 import com.wafflestudio.webgam.domain.user.service.UserService
 import com.wafflestudio.webgam.global.common.dto.ListResponse
 import org.springframework.data.domain.PageRequest
+import org.springframework.data.domain.Slice
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -31,14 +32,13 @@ class ProjectService (
         return DetailedResponse(project)
     }
 
-    fun getProjectList(page: Int, size:Int): PageResponse<SimpleResponse> {
+    fun getProjectList(page: Int, size:Int): Slice<SimpleResponse> {
         val pageRequest = PageRequest.of(page, size)
-        val projects = projectRepository.findAll(pageRequest)
-        return PageResponse(projects.content.map{SimpleResponse(it)}, page, size, projects.numberOfElements)
+        return projectRepository.findUndeletedAll(pageRequest).map { SimpleResponse(it) }
     }
 
     fun getUserProject(userId: Long): ListResponse<SimpleResponse> {
-        val projects = projectRepository.findAllByOwnerIdEquals(userId)
+        val projects = projectRepository.findUndeletedAllByOwnerIdEquals(userId)
         return ListResponse(projects.map{ SimpleResponse(it) })
     }
 
