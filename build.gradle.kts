@@ -18,9 +18,14 @@ repositories {
 	mavenCentral()
 }
 
+extra["spring-security.version"]="6.0.2"
 extra["snippetsDir"] = file("build/generated-snippets")
 
 dependencies {
+	//implementation("org.springframework.security:spring-security-web:6.0.2")
+	//implementation("org.springframework.security:spring-security-config:6.0.2")
+	implementation("org.springframework:spring-messaging")
+	implementation("org.springframework.security:spring-security-messaging:6.0.2")
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa:3.0.1")
 	implementation("org.springframework.boot:spring-boot-starter-data-redis:3.0.1")
 	implementation("org.springframework.boot:spring-boot-starter-security:3.0.1")
