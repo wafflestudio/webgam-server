@@ -12,9 +12,9 @@ open class WebSocketSecurityConfig {
     fun messageAuthorizationManager(messages: MessageMatcherDelegatingAuthorizationManager.Builder): AuthorizationManager<Message<*>> {
         messages
                 .nullDestMatcher().authenticated()
-                .simpSubscribeDestMatchers("/user/queue/errors").permitAll()
+                .simpSubscribeDestMatchers("/user/**/queue/errors").permitAll()
                 .simpDestMatchers("/app/**").hasRole("USER")
-                .simpSubscribeDestMatchers("/user/**", "/topic/public").hasRole("USER")
+                .simpSubscribeDestMatchers("/user/**", "/topic/public", "/project/*").hasRole("USER")
                 .simpTypeMatchers(MESSAGE, SUBSCRIBE).denyAll()
                 .anyMessage().denyAll()
 

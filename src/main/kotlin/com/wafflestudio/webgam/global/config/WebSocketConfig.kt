@@ -15,7 +15,7 @@ class WebSocketConfig (
         ): WebSocketMessageBrokerConfigurer {
 
     override fun configureMessageBroker(config: MessageBrokerRegistry) {
-        config.enableSimpleBroker("/topic", "/queue")
+        config.enableSimpleBroker("/topic", "/queue", "/project")
         config.setApplicationDestinationPrefixes("/app")
     }
 

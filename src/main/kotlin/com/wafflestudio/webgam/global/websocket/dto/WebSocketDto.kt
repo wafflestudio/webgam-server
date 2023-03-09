@@ -8,4 +8,8 @@ class WebSocketDto {
             @NotBlank
             var content: String?
     )
+
+    data class ProjectEnterMessage(
+            var id: Long
+    )
 }
