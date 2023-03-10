@@ -25,11 +25,6 @@ jobs:
           distribution: 'temurin'
           cache: gradle
 
-      - name: Set up MySQL
-        run: |
-          sudo service mysql start
-          mysql -uroot -proot < ./scripts/sql/test_db_init.sql
-
       - name: Grant execution permission
         run: chmod +x ./gradlew
 

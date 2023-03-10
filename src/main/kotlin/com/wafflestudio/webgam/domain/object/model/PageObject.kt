@@ -11,7 +11,7 @@ import jakarta.persistence.*
 @Table(name = "page_object")
 class PageObject(
     @ManyToOne(fetch = FetchType.LAZY)
-    var page: ProjectPage,
+    val page: ProjectPage,
 
     var name: String,
 
@@ -34,13 +34,10 @@ class PageObject(
 
     var imageSource: String?,
 
-    @OneToOne(fetch = FetchType.LAZY)
-    var event: ObjectEvent?,
-
     /* From Here: Not saved in DB */
 
     @OneToMany(mappedBy = "object", orphanRemoval = true, cascade = [CascadeType.ALL])
-    val deletedEvents: MutableList<ObjectEvent> = mutableListOf(),
+    val events: MutableList<ObjectEvent> = mutableListOf(),
 
     ): BaseTimeTraceLazyDeletedEntity(), WebgamAccessModel {
     override fun isAccessibleTo(currentUserId: Long): Boolean {
@@ -59,17 +56,16 @@ class PageObject(
         textContent = createRequest.textContent,
         fontSize = createRequest.fontSize,
         imageSource = createRequest.imageSource,
-        event = null
     ) {
         page.objects.add(this)
     }
 
+    @get:Transient
+    val event: ObjectEvent?
+        get() = events.firstOrNull { !it.isDeleted }
+
     override fun delete() {
         isDeleted = true
-        event?.let {
-            it.delete()
-            this.event = null
-            deletedEvents.add(it)
-        }
+        event?.delete()
     }
 }

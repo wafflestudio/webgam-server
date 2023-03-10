@@ -5,12 +5,13 @@ import com.wafflestudio.webgam.domain.page.model.ProjectPage
 import com.wafflestudio.webgam.global.common.dto.TimeTraceEntityDto
 import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.NotNull
+import jakarta.validation.constraints.Positive
 import java.time.LocalDateTime
 
 class ProjectPageDto {
     data class CreateRequest(
-        @field:NotNull
-        val projectId: Long,
+        @field:[NotNull Positive]
+        val projectId: Long?,
         @field:NotBlank
         val name: String?,
     )

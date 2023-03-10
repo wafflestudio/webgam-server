@@ -4,27 +4,21 @@ import com.google.gson.FieldNamingPolicy
 import com.google.gson.GsonBuilder
 import com.ninjasquad.springmockk.MockkBean
 import com.wafflestudio.webgam.TestUtils
+import com.wafflestudio.webgam.TestUtils.Companion.pathVariableIds
 import com.wafflestudio.webgam.domain.`object`.dto.PageObjectDto.DetailedResponse
 import com.wafflestudio.webgam.domain.`object`.dto.PageObjectDto.SimpleResponse
-import com.wafflestudio.webgam.domain.`object`.model.PageObject
-import com.wafflestudio.webgam.domain.`object`.model.PageObjectType.DEFAULT
 import com.wafflestudio.webgam.domain.`object`.service.PageObjectService
-import com.wafflestudio.webgam.domain.page.model.ProjectPage
-import com.wafflestudio.webgam.domain.project.model.Project
-import com.wafflestudio.webgam.domain.user.model.User
 import com.wafflestudio.webgam.global.common.dto.ListResponse
 import com.wafflestudio.webgam.global.common.exception.ErrorType.BadRequest.*
 import com.wafflestudio.webgam.global.security.model.UserPrincipal
 import com.wafflestudio.webgam.global.security.model.WebgamAuthenticationToken
 import io.kotest.core.annotation.DisplayName
+import io.kotest.core.spec.Spec
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.inspectors.forAll
 import io.mockk.every
 import io.mockk.justRun
-import io.mockk.mockk
 import org.hamcrest.core.Is.`is`
-import org.junit.jupiter.api.Tag
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext
 import org.springframework.http.MediaType
@@ -36,31 +30,32 @@ import org.springframework.test.web.servlet.*
 @WebMvcTest(PageObjectController::class)
 @MockkBean(JpaMetamodelMappingContext::class)
 @ActiveProfiles("test")
-@Tag("Unit-Test")
 @DisplayName("PageObjectController 단위 테스트")
 class PageObjectControllerTest(
-    @Autowired private val mockMvc: MockMvc,
+    private val mockMvc: MockMvc,
     @MockkBean private val pageObjectService: PageObjectService,
-) : DescribeSpec() {
+): DescribeSpec() {
 
     companion object {
         private val gson = GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES).create()
-        private val user = User("", "", "", "")
+        private val user = TestUtils.testData1().first()
         private val authentication = WebgamAuthenticationToken(UserPrincipal(user), "")
-        private val project = mockk<Project>()
-        private val page = ProjectPage(project, "test-page")
-        private val pageObject = PageObject(page, "test-object", DEFAULT, 0, 0, 0, 0, 0, "", 0, "", null)
+        private val pageObject = user.projects.first().pages.first { it.objects.isNotEmpty() }.objects.first()
 
         /* Test Parameters */
-        private val ids = listOf(
-            listOf("1", "3", "5", "100").map { it to null },
-            listOf("0", "-1", "-100").map { it to CONSTRAINT_VIOLATION.code() }).flatten()
+        private val ids = pathVariableIds()
+    }
+
+    override suspend fun beforeSpec(spec: Spec) {
+        every { pageObjectService.listProjectObjects(any(), any()) } returns ListResponse(listOf(DetailedResponse(pageObject)))
+        every { pageObjectService.createObject(any(), any()) } returns SimpleResponse(pageObject)
+        every { pageObjectService.getObject(any(), any()) } returns DetailedResponse(pageObject)
+        every { pageObjectService.modifyObject(any(), any(), any()) } returns DetailedResponse(pageObject)
+        justRun { pageObjectService.deleteObject(any(), any()) }
     }
 
     init {
         this.describe("특정 프로젝트의 모든 오브젝트를 조회할 때") {
-            every { pageObjectService.listProjectObjects(any(), any()) } returns ListResponse(listOf(DetailedResponse(pageObject)))
-
             val ids = TestUtils.makeFieldList(ids)
 
             ids.forAll { (i, t) ->
@@ -90,9 +85,6 @@ class PageObjectControllerTest(
         }
 
         this.describe("오브젝트 생성할 때") {
-            every { pageObjectService.createObject(any(), any()) } returns SimpleResponse(pageObject)
-
-            /* Test Parameters */
             val pageIds = listOf(
                 listOf(1, 3, 4, 10).map { it to null },
                 listOf(-1, 0, null).map { it to INVALID_FIELD.code() },
@@ -183,8 +175,6 @@ class PageObjectControllerTest(
         }
 
         this.describe("특정 오브젝트 조회할 때") {
-            every { pageObjectService.getObject(any(), any()) } returns DetailedResponse(pageObject)
-
             val ids = TestUtils.makeFieldList(ids)
 
             ids.forAll { (i, t) ->
@@ -215,9 +205,6 @@ class PageObjectControllerTest(
         }
 
         this.describe("특정 오브젝트 수정할 때") {
-            every { pageObjectService.modifyObject(any(), any(), any()) } returns DetailedResponse(pageObject)
-
-            /* Test Parameters */
             val objectTypes = listOf(
                 listOf("DEFAULT", "TEXT", "IMAGE", "else-falls-to-default", null).map { it to null },
             ).flatten()
@@ -311,8 +298,6 @@ class PageObjectControllerTest(
         }
 
         this.describe("특정 오브젝트 삭제할 때") {
-            justRun { pageObjectService.deleteObject(any(), any()) }
-
             val ids = TestUtils.makeFieldList(ids)
 
             ids.forAll { (i, t) ->

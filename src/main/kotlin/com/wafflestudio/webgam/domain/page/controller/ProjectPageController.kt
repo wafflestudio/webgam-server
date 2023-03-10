@@ -1,12 +1,7 @@
 package com.wafflestudio.webgam.domain.page.controller
 
+import com.wafflestudio.webgam.domain.page.dto.ProjectPageDto.*
 import com.wafflestudio.webgam.domain.page.service.ProjectPageService
-import com.wafflestudio.webgam.domain.page.dto.ProjectPageDto.DetailedResponse
-import com.wafflestudio.webgam.domain.page.dto.ProjectPageDto.SimpleResponse
-import com.wafflestudio.webgam.domain.page.dto.ProjectPageDto.CreateRequest
-import com.wafflestudio.webgam.domain.page.dto.ProjectPageDto.PatchRequest
-import com.wafflestudio.webgam.domain.project.service.ProjectService
-import com.wafflestudio.webgam.global.common.dto.ListResponse
 import com.wafflestudio.webgam.global.security.CurrentUser
 import jakarta.validation.Valid
 import jakarta.validation.constraints.Positive
@@ -16,24 +11,24 @@ import org.springframework.web.bind.annotation.*
 
 @Validated
 @RestController
-@RequestMapping("/api/v1/page")
+@RequestMapping("/api/v1/pages")
 class ProjectPageController (
         private val projectPageService: ProjectPageService,
 ){
     @GetMapping("/{id}")
     fun getProjectPageInfo(
             @CurrentUser myId:Long,
-            @PathVariable("id") @Positive projectId: Long
+            @PathVariable("id") @Positive pageId: Long
     )
     : ResponseEntity<DetailedResponse> {
-        val projectPage = projectPageService.getProjectPage(myId, projectId)
+        val projectPage = projectPageService.getProjectPage(myId, pageId)
         return ResponseEntity.ok(projectPage)
     }
 
     //TODO get all pages in project?
 
 
-    @PostMapping("")
+    @PostMapping
     fun createProjectPage(
             @CurrentUser myId: Long,
             @RequestBody @Valid request: CreateRequest
@@ -57,9 +52,9 @@ class ProjectPageController (
             @CurrentUser myId: Long,
             @PathVariable("id") @Positive id: Long
     )
-    : ResponseEntity<SimpleResponse> {
-        val projectPage = projectPageService.deleteProjectPage(myId, id)
-        return ResponseEntity.ok(projectPage)
+    : ResponseEntity<Any> {
+        projectPageService.deleteProjectPage(myId, id)
+        return ResponseEntity.ok().build()
     }
 
 }

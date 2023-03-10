@@ -1,18 +1,14 @@
 package com.wafflestudio.webgam.domain.project.service
 
-import com.wafflestudio.webgam.domain.project.dto.ProjectDto.CreateRequest
-import com.wafflestudio.webgam.domain.project.dto.ProjectDto.PatchRequest
-import com.wafflestudio.webgam.domain.project.dto.ProjectDto.DetailedResponse
-import com.wafflestudio.webgam.domain.project.dto.ProjectDto.SimpleResponse
+import com.wafflestudio.webgam.domain.project.dto.ProjectDto.*
 import com.wafflestudio.webgam.domain.project.exception.NonAccessibleProjectException
-import com.wafflestudio.webgam.global.common.dto.PageResponse
 import com.wafflestudio.webgam.domain.project.exception.ProjectNotFoundException
 import com.wafflestudio.webgam.domain.project.model.Project
 import com.wafflestudio.webgam.domain.project.repository.ProjectRepository
 import com.wafflestudio.webgam.domain.user.repository.UserRepository
-import com.wafflestudio.webgam.domain.user.service.UserService
 import com.wafflestudio.webgam.global.common.dto.ListResponse
 import org.springframework.data.domain.PageRequest
+import org.springframework.data.domain.Slice
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -21,7 +17,6 @@ import org.springframework.transaction.annotation.Transactional
 @Transactional(readOnly = true)
 class ProjectService (
         private val projectRepository: ProjectRepository,
-        private val userService: UserService,
         private val userRepository: UserRepository
 ){
 
@@ -31,14 +26,13 @@ class ProjectService (
         return DetailedResponse(project)
     }
 
-    fun getProjectList(page: Int, size:Int): PageResponse<SimpleResponse> {
+    fun getProjectList(page: Int, size:Int): Slice<SimpleResponse> {
         val pageRequest = PageRequest.of(page, size)
-        val projects = projectRepository.findAll(pageRequest)
-        return PageResponse(projects.content.map{SimpleResponse(it)}, page, size, projects.numberOfElements)
+        return projectRepository.findUndeletedAll(pageRequest).map { SimpleResponse(it) }
     }
 
     fun getUserProject(userId: Long): ListResponse<SimpleResponse> {
-        val projects = projectRepository.findAllByOwnerIdEquals(userId)
+        val projects = projectRepository.findUndeletedAllByOwnerIdEquals(userId)
         return ListResponse(projects.map{ SimpleResponse(it) })
     }
 
@@ -59,10 +53,9 @@ class ProjectService (
     }
 
     @Transactional
-    fun deleteProject(myId: Long, projectId: Long): DetailedResponse {
+    fun deleteProject(myId: Long, projectId: Long) {
         val project = projectRepository.findUndeletedProjectById(projectId) ?: throw ProjectNotFoundException(projectId)
         if (!project.isAccessibleTo(myId)) throw NonAccessibleProjectException(projectId)
         project.delete()
-        return DetailedResponse(project)
     }
 }

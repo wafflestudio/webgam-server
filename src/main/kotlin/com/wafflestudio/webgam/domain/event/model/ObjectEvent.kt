@@ -30,12 +30,11 @@ class ObjectEvent(
         nextPage = nextPage,
         transitionType = createRequest.transitionType,
     ) {
-        `object`.event = this
+        `object`.events.add(this)
         nextPage?.triggeredEvents?.add(this)
     }
 
     override fun delete() {
         isDeleted = true
-        `object`.deletedEvents.add(this)
     }
 }

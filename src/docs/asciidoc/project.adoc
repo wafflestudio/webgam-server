@@ -3,74 +3,67 @@
 === 프로젝트 조회하기
 ====
 .Request
-include::{snippets}/get-project/200/http-request.adoc[]
+include::{snippets}/project/get/http-request.adoc[]
 .Path Parameter
-include::{snippets}/get-project/200/path-parameters.adoc[]
+include::{snippets}/project/get/path-parameters.adoc[]
 .Response
-include::{snippets}/get-project/200/http-response.adoc[]
-.Error Response
-include::{snippets}/get-project/400-0/http-response.adoc[]
-include::{snippets}/get-project/403-0/http-response.adoc[]
-include::{snippets}/get-project/404-0/http-response.adoc[]
+include::{snippets}/project/get/http-response.adoc[]
 ====
 
 === 모든 프로젝트 조회하기
 ====
 .Request
-include::{snippets}/get-projects/200/http-request.adoc[]
+include::{snippets}/project/get-list/http-request.adoc[]
 .Query Parameter
-include::{snippets}/get-projects/200/query-parameters.adoc[]
+include::{snippets}/project/get-list/query-parameters.adoc[]
 .Response
-include::{snippets}/get-projects/200/http-response.adoc[]
+include::{snippets}/project/get-list/http-response.adoc[]
 ====
 
 === 나의 모든 프로젝트 조회하기
 ====
 .Request
-include::{snippets}/get-my-projects/200/http-request.adoc[]
+include::{snippets}/project/get-user-list/http-request.adoc[]
 .Response
-include::{snippets}/get-my-projects/200/http-response.adoc[]
+include::{snippets}/project/get-user-list/http-response.adoc[]
 ====
 
 === 프로젝트 생성하기
 ====
 .Request
-include::{snippets}/create-project/200/http-request.adoc[]
+include::{snippets}/project/create/http-request.adoc[]
 .Request Body
-include::{snippets}/create-project/200/request-fields.adoc[]
+include::{snippets}/project/create/request-fields.adoc[]
 .Response
-include::{snippets}/create-project/200/http-response.adoc[]
-.Error Response
-include::{snippets}/create-project/400-0/http-response.adoc[]
+include::{snippets}/project/create/http-response.adoc[]
 ====
 
 === 프로젝트 수정하기
 ====
 .Request
-include::{snippets}/patch-project/200/http-request.adoc[]
+include::{snippets}/project/patch/http-request.adoc[]
 .Path Parameter
-include::{snippets}/patch-project/200/path-parameters.adoc[]
+include::{snippets}/project/patch/path-parameters.adoc[]
 .Request Body
-include::{snippets}/patch-project/200/request-fields.adoc[]
+include::{snippets}/project/patch/request-fields.adoc[]
 .Response
-include::{snippets}/patch-project/200/http-response.adoc[]
-.Error Response
-include::{snippets}/patch-project/400-0/http-response.adoc[]
-include::{snippets}/patch-project/400-1/http-response.adoc[]
-include::{snippets}/patch-project/403-0/http-response.adoc[]
-include::{snippets}/patch-project/404-0/http-response.adoc[]
+include::{snippets}/project/patch/http-response.adoc[]
 ====
 
 === 프로젝트 삭제하기
 ====
 .Request
-include::{snippets}/delete-project/200/http-request.adoc[]
+include::{snippets}/project/delete/http-request.adoc[]
 .Path Parameter
-include::{snippets}/delete-project/200/path-parameters.adoc[]
+include::{snippets}/project/delete/path-parameters.adoc[]
 .Response
-include::{snippets}/delete-project/200/http-response.adoc[]
-.Error Response
-include::{snippets}/delete-project/400-0/http-response.adoc[]
-include::{snippets}/delete-project/403-0/http-response.adoc[]
-include::{snippets}/delete-project/404-0/http-response.adoc[]
+include::{snippets}/project/delete/http-response.adoc[]
+====
+
+=== Error Response
+====
+.프로젝트가 삭제되거나 존재하지 않을 때
+include::{snippets}/error/project/1/http-response.adoc[]
+.프로젝트에 접근 권한이 없는 경우
+include::{snippets}/error/project/2/http-response.adoc[]
 ====

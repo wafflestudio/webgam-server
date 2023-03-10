@@ -37,4 +37,9 @@ class Project(
         owner.projects.add(this)
     }
 
+    override fun delete() {
+        isDeleted = true
+        pages.forEach { it.delete() }
+    }
+
 }

@@ -18,7 +18,7 @@ class ProjectPage(
 
     /* From Here: Not saved in DB */
 
-    @OneToMany(mappedBy = "page")
+    @OneToMany(mappedBy = "page", orphanRemoval = true, cascade = [CascadeType.ALL])
     val objects: MutableList<PageObject> = mutableListOf(),
 
     @OneToMany(mappedBy = "nextPage")
@@ -35,5 +35,10 @@ class ProjectPage(
         name = createRequest.name!!,
     ) {
         project.pages.add(this)
+    }
+
+    override fun delete() {
+        isDeleted = true
+        objects.forEach { it.delete() }
     }
 }

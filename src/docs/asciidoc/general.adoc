@@ -1,0 +1,58 @@
+[[General]]
+== 공통
+
+=== Ping API
+서버 상태 확인 용도로, 토큰이 필요하지 않습니다.
+====
+.Request
+include::{snippets}/ping/200/http-request.adoc[]
+.Response
+include::{snippets}/ping/200/http-response.adoc[]
+====
+
+=== Auth-Ping API
+인증 확인 용도로, 토큰이 필요합니다.
+====
+.Request
+include::{snippets}/auth-ping/200/http-request.adoc[]
+.Response
+include::{snippets}/auth-ping/200/http-response.adoc[]
+====
+
+
+=== 인증 관련 Error Response
+.토큰이 없는 경우
+====
+include::{snippets}/error/auth/1/http-response.adoc[]
+====
+.토큰이 유효하지 않는 경우
+====
+`detail` 은 달라질 수 있습니다.
+include::{snippets}/error/auth/2/http-response.adoc[]
+====
+.토큰이 유효하지만, 해당 API나 리소스에 접근 권한 없는 경우
+====
+보통의 경우, 잘못된 API 경로나 Http Method 오류 가능성이 높습니다.
+include::{snippets}/error/auth/3/http-response.adoc[]
+====
+
+
+=== 공통 Error Response
+.Request Body에 올바르지 않은 값이 들어갈 경우
+====
+`detail` 을 참고해주세요
+include::{snippets}/error/common/1/http-response.adoc[]
+====
+.Path Variable, Request Parameter에 올바르지 않은 값이 들어갈 경우
+====
+`detail` 을 참고해주세요
+include::{snippets}/error/common/2/http-response.adoc[]
+====
+.Request Body에 올바르지 않은 타입이 들어갈 경우
+====
+include::{snippets}/error/common/3/http-response.adoc[]
+====
+.Request Parameter에 올바르지 않은 타입이 들어갈 경우
+====
+include::{snippets}/error/common/4/http-response.adoc[]
+====
