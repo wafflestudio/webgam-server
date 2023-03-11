@@ -28,11 +28,27 @@ class PageObject(
 
     var zIndex: Int,
 
+    var opacity: Int,
+
     var textContent: String?,
 
     var fontSize: Int?,
 
+    var lineHeight: Int?,
+
+    var letterSpacing: Int?,
+
+    var backgroundColor: String?,
+
+    var strokeWidth: Int?,
+
+    var strokeColor: String?,
+
     var imageSource: String?,
+
+    var isReversed: Boolean?,
+
+    var rotateDegree: Int?,
 
     /* From Here: Not saved in DB */
 
@@ -53,9 +69,17 @@ class PageObject(
         xPosition = createRequest.xPosition!!,
         yPosition = createRequest.yPosition!!,
         zIndex = createRequest.zIndex!!,
+        opacity = createRequest.opacity!!,
         textContent = createRequest.textContent,
         fontSize = createRequest.fontSize,
         imageSource = createRequest.imageSource,
+        lineHeight = createRequest.lineHeight,
+        letterSpacing = createRequest.letterSpacing,
+        backgroundColor = createRequest.backgroundColor,
+        strokeWidth = createRequest.strokeWidth,
+        strokeColor = createRequest.strokeColor,
+        isReversed = createRequest.isReversed,
+        rotateDegree = createRequest.rotateDegree,
     ) {
         page.objects.add(this)
     }

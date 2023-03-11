@@ -62,9 +62,17 @@ class PageObjectService(
         request.xPosition ?.let { pageObject.xPosition = request.xPosition }
         request.yPosition ?.let { pageObject.yPosition = request.yPosition }
         request.zIndex ?.let { pageObject.zIndex = request.zIndex }
+        request.opacity ?.let { pageObject.opacity = request.opacity }
         request.textContent ?.let { pageObject.textContent = request.textContent }
         request.fontSize ?.let { pageObject.fontSize = request.fontSize }
+        request.lineHeight ?.let { pageObject.lineHeight = request.lineHeight }
+        request.letterSpacing ?.let { pageObject.letterSpacing = request.letterSpacing }
+        request.backgroundColor ?.let { pageObject.backgroundColor = request.backgroundColor }
+        request.strokeWidth ?.let { pageObject.strokeWidth = request.strokeWidth }
+        request.strokeColor ?.let { pageObject.strokeColor = request.strokeColor }
         request.imageSource ?.let { pageObject.imageSource = request.imageSource }
+        request.isReversed ?.let { pageObject.isReversed = request.isReversed }
+        request.rotateDegree ?.let { pageObject.rotateDegree = request.rotateDegree }
 
         return DetailedResponse(pageObject)
     }

@@ -111,7 +111,7 @@ class PageDescribeSpec (
                             getDocumentResponse(),
                             pathParameters(parameterWithName("id").description("프로젝트 페이지 ID")),
                             RestDocsUtils.requestBody(
-                                    "name" type STRING means "페이지 이름"
+                                    "name" type STRING means "페이지 이름" isOptional true
                             )
                     )).andExpect(status().isOk).andDo(print())
                 }

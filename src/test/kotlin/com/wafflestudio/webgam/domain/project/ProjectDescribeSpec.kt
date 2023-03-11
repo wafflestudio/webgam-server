@@ -142,7 +142,7 @@ class ProjectDescribeSpec (
                             getDocumentResponse(),
                             pathParameters(parameterWithName("id").description("프로젝트 ID")),
                             requestBody(
-                                    "title" type STRING means "제목",
+                                    "title" type STRING means "제목" isOptional true,
                             )
                     )).andExpect(status().isOk).andDo(print())
                 }
