@@ -1,5 +1,6 @@
 package com.wafflestudio.webgam.global.websocket.dto
 
+import com.wafflestudio.webgam.global.common.dto.TimeTraceEntityDto
 import jakarta.validation.constraints.NotBlank
 
 class WebSocketDto {
@@ -9,7 +10,4 @@ class WebSocketDto {
             var content: String?
     )
 
-    data class ProjectEnterMessage(
-            var id: Long
-    )
 }
