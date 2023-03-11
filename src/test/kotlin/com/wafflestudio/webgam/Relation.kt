@@ -58,7 +58,8 @@ object Relation {
 
     class ObjectConfiguration(private val obj: PageObject, private val chain: PageConfiguration): Configuration {
         constructor(page: ProjectPage, name: String, chain: PageConfiguration) : this(
-            obj = PageObject(page, PageObjectDto.CreateRequest(0L, name, DEFAULT, 0, 0, 0, 0, 0, null, null, null)),
+            obj = PageObject(page, PageObjectDto.CreateRequest(
+                0L, name, DEFAULT, 0, 0, 0, 0, 0, 0, null, null, null, null, null, null, null, null, null, null)),
             chain = chain
         )
         override fun build() = chain.build()

@@ -115,15 +115,45 @@ class PageObjectControllerTest(
                 listOf(0, 1, 3).map { it to null },
                 listOf(-1, null).map { it to INVALID_FIELD.code() },
                 listOf("nonInt").map { it to JSON_PARSE_ERROR.code() }).flatten()
+            val opacities = listOf(
+                listOf(0, 1, 99, 100).map { it to null },
+                listOf(-1, 101, null).map { it to INVALID_FIELD.code() },
+                listOf("nonInt").map { it to JSON_PARSE_ERROR.code() }).flatten()
             val textContents = listOf(
                 listOf("valid text content", null).map { it to null },
                 ).flatten()
             val fontSizes = listOf(
                 listOf(1, null).map { it to null },
-                listOf(0, -1).map { it to INVALID_FIELD.code() }).flatten()
+                listOf(0, -1).map { it to INVALID_FIELD.code() },
+                listOf("nonInt").map { it to JSON_PARSE_ERROR.code() }).flatten()
+            val lineHeights = listOf(
+                listOf(1, null).map { it to null },
+                listOf(0, -1).map { it to INVALID_FIELD.code() },
+                listOf("nonInt").map { it to JSON_PARSE_ERROR.code() }).flatten()
+            val letterSpacings = listOf(
+                listOf(1, null).map { it to null },
+                listOf(0, -1).map { it to INVALID_FIELD.code() },
+                listOf("nonInt").map { it to JSON_PARSE_ERROR.code() }).flatten()
+            val backgroundColors = listOf(
+                listOf("color", "#FFFFFF", null).map { it to null },
+                ).flatten()
+            val strokeWidths = listOf(
+                listOf(1, null).map { it to null },
+                listOf(0, -1).map { it to INVALID_FIELD.code() },
+                listOf("nonInt").map { it to JSON_PARSE_ERROR.code() }).flatten()
+            val strokeColors = listOf(
+                listOf("color", "#FFFFFF", null).map { it to null },
+                ).flatten()
             val imageSources = listOf(
                 listOf("http://valid-url.com", "https://secure-url", null).map { it to null },
                 listOf("something", "with-no-domain").map { it to INVALID_FIELD.code() }).flatten()
+            val reverses = listOf(
+                listOf(false, true, "true", "false").map { it to null },
+                listOf("nonBoolean").map { it to JSON_PARSE_ERROR.code() }).flatten()
+            val rotateDegrees = listOf(
+                listOf(0, 1, 359, 358, null).map { it to null },
+                listOf(360, -1).map { it to INVALID_FIELD.code() },
+                listOf("nonInt").map { it to JSON_PARSE_ERROR.code() }).flatten()
 
             val combinations = TestUtils.makeFieldList(
                 pageIds,
@@ -134,13 +164,22 @@ class PageObjectControllerTest(
                 xPositions,
                 yPositions,
                 zIndices,
+                opacities,
                 textContents,
                 fontSizes,
-                imageSources
+                lineHeights,
+                letterSpacings,
+                backgroundColors,
+                strokeWidths,
+                strokeColors,
+                imageSources,
+                reverses,
+                rotateDegrees,
             )
 
-            val fields = listOf("page_id", "name", "type", "width", "height", "x_position", "y_position",
-                "z_index", "text_content", "font_size", "image_source")
+            val fields = listOf("page_id", "name", "type", "width", "height", "x_position", "y_position", "z_index", "opacity",
+                "text_content", "font_size", "line_height", "letter_spacing", "background_color", "stroke_width", "stroke_color",
+                "image_source", "is_reversed", "rotate_degree")
 
             combinations.forAll { (l, t) ->
                 val (idx, code) = t
@@ -226,15 +265,45 @@ class PageObjectControllerTest(
                 listOf(0, 1, 3, null).map { it to null },
                 listOf(-1).map { it to INVALID_FIELD.code() },
                 listOf("nonInt").map { it to JSON_PARSE_ERROR.code() }).flatten()
+            val opacities = listOf(
+                listOf(0, 1, 99, 100, null).map { it to null },
+                listOf(-1, 101).map { it to INVALID_FIELD.code() },
+                listOf("nonInt").map { it to JSON_PARSE_ERROR.code() }).flatten()
             val textContents = listOf(
                 listOf("valid text content", null).map { it to null },
-            ).flatten()
+                ).flatten()
             val fontSizes = listOf(
                 listOf(1, null).map { it to null },
-                listOf(0, -1).map { it to INVALID_FIELD.code() }).flatten()
+                listOf(0, -1).map { it to INVALID_FIELD.code() },
+                listOf("nonInt").map { it to JSON_PARSE_ERROR.code() }).flatten()
+            val lineHeights = listOf(
+                listOf(1, null).map { it to null },
+                listOf(0, -1).map { it to INVALID_FIELD.code() },
+                listOf("nonInt").map { it to JSON_PARSE_ERROR.code() }).flatten()
+            val letterSpacings = listOf(
+                listOf(1, null).map { it to null },
+                listOf(0, -1).map { it to INVALID_FIELD.code() },
+                listOf("nonInt").map { it to JSON_PARSE_ERROR.code() }).flatten()
+            val backgroundColors = listOf(
+                listOf("color", "#FFFFFF", null).map { it to null },
+                ).flatten()
+            val strokeWidths = listOf(
+                listOf(1, null).map { it to null },
+                listOf(0, -1).map { it to INVALID_FIELD.code() },
+                listOf("nonInt").map { it to JSON_PARSE_ERROR.code() }).flatten()
+            val strokeColors = listOf(
+                listOf("color", "#FFFFFF", null).map { it to null },
+                ).flatten()
             val imageSources = listOf(
                 listOf("http://valid-url.com", "https://secure-url", null).map { it to null },
                 listOf("something", "with-no-domain").map { it to INVALID_FIELD.code() }).flatten()
+            val reverses = listOf(
+                listOf(false, true, "true", "false").map { it to null },
+                listOf("nonBoolean").map { it to JSON_PARSE_ERROR.code() }).flatten()
+            val rotateDegrees = listOf(
+                listOf(0, 1, 359, 358, null).map { it to null },
+                listOf(360, -1).map { it to INVALID_FIELD.code() },
+                listOf("nonInt").map { it to JSON_PARSE_ERROR.code() }).flatten()
 
             val combinations = TestUtils.makeFieldList(
                 ids,
@@ -244,12 +313,22 @@ class PageObjectControllerTest(
                 xPositions,
                 yPositions,
                 zIndices,
+                opacities,
                 textContents,
                 fontSizes,
-                imageSources
+                lineHeights,
+                letterSpacings,
+                backgroundColors,
+                strokeWidths,
+                strokeColors,
+                imageSources,
+                reverses,
+                rotateDegrees,
             )
 
-            val fields = listOf("id", "object_type", "width", "height", "x_position", "y_position", "z_index", "text_content", "font_size", "image_source")
+            val fields = listOf("id", "type", "width", "height", "x_position", "y_position", "z_index", "opacity",
+                "text_content", "font_size", "line_height", "letter_spacing", "background_color", "stroke_width", "stroke_color",
+                "image_source", "is_reversed", "rotate_degree")
 
             combinations.forAll { (l, t) ->
                 val (idx, code) = t
@@ -260,9 +339,17 @@ class PageObjectControllerTest(
                     "x_position" to l[4],
                     "y_position" to l[5],
                     "z_index" to l[6],
-                    "text_content" to l[7],
-                    "font_size" to l[8],
-                    "image_source" to l[9],
+                    "opacity" to l[7],
+                    "text_content" to l[8],
+                    "font_size" to l[9],
+                    "line_height" to l[10],
+                    "letter_spacing" to l[11],
+                    "background_color" to l[12],
+                    "stroke_width" to l[13],
+                    "stroke_color" to l[14],
+                    "image_source" to l[15],
+                    "is_reversed" to l[16],
+                    "rotate_degree" to l[17],
                 )
 
                 when (idx) {

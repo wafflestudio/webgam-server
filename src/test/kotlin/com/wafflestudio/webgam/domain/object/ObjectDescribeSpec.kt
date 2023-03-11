@@ -92,9 +92,17 @@ class ObjectDescribeSpec(
                     "x_position" to 20,
                     "y_position" to -10,
                     "z_index" to 2,
+                    "opacity" to 30,
                     "text_content" to null,
                     "font_size" to null,
-                    "image_source" to "http://sampe-image.url"
+                    "line_height" to null,
+                    "letter_spacing" to null,
+                    "background_color" to null,
+                    "stroke_width" to null,
+                    "stroke_color" to null,
+                    "image_source" to "http://sampe-image.url",
+                    "is_reversed" to false,
+                    "rotate_degree" to 180,
                 )
 
                 it("200 OK") {
@@ -116,9 +124,17 @@ class ObjectDescribeSpec(
                             "x_position" type NUMBER means "x축 위치",
                             "y_position" type NUMBER means "y축 위치",
                             "z_index" type NUMBER means "깊이" formattedAs "0 이상",
+                            "opacity" type NUMBER means "투명도" formattedAs "0 이상 100 이하",
                             "text_content" type STRING means "텍스트 내용" isOptional true,
                             "font_size" type NUMBER means "텍스트 폰트 크기" isOptional true formattedAs "0 초과",
+                            "line_height" type NUMBER means "텍스트 높이" isOptional true formattedAs "0 초과",
+                            "letter_spacing" type NUMBER means "텍스트 간격" isOptional true formattedAs "0 초과",
+                            "background_color" type STRING means "텍스트 배경 색깔" isOptional true,
+                            "stroke_width" type NUMBER means "스트로크 너비" isOptional true formattedAs "0 초과",
+                            "stroke_color" type STRING means "스트로크 색깔" isOptional true,
                             "image_source" type STRING means "이미지 URL" isOptional true formattedAs "유효한 URL",
+                            "is_reversed" type BOOLEAN means "반전여부" isOptional true,
+                            "rotate_degree" type NUMBER means "이미지 회전" isOptional true formattedAs "0 이상 360 미만",
                         )
                     )).andExpect(status().isOk).andDo(print())
                 }
@@ -150,9 +166,17 @@ class ObjectDescribeSpec(
                     "x_position" to -20,
                     "y_position" to 10,
                     "z_index" to 0,
+                    "opacity" to 70,
                     "text_content" to "new text",
                     "font_size" to 20,
-                    "image_source" to ""
+                    "line_height" to 16,
+                    "letter_spacing" to 2,
+                    "background_color" to "#FFFFFF",
+                    "stroke_width" to 8,
+                    "stroke_color" to "#000000",
+                    "image_source" to "",
+                    "is_reversed" to null,
+                    "rotate_degree" to null,
                 )
 
                 it("200 OK") {
@@ -173,9 +197,17 @@ class ObjectDescribeSpec(
                             "x_position" type NUMBER means "x축 위치" isOptional false,
                             "y_position" type NUMBER means "y축 위치" isOptional false,
                             "z_index" type NUMBER means "깊이" formattedAs "0 이상" isOptional false,
+                            "opacity" type NUMBER means "투명도" formattedAs "0 이상 100 이하" isOptional false,
                             "text_content" type STRING means "텍스트 내용" isOptional true,
                             "font_size" type NUMBER means "텍스트 폰트 크기" isOptional true formattedAs "0 초과",
+                            "line_height" type NUMBER means "텍스트 높이" isOptional true formattedAs "0 초과",
+                            "letter_spacing" type NUMBER means "텍스트 간격" isOptional true formattedAs "0 초과",
+                            "background_color" type STRING means "텍스트 배경 색깔" isOptional true,
+                            "stroke_width" type NUMBER means "스트로크 너비" isOptional true formattedAs "0 초과",
+                            "stroke_color" type STRING means "스트로크 색깔" isOptional true,
                             "image_source" type STRING means "이미지 URL" isOptional true formattedAs "유효한 URL",
+                            "is_reversed" type BOOLEAN means "반전여부" isOptional true,
+                            "rotate_degree" type NUMBER means "이미지 회전" isOptional true formattedAs "0 이상 360 미만",
                         )
                     )).andExpect(status().isOk).andDo(print())
                 }
