@@ -62,4 +62,5 @@ class ProjectPageDto {
             objects = projectPage.objects.map { PageObjectDto.DetailedResponse(it) }
         )
     }
+
 }

@@ -36,6 +36,7 @@ class SecurityConfig(
             "http://webgam-dev.s3-website.ap-northeast-2.amazonaws.com:3000",
             "http://localhost:3000",
         )
+
         private val GET_WHITELIST: Array<String> = arrayOf("/ping", "/api/v1/projects")
         private val POST_WHITELIST: Array<String> = arrayOf("/signup", "/login/**", "/logout", "/refresh")
     }
@@ -51,8 +52,8 @@ class SecurityConfig(
             .logout().disable()
             .cors().configurationSource(corsConfigurationSource())
             .and()
-            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-            .and()
+            //.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            //.and()
             .exceptionHandling()
             .authenticationEntryPoint(webgamAuthenticationEntryPoint)
             .accessDeniedHandler(webgamAccessDeniedHandler)
@@ -62,7 +63,7 @@ class SecurityConfig(
             .requestMatchers(HttpMethod.GET, *GET_WHITELIST).permitAll()
             .requestMatchers(HttpMethod.POST, *POST_WHITELIST).permitAll()
             .requestMatchers(HttpMethod.GET, "/auth-ping").authenticated()
-            .requestMatchers("/api/v1/**").hasAuthority("USER")
+            .requestMatchers("/api/v1/**", "/ws").hasAuthority("USER")
             .requestMatchers(HttpMethod.GET, "/docs/**") attachAuthorityAccordingTo activeProfile
 
         return http.build()
