@@ -1,5 +1,7 @@
 package com.wafflestudio.webgam.global.websocket.controller
 
+import com.wafflestudio.webgam.domain.event.dto.ObjectEventDto
+import com.wafflestudio.webgam.domain.event.service.ObjectEventService
 import com.wafflestudio.webgam.domain.`object`.dto.PageObjectDto
 import com.wafflestudio.webgam.domain.`object`.service.PageObjectService
 import com.wafflestudio.webgam.domain.page.dto.ProjectPageDto
@@ -34,7 +36,8 @@ class WebSocketController (
         private val jwtProvider: JwtProvider,
         private val projectService: ProjectService,
         private val projectPageService: ProjectPageService,
-        private val pageObjectService: PageObjectService
+        private val pageObjectService: PageObjectService,
+        private val objectEventService: ObjectEventService
         ){
 
     private val logger: Logger = LoggerFactory.getLogger(WebSocketController::class.java)
@@ -56,7 +59,7 @@ class WebSocketController (
         val auth = jwtProvider.getAuthenticationFromToken(token)
         logger.info("User details: $auth")
 
-        message.content = "From ${auth.name}: "+ message.content
+        message.content = "From ${(auth.principal as UserPrincipal).user.userId}: "+ message.content
         return message
     }
 
@@ -64,6 +67,7 @@ class WebSocketController (
     @SendToUser("/queue/errors")
     fun handleException(exception: Throwable): ChatMessage {
         logger.info("Controller /queue/errors")
+        logger.info(exception.message)
         return ChatMessage(exception.message)
     }
     
@@ -84,14 +88,19 @@ class WebSocketController (
 
     @MessageMapping("/project/{projectId}/create.page")
     @SendTo("/project/{projectId}")
-    fun createPage(@Payload request: ProjectPageDto.CreateRequest, @Header("Authorization") token: String, @DestinationVariable projectId: Long)
+    fun createPage(
+            @Payload request: ProjectPageDto.CreateRequest,
+            @Header("Authorization") token: String,
+            @DestinationVariable projectId: Long)
     : ChatMessage {
         logger.info("Controller create page")
 
         val auth = jwtProvider.getAuthenticationFromToken(token)
-
         val myId = (auth.principal as UserPrincipal).getUserId()
-        val response = projectPageService.createProjectPage(myId, request)
+
+        val revisedRequest = ProjectPageDto.CreateRequest(projectId, request.name)
+
+        val response = projectPageService.createProjectPage(myId, revisedRequest)
 
         return ChatMessage(response.toString())
 
@@ -136,8 +145,7 @@ class WebSocketController (
     fun createObject(
             @Payload request: PageObjectDto.CreateRequest,
             @Header("Authorization") token: String,
-            @DestinationVariable projectId: Long,
-            @DestinationVariable objectId: Long
+            @DestinationVariable projectId: Long
     ): ChatMessage {
         logger.info("Controller create object")
 
@@ -162,6 +170,7 @@ class WebSocketController (
         val auth = jwtProvider.getAuthenticationFromToken(token)
 
         val myId = (auth.principal as UserPrincipal).getUserId()
+
         val response = pageObjectService.modifyObject(myId, objectId, request)
 
         return ChatMessage(response.toString())
@@ -181,6 +190,53 @@ class WebSocketController (
         val myId = (auth.principal as UserPrincipal).getUserId()
         pageObjectService.deleteObject(myId, objectId)
 
+    }
+
+    @MessageMapping("/project/{projectId}/create.event")
+    @SendTo("/project/{projectId}")
+    fun createEvent(
+            @Payload request: ObjectEventDto.CreateRequest,
+            @Header("Authorization") token: String,
+            @DestinationVariable projectId: Long
+    ): ChatMessage {
+        logger.info("Controller create event")
+        val auth = jwtProvider.getAuthenticationFromToken(token)
+        val myId = (auth.principal as UserPrincipal).getUserId()
+
+        val response = objectEventService.createEvent(myId, request)
+        return ChatMessage(response.toString())
+
+    }
+
+    @MessageMapping("/project/{projectId}/patch.event/{eventId}")
+    @SendTo("/project/{projectId}")
+    fun patchEvent(
+            @Payload request: ObjectEventDto.PatchRequest,
+            @Header("Authorization") token: String,
+            @DestinationVariable projectId: Long,
+            @DestinationVariable eventId: Long
+    ): ChatMessage {
+        logger.info("Controller create event")
+        val auth = jwtProvider.getAuthenticationFromToken(token)
+        val myId = (auth.principal as UserPrincipal).getUserId()
+
+        val response = objectEventService.updateEvent(myId, eventId, request)
+        return ChatMessage(response.toString())
+
+    }
+
+    @MessageMapping("/project/{projectId}/delete.event/{eventId}")
+    @SendTo("/project/{projectId}")
+    fun deleteEvent(
+            @Header("Authorization") token: String,
+            @DestinationVariable projectId: Long,
+            @DestinationVariable eventId: Long
+    ){
+        logger.info("Controller create event")
+        val auth = jwtProvider.getAuthenticationFromToken(token)
+        val myId = (auth.principal as UserPrincipal).getUserId()
+
+        objectEventService.deleteEvent(myId, eventId)
     }
 
 
