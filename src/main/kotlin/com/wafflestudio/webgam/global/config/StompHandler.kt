@@ -1,7 +1,6 @@
 package com.wafflestudio.webgam.global.config
 
 import com.wafflestudio.webgam.global.security.exception.InvalidJwtException
-import com.wafflestudio.webgam.global.security.exception.NoAccessException
 import org.springframework.messaging.MessageChannel
 import org.springframework.messaging.simp.stomp.StompCommand
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor
@@ -11,15 +10,9 @@ import com.wafflestudio.webgam.global.security.jwt.JwtProvider
 import com.wafflestudio.webgam.global.websocket.controller.WebSocketController
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import org.springframework.context.annotation.Profile
-import org.springframework.core.Ordered
-import org.springframework.core.annotation.Order
 import org.springframework.messaging.Message
-import org.springframework.security.core.Authentication
-import java.security.Principal
 
 @Component
-@Order(Ordered.HIGHEST_PRECEDENCE+99)
 class StompHandler(
         private val tokenProvider: JwtProvider
 ) : ChannelInterceptor {
