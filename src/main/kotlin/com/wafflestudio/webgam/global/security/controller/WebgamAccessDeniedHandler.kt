@@ -2,7 +2,7 @@ package com.wafflestudio.webgam.global.security.controller
 
 import com.google.gson.FieldNamingPolicy
 import com.google.gson.GsonBuilder
-import com.wafflestudio.webgam.global.common.exception.ErrorResponse
+import com.wafflestudio.webgam.global.common.dto.ErrorResponse
 import com.wafflestudio.webgam.global.common.exception.WebgamException
 import com.wafflestudio.webgam.global.security.exception.NoAccessException
 import jakarta.servlet.http.HttpServletRequest

@@ -3,6 +3,7 @@ package com.wafflestudio.webgam.domain.event.dto
 import com.wafflestudio.webgam.domain.event.model.ObjectEvent
 import com.wafflestudio.webgam.domain.event.model.TransitionType
 import com.wafflestudio.webgam.domain.event.model.TransitionType.DEFAULT
+import com.wafflestudio.webgam.domain.page.dto.ProjectPageDto
 import com.wafflestudio.webgam.global.common.dto.TimeTraceEntityDto
 import jakarta.validation.constraints.NotNull
 import jakarta.validation.constraints.Positive
@@ -31,6 +32,7 @@ class ObjectEventDto {
         override val modifiedAt: LocalDateTime,
         override val modifiedBy: String,
         val transitionType: TransitionType,
+        val nextPage: ProjectPageDto.SimpleResponse?,
     ): TimeTraceEntityDto.Response(id, createdAt, createdBy, modifiedAt, modifiedBy) {
         constructor(objectEvent: ObjectEvent): this(
             id = objectEvent.id,
@@ -39,6 +41,7 @@ class ObjectEventDto {
             modifiedAt = objectEvent.modifiedAt,
             modifiedBy = objectEvent.modifiedBy,
             transitionType = objectEvent.transitionType,
+            nextPage = objectEvent.nextPage?.let { ProjectPageDto.SimpleResponse(it) },
         )
     }
 }

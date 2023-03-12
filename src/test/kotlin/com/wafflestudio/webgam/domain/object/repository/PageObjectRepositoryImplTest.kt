@@ -1,158 +1,89 @@
 package com.wafflestudio.webgam.domain.`object`.repository
 
-import com.wafflestudio.webgam.domain.`object`.dto.PageObjectDto.CreateRequest
-import com.wafflestudio.webgam.domain.`object`.model.PageObject
-import com.wafflestudio.webgam.domain.`object`.model.PageObjectType
-import com.wafflestudio.webgam.domain.page.model.ProjectPage
-import com.wafflestudio.webgam.domain.page.repository.ProjectPageRepository
-import com.wafflestudio.webgam.domain.project.model.Project
-import com.wafflestudio.webgam.domain.project.repository.ProjectRepository
-import com.wafflestudio.webgam.domain.user.model.User
+import com.wafflestudio.webgam.TestUtils.Companion.testData1
 import com.wafflestudio.webgam.domain.user.repository.UserRepository
 import com.wafflestudio.webgam.global.config.TestQueryDslConfig
+import io.kotest.core.annotation.DisplayName
 import io.kotest.core.spec.Spec
-import io.kotest.core.spec.style.DescribeSpec
-import io.kotest.inspectors.forAll
+import io.kotest.core.spec.style.BehaviorSpec
+import io.kotest.extensions.spring.SpringTestExtension
+import io.kotest.extensions.spring.SpringTestLifecycleMode
+import io.kotest.matchers.collections.shouldBeEmpty
+import io.kotest.matchers.collections.shouldContainExactlyInAnyOrder
 import io.kotest.matchers.collections.shouldNotContainAnyOf
 import io.kotest.matchers.shouldBe
-import io.kotest.matchers.shouldNotBe
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import org.junit.jupiter.api.DisplayName
-import org.junit.jupiter.api.Tag
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
 import org.springframework.context.annotation.Import
 import org.springframework.test.context.ActiveProfiles
-import org.springframework.transaction.annotation.Transactional
 
 @DataJpaTest
 @Import(TestQueryDslConfig::class)
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @ActiveProfiles("test")
-@Tag("Repository-Test")
-@DisplayName("PageObjectRepository Data JPA 테스트")
+@DisplayName("PageObjectRepository 테스트")
 class PageObjectRepositoryImplTest(
-    @Autowired private val userRepository: UserRepository,
-    @Autowired private val projectRepository: ProjectRepository,
-    @Autowired private val projectPageRepository: ProjectPageRepository,
-    @Autowired private val pageObjectRepository: PageObjectRepository,
-) : DescribeSpec() {
+    private val userRepository: UserRepository,
+    private val pageObjectRepository: PageObjectRepository,
+): BehaviorSpec() {
 
-    private lateinit var projects: List<Project>
-    private lateinit var pageLists: List<List<ProjectPage>>
-    private lateinit var pageObjectLists: List<List<PageObject>>
-
-    companion object {
-        val projectTitles = listOf("test-project-0", "test-project-1", "test-project-2", "deleted-project")
-        val pageNames = listOf("test-page-0", "test-page-1", "test-page-2", "deleted-page")
-        val objectNames = listOf("object-0", "object-1", "object-2", "object-3", "deleted-object-0", "deleted-object-1")
-    }
-
-    @Transactional
-    override suspend fun beforeSpec(spec: Spec) {
-        withContext(Dispatchers.IO) {
-            val user = userRepository.save(User("test-id", "test-username", "test@email.com", ""))
-            projects = projectTitles.map {
-                val project = Project(user, it)
-                if (it.contains("deleted")) project.delete()
-                projectRepository.save(project)
-            }
-            pageLists = projects.map { p -> pageNames.map {
-                val projectPage = ProjectPage(p, it)
-                if (it.contains("deleted")) projectPage.delete()
-                projectPageRepository.save(projectPage)
-            } }
-            pageObjectLists = pageLists.map { it.map { page -> objectNames.map { name ->
-                val pageObject = PageObject(page, buildRequest(page.id, name))
-                if (name.contains("deleted")) pageObject.delete()
-                pageObjectRepository.save(pageObject)
-            } }.flatten() }
-        }
-    }
+    override fun extensions() = listOf(SpringTestExtension(SpringTestLifecycleMode.Root))
 
     override suspend fun afterSpec(spec: Spec) {
         withContext(Dispatchers.IO) {
-            pageObjectRepository.deleteAll()
-            projectPageRepository.deleteAll()
-            projectRepository.deleteAll()
             userRepository.deleteAll()
         }
     }
 
-    fun buildRequest(pageId: Long, objectName: String): CreateRequest = CreateRequest(
-        pageId, objectName, PageObjectType.DEFAULT, 0, 0, 0, 0, 0, null, null, null
-    )
-
     init {
-        this.describe("findUndeletedPageObjectById 호출될 때") {
-            context("성공적인 경우") {
-                val id = pageObjectLists[0][0].id
+        this.Given("testData1") {
+            val data = testData1()
+            userRepository.saveAll(data)
 
-                it("삭제 되지 않은 PageObject가 반환된다") {
-                    val pageObject = pageObjectRepository.findUndeletedPageObjectById(id)
+            val projects = data.map { it.projects }.flatten()
+            val objects = projects.map { p -> p.pages.map { it.objects }.flatten() }.flatten()
+            val maxId = pageObjectRepository.findAll().maxOf { it.id }
 
-                    pageObject shouldNotBe null
-                    pageObject!!.isDeleted shouldBe false
+            When("findUndeletedPageObjectById 호출하면") {
+                for (pageObject in objects) {
+                    val foundObject = pageObjectRepository.findUndeletedPageObjectById(pageObject.id)
+                    if (!pageObject.isDeleted) {
+                        Then("삭제되지 않은 오브젝트 객체를 반환한다: ${pageObject.name}") { foundObject shouldBe pageObject }
+                    } else {
+                        Then("삭제 되었으면 NULL을 반환한다: ${pageObject.name}") { foundObject shouldBe null }
+                    }
                 }
+
+                val foundObject = pageObjectRepository.findUndeletedPageObjectById(maxId + 1)
+                Then("존재하지 않는 경우에도 NULL을 반환한다") { foundObject shouldBe null }
             }
 
-            context("해당 id를 갖는 PageObject가 없는 경우") {
-                val id = pageObjectLists[0][0].id + 1000
+            When("findAllUndeletedPageObjectsInProject 호출하면") {
+                for (project in projects) {
+                    val projectObjects = project.pages.map { it.objects }.flatten()
+                    val foundObjects = pageObjectRepository.findAllUndeletedPageObjectsInProject(project.id)
 
-                it("NULL이 반환된다") {
-                    val pageObject = pageObjectRepository.findUndeletedPageObjectById(id)
+                    Then("해당 프로젝트의 모든 삭제되지 않은 오브젝트들을 반환한다: ${project.title}") {
+                        foundObjects shouldContainExactlyInAnyOrder projectObjects.filter { !it.isDeleted }
+                    }
 
-                    pageObject shouldBe null
-                }
-            }
+                    val deletedPageObjects = project.pages.filter { it.isDeleted }.map { it.objects }.flatten()
+                    Then("삭제된 페이지의 오브젝트들은 반환하지 않는다: ${project.title}") {
+                        if (deletedPageObjects.isNotEmpty())
+                            foundObjects shouldNotContainAnyOf deletedPageObjects
+                    }
 
-            context("해당 id를 갖는 PageObject가 삭제된 경우") {
-                val id = pageObjectLists[0].find { it.isDeleted }!!.id
+                    val otherProjects = data.map { u -> u.projects.filter { it.id != project.id } }.flatten()
+                    val otherProjectObjects = otherProjects.map { p -> p.pages.map { it.objects }.flatten() }.flatten()
+                    Then("다른 프로젝트의 오브젝트들은 반환하지 않는다: ${project.title}") {
+                        foundObjects shouldNotContainAnyOf otherProjectObjects
+                    }
 
-                it("NULL이 반환된다") {
-                    val pageObject = pageObjectRepository.findUndeletedPageObjectById(id)
-
-                    pageObject shouldBe null
-                }
-            }
-        }
-
-        this.describe("findAllUndeletedPageObjectsInProject 호출될 때") {
-            context("Project ID를 인자로 넣으면") {
-                val project = projects[1]
-                val projectObjects = pageObjectLists[1]
-                val otherProjectObjects = pageObjectLists[2]
-                val deletedProject = projects[3]
-                val deletedProjectObjects = pageObjectLists[3]
-
-                it("해당 프로젝트의 모든 삭제 되지 않은 PageObject들이 반환된다") {
-                    val findObjects = pageObjectRepository.findAllUndeletedPageObjectsInProject(project.id)
-                    val expectedObjectCount = projectObjects.count { !it.isDeleted && !it.page.isDeleted }
-
-                    findObjects.size shouldBe expectedObjectCount
-                    findObjects.forAll { it.isDeleted shouldBe false }
-                }
-
-                it("해당 프로젝트의 삭제된 Page 에 속하는 PageObject는 반환되지 않는다") {
-                    val findObjects = pageObjectRepository.findAllUndeletedPageObjectsInProject(project.id)
-                    val objectsInDeletedPage = projectObjects.filter { it.page.name.contains("deleted") }
-
-                    findObjects shouldNotContainAnyOf objectsInDeletedPage
-                }
-
-                it("다른 프로젝트의 PageObject는 반환되지 않는다") {
-                    val findObjects = pageObjectRepository.findAllUndeletedPageObjectsInProject(project.id)
-
-                    findObjects shouldNotContainAnyOf otherProjectObjects
-                    findObjects shouldNotContainAnyOf deletedProjectObjects
-                }
-
-                it("삭제된 프로젝트인 경우 빈 List가 반환된다") {
-                    val findObjects = pageObjectRepository.findAllUndeletedPageObjectsInProject(deletedProject.id)
-
-                    findObjects.size shouldBe 0
+                    if (project.isDeleted) {
+                        Then("삭제된 프로젝트의 경우, 빈 리스트를 반환한다: ${project.title}") {
+                            foundObjects.shouldBeEmpty()
+                        }
+                    }
                 }
             }
         }

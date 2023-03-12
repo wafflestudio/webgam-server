@@ -12,23 +12,23 @@ import org.springframework.web.bind.annotation.*
 
 @Validated
 @RestController
-@RequestMapping("/api/v1/page")
+@RequestMapping("/api/v1/pages")
 class ProjectPageController (
         private val projectPageService: ProjectPageService,
 ){
     @GetMapping("/{id}")
     fun getProjectPageInfo(
             @CurrentUser myId:Long,
-            @PathVariable("id") @Positive projectId: Long
+            @PathVariable("id") @Positive pageId: Long
     )
     : ResponseEntity<DetailedResponse> {
-        val projectPage = projectPageService.getProjectPage(myId, projectId)
+        val projectPage = projectPageService.getProjectPage(myId, pageId)
         return ResponseEntity.ok(projectPage)
     }
 
 
 
-    @PostMapping("")
+    @PostMapping
     fun createProjectPage(
             @CurrentUser myId: Long,
             @RequestBody @Valid request: CreateRequest
@@ -52,9 +52,9 @@ class ProjectPageController (
             @CurrentUser myId: Long,
             @PathVariable("id") @Positive id: Long
     )
-    : ResponseEntity<SimpleResponse> {
-        val projectPage = projectPageService.deleteProjectPage(myId, id)
-        return ResponseEntity.ok(projectPage)
+    : ResponseEntity<Any> {
+        projectPageService.deleteProjectPage(myId, id)
+        return ResponseEntity.ok().build()
     }
 
 }

@@ -1,7 +1,9 @@
 package com.wafflestudio.webgam.global.common.exception
 
+import com.wafflestudio.webgam.global.common.exception.ErrorType.ErrorTypeInterface
+
 sealed class WebgamException(
-    val errorType: Error,
+    val errorType: ErrorTypeInterface,
     val detail: String
 ): RuntimeException() {
     abstract class BadRequest(errorType: ErrorType.BadRequest, detail: String): WebgamException(errorType, detail)

@@ -7,10 +7,9 @@ spring:
     properties:
       hibernate:
         default_batch_fetch_size: 500
-    database-platform: org.hibernate.dialect.MySQLDialect
     generate-ddl: false
     hibernate:
-      ddl-auto: none
+      ddl-auto: validate
 
   jackson:
     property-naming-strategy: SNAKE_CASE
@@ -25,53 +24,6 @@ jwt:
 webgam:
   admin-password: ~
   dev-password: ~
-
----
-
-spring:
-  config:
-    activate:
-      on-profile: local
-
-  datasource:
-    url: jdbc:mysql://localhost:3306/webgam_db
-    username: webgam_admin
-    password: WEBGAM_admin_01
-
-  jpa:
-    generate-ddl: true
-    hibernate:
-      ddl-auto: create
-
----
-
-spring:
-  config:
-    activate:
-      on-profile: test
-
-  datasource:
-    url: jdbc:mysql://localhost:3306/webgam_db_test
-    username: webgam_admin
-    password: WEBGAM_admin_01
-
-  jpa:
-    generate-ddl: true
-    hibernate:
-      ddl-auto: create
-    properties:
-      hibernate:
-        format_sql: true
-        use_sql_comments: true
-        highlight_sql: true
-        generate_statistics: true
-
-logging:
-  level:
-    org.springframework.security: TRACE
-    org.hibernate.orm.jdbc.bind: TRACE
-    org.hibernate.sql: DEBUG
-    org.hibernate.stat: DEBUG
 
 ---
 

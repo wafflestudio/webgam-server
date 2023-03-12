@@ -10,7 +10,7 @@ import java.time.LocalDateTime
 
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener::class)
-open class BaseTimeTraceLazyDeletedEntity (
+abstract class BaseTimeTraceLazyDeletedEntity (
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     open val id: Long = 0,
 
@@ -28,7 +28,5 @@ open class BaseTimeTraceLazyDeletedEntity (
 
     open var isDeleted: Boolean = false,
 ) {
-    open fun delete() { // FIXME: open -> abstract
-        isDeleted = true
-    }
+    abstract fun delete()
 }

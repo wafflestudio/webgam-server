@@ -50,4 +50,6 @@ include::{snippets}/error/event/1/http-response.adoc[]
 include::{snippets}/error/event/2/http-response.adoc[]
 .이벤트를 생성할 때, 기존 오브젝트에 이미 이벤트가 할당되어 있는 경우
 include::{snippets}/error/event/3/http-response.adoc[]
+.이벤트를 생성하거나 수정할 때, 다음 페이지가 같은 프로젝트 내에 없는 경우
+include::{snippets}/error/event/4/http-response.adoc[]
 ====
