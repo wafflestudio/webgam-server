@@ -1,31 +1,22 @@
 package com.wafflestudio.webgam.global.websocket
 
-import com.google.gson.FieldNamingPolicy
-import com.google.gson.GsonBuilder
+import com.google.gson.*
 import com.wafflestudio.webgam.TestUtils
-import com.wafflestudio.webgam.domain.event.EventDescribeSpec
 import com.wafflestudio.webgam.domain.event.dto.ObjectEventDto
-import com.wafflestudio.webgam.domain.event.model.ObjectEvent
 import com.wafflestudio.webgam.domain.event.model.TransitionType
 import com.wafflestudio.webgam.domain.event.repository.ObjectEventRepository
-import com.wafflestudio.webgam.domain.`object`.model.PageObject
 import com.wafflestudio.webgam.domain.`object`.model.PageObjectType
 import com.wafflestudio.webgam.domain.`object`.dto.PageObjectDto
 import com.wafflestudio.webgam.domain.`object`.repository.PageObjectRepository
-import com.wafflestudio.webgam.domain.page.model.ProjectPage
 import com.wafflestudio.webgam.domain.page.dto.ProjectPageDto
 import com.wafflestudio.webgam.domain.page.repository.ProjectPageRepository
 import com.wafflestudio.webgam.domain.project.dto.ProjectDto
-import com.wafflestudio.webgam.domain.project.model.Project
 import com.wafflestudio.webgam.domain.project.repository.ProjectRepository
-import com.wafflestudio.webgam.domain.project.service.ProjectService
-import com.wafflestudio.webgam.domain.user.model.User
 import com.wafflestudio.webgam.domain.user.repository.UserRepository
 import com.wafflestudio.webgam.global.security.jwt.JwtProvider
 import com.wafflestudio.webgam.global.security.model.UserPrincipal
 import com.wafflestudio.webgam.global.security.model.WebgamAuthenticationToken
 import com.wafflestudio.webgam.global.security.model.WebgamRoles
-import com.wafflestudio.webgam.global.security.service.AuthService
 import com.wafflestudio.webgam.global.websocket.dto.WebSocketDto
 import io.kotest.core.annotation.DisplayName
 import io.kotest.core.spec.Spec
@@ -39,7 +30,6 @@ import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.messaging.converter.GsonMessageConverter
-//import org.springframework.messaging.converter.KotlinSerializationJsonMessageConverter
 import org.springframework.messaging.simp.stomp.StompFrameHandler
 import org.springframework.messaging.simp.stomp.StompHeaders
 import org.springframework.messaging.simp.stomp.StompSession
@@ -55,7 +45,12 @@ import java.util.concurrent.BlockingDeque
 import java.util.concurrent.LinkedBlockingDeque
 import java.util.concurrent.TimeUnit
 import io.kotest.matchers.shouldBe
-import io.kotest.matchers.shouldNotBe
+import java.time.Instant
+import java.time.LocalDateTime
+import java.time.ZoneId
+
+
+
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @Transactional
@@ -64,20 +59,22 @@ import io.kotest.matchers.shouldNotBe
 @DisplayName("WebSocket 통합 테스트")
 class WebSocketDescribeSpec(
         @Autowired private val jwtProvider: JwtProvider,
-        @Autowired private val userRepository: UserRepository,
-        @Autowired private val projectRepository: ProjectRepository,
-        @Autowired private val pageRepository: ProjectPageRepository,
-        @Autowired private val objectRepository: PageObjectRepository,
-        @Autowired private val eventRepository: ObjectEventRepository
+        @Autowired private val userRepository: UserRepository
 ) : DescribeSpec() {
     override fun extensions() = listOf(SpringExtension)
 
     companion object {
         private const val URL = "ws://localhost:8080/ws"
-        private val messageQueue = LinkedBlockingDeque<WebSocketDto.ChatMessage>()
+        private val messageQueue = LinkedBlockingDeque<WebSocketDto<*>>()
         private val client = WebSocketStompClient(StandardWebSocketClient())
 
-        private val gson = GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES).create()
+
+        private val gson = GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES).registerTypeAdapter(LocalDateTime::class.java, object : JsonDeserializer<LocalDateTime?> {
+            override fun deserialize(json: JsonElement?, type: java.lang.reflect.Type?, jsonDeserializationContext: JsonDeserializationContext?): LocalDateTime {
+                val instant = json?.getAsJsonPrimitive()?.let { Instant.ofEpochMilli(it.getAsLong()) }
+                return LocalDateTime.ofInstant(instant, ZoneId.systemDefault())
+            }
+        }).create()
         private val data = TestUtils.docTestData()
         private val user = data.first()
         private val auth = WebgamAuthenticationToken(UserPrincipal(user), "")
@@ -87,8 +84,6 @@ class WebSocketDescribeSpec(
         private val event = page.objects.first().event!!
         private val nextPage = project.pages.first()
 
-        //private val dummyPageCreateRequest = ProjectPageDto.CreateRequest(projectId=1, name="new_page")
-        //private val dummyPage = ProjectPage(project, dummyPageCreateRequest)
 
     }
 
@@ -98,13 +93,14 @@ class WebSocketDescribeSpec(
         }
     }
 
-    class WebgamStompFrameHandler(private val queue: BlockingDeque<WebSocketDto.ChatMessage>): StompFrameHandler {
+    class WebgamStompFrameHandler(private val queue: BlockingDeque<WebSocketDto<*>>): StompFrameHandler {
         override fun getPayloadType(headers: StompHeaders): Type {
-            return WebSocketDto.ChatMessage::class.java
+            return WebSocketDto::class.java
         }
 
         override fun handleFrame(headers: StompHeaders, payload: Any?) {
-            queue.offer(payload as WebSocketDto.ChatMessage)
+            System.err.println("Payload: " + payload)
+            queue.offer(payload as WebSocketDto<*>)
         }
     }
 
@@ -147,10 +143,10 @@ class WebSocketDescribeSpec(
                     sendHeaders.destination = "/app/send"
                     sendHeaders.contentType = APPLICATION_JSON
                     val message = "Hello, Websocket!"
-                    session.send(sendHeaders, WebSocketDto.ChatMessage(message))
+                    session.send(sendHeaders, WebSocketDto<String>(user, message))
 
                     withContext(Dispatchers.IO) {
-                        Thread.sleep(1000) // 이거 안 넣어주면 응답 오기 전에 테스트 끝남
+                        Thread.sleep(10000) // 이거 안 넣어주면 응답 오기 전에 테스트 끝남
                     }
 
                     System.err.println("Checking responses...")
@@ -158,6 +154,7 @@ class WebSocketDescribeSpec(
                     else while (messageQueue.isNotEmpty()) {
                         val response = messageQueue.poll()
                         System.err.println("response: $response")
+                        response.content shouldBe message
                     }
 
                     session.disconnect()
@@ -195,14 +192,15 @@ class WebSocketDescribeSpec(
                     session.send(sendHeaders, ProjectDto.PatchRequest("title_changed"))
 
                     withContext(Dispatchers.IO) {
-                        Thread.sleep(10000) // 이거 안 넣어주면 응답 오기 전에 테스트 끝남
+                        Thread.sleep(20000) // 이거 안 넣어주면 응답 오기 전에 테스트 끝남
                     }
 
                     System.err.println("Checking responses...")
                     if (messageQueue.isEmpty()) System.err.println("EMPTY!!")
                     else while (messageQueue.isNotEmpty()) {
-                        val response = messageQueue.poll()
-                        System.err.println("response: ${response}")
+                        val response = (messageQueue.poll())
+                        //val updatedProject = projectRepository.findUndeletedProjectById(1)
+                        System.err.println(response.content)
                     }
 
                     session.disconnect()
@@ -246,7 +244,8 @@ class WebSocketDescribeSpec(
                     if (messageQueue.isEmpty()) System.err.println("EMPTY!!")
                     else while (messageQueue.isNotEmpty()) {
                         val response = messageQueue.poll()
-                        System.err.println("response: ${response}")
+                        //val newPage = pageRepository.findUndeletedProjectPageById(2)
+                        System.err.println(response.content)
                     }
 
                     session.disconnect()
@@ -287,7 +286,8 @@ class WebSocketDescribeSpec(
                     if (messageQueue.isEmpty()) System.err.println("EMPTY!!")
                     else while (messageQueue.isNotEmpty()) {
                         val response = messageQueue.poll()
-                        System.err.println("response: ${response}")
+                        //val updatedPage = pageRepository.findUndeletedProjectPageById(1)
+                        System.err.println(response.content)
                     }
 
                     session.disconnect()
@@ -372,8 +372,7 @@ class WebSocketDescribeSpec(
                     if (messageQueue.isEmpty()) System.err.println("EMPTY!!")
                     else while (messageQueue.isNotEmpty()) {
                         val response = messageQueue.poll()
-                        System.err.println("response: ${response}")
-
+                        System.err.println(response.content)
                     }
 
                     session.disconnect()
@@ -415,7 +414,7 @@ class WebSocketDescribeSpec(
                     if (messageQueue.isEmpty()) System.err.println("EMPTY!!")
                     else while (messageQueue.isNotEmpty()) {
                         val response = messageQueue.poll()
-                        System.err.println("response: ${response}")
+                        System.err.println(response.content)
                     }
 
                     session.disconnect()
@@ -456,7 +455,7 @@ class WebSocketDescribeSpec(
                     if (messageQueue.isEmpty()) System.err.println("EMPTY!!")
                     else while (messageQueue.isNotEmpty()) {
                         val response = messageQueue.poll()
-                        System.err.println("response: ${response}")
+                        System.err.println(response.content)
                     }
 
                     session.disconnect()
@@ -500,7 +499,7 @@ class WebSocketDescribeSpec(
                     if (messageQueue.isEmpty()) System.err.println("EMPTY!!")
                     else while (messageQueue.isNotEmpty()) {
                         val response = messageQueue.poll()
-                        System.err.println("response: ${response}")
+                        System.err.println(response.content)
                     }
 
                     session.disconnect()
@@ -541,7 +540,7 @@ class WebSocketDescribeSpec(
                     if (messageQueue.isEmpty()) System.err.println("EMPTY!!")
                     else while (messageQueue.isNotEmpty()) {
                         val response = messageQueue.poll()
-                        System.err.println("response: ${response}")
+                        System.err.println(response.content)
                     }
 
                     session.disconnect()
@@ -584,7 +583,7 @@ class WebSocketDescribeSpec(
                     if (messageQueue.isEmpty()) System.err.println("EMPTY!!")
                     else while (messageQueue.isNotEmpty()) {
                         val response = messageQueue.poll()
-                        System.err.println("response: ${response}")
+                        System.err.println(response.content)
                     }
 
                     session.disconnect()
