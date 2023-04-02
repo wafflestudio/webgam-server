@@ -36,7 +36,7 @@ class PageObjectServiceTest : DescribeSpec() {
         private val nonAccessibleProject = mockk<Project>()
         private val page = mockk<ProjectPage>()
         private val nonAccessiblePage = mockk<ProjectPage>()
-        private val pageObject = PageObject(page, "object", DEFAULT, 0, 0, 0, 0, 0, "", 0, "")
+        private val pageObject = PageObject(page, "object", DEFAULT, 0, 0, 0, 0, 0, 0, null, null, null, null, null, null, null, null, null, null)
         private val nonAccessiblePageObject = mockk<PageObject>()
 
         private const val USER_ID = 1L
@@ -116,7 +116,7 @@ class PageObjectServiceTest : DescribeSpec() {
 
         this.describe("createObject 호출될 때") {
             context("성공적인 경우") {
-                val request = CreateRequest(NORMAL, "create-object", DEFAULT, 0, 0, 0, 0, 0, "", 0, "")
+                val request = CreateRequest(NORMAL, "create-object", DEFAULT, 0, 0, 0, 0, 0, 0, null, null, null, null, null, null, null, null, null, null)
 
                 it("생성된 PageObject가 SimpleResponse DTO로 반환된다") {
                     val response = shouldNotThrowAny { pageObjectService.createObject(USER_ID, request) }
@@ -125,7 +125,7 @@ class PageObjectServiceTest : DescribeSpec() {
             }
 
             context("해당 ID를 갖는 페이지가 존재하지 않거나 삭제됐으면") {
-                val request = CreateRequest(DELETED, "create-object", DEFAULT, 0, 0, 0, 0, 0, "", 0, "")
+                val request = CreateRequest(DELETED, "create-object", DEFAULT, 0, 0, 0, 0, 0, 0, null, null, null, null, null, null, null, null, null, null)
 
                 it("ProjectPageNotFoundException 예외를 던진다") {
                     shouldThrow<ProjectPageNotFoundException> { pageObjectService.createObject(USER_ID, request) }
@@ -133,7 +133,7 @@ class PageObjectServiceTest : DescribeSpec() {
             }
 
             context("해당 ID를 갖는 페이지에 접근할 수 없으면") {
-                val request = CreateRequest(NON_ACCESSIBLE, "create-object", DEFAULT, 0, 0, 0, 0, 0, "", 0, "")
+                val request = CreateRequest(NON_ACCESSIBLE, "create-object", DEFAULT, 0, 0, 0, 0, 0, 0, null, null, null, null, null, null, null, null, null, null)
 
                 it("NonAccessibleProjectPageException 예외를 던진다") {
                     shouldThrow<NonAccessibleProjectPageException> { pageObjectService.createObject(USER_ID, request) }
@@ -142,7 +142,7 @@ class PageObjectServiceTest : DescribeSpec() {
         }
 
         this.describe("modifyObject 호출될 때") {
-            val request = PatchRequest(null, 30, null, null, null, null, null, null, null)
+            val request = PatchRequest(null, 30, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null)
 
             context("성공적인 경우") {
                 it("수정된 PageObject가 Detailed Response DTO로 반환된다") {

@@ -123,7 +123,7 @@ class PageObjectServiceTestWithRepository(
                                 pageObjectService.getObject(user.id, pageObject.id)
                             }
                             shouldThrow<PageObjectNotFoundException> {
-                                val request = PatchRequest(null, null, null, null, null, null, null, null, null)
+                                val request = PatchRequest(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null)
                                 pageObjectService.modifyObject(user.id, pageObject.id, request)
                             }
                             shouldThrow<PageObjectNotFoundException> {
@@ -140,7 +140,7 @@ class PageObjectServiceTestWithRepository(
                                 pageObjectService.getObject(user.id, pageObject.id)
                             }
                             shouldThrow<NonAccessiblePageObjectException> {
-                                val request = PatchRequest(null, null, null, null, null, null, null, null, null)
+                                val request = PatchRequest(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null)
                                 pageObjectService.modifyObject(user.id, pageObject.id, request)
                             }
                             shouldThrow<NonAccessiblePageObjectException> {
@@ -154,7 +154,7 @@ class PageObjectServiceTestWithRepository(
             When("오브젝트를 생성하면") {
                 val user = data.first { it.username == "user-01" }
                 val page = user.projects.first { it.title == "project-01" }.pages.first { it.name == "page-01" }
-                val request = CreateRequest(page.id, "create-object", TEXT, 25, 35, 10, -30, 1, "object-text", 16, null)
+                val request = CreateRequest(page.id, "create-object", TEXT, 25, 35, 10, -30, 1, 25, "object-text", 16, 10, 2, "#000000", 8, "#000000",null, null, null)
                 val response = shouldNotThrowAny { pageObjectService.createObject(user.id, request) }
                 val foundObject = pageObjectRepository.findByIdOrNull(response.id)!!
 
@@ -167,9 +167,17 @@ class PageObjectServiceTestWithRepository(
                     response.xPosition shouldBe request.xPosition
                     response.yPosition shouldBe request.yPosition
                     response.zIndex shouldBe request.zIndex
+                    response.opacity shouldBe request.opacity
                     response.textContent shouldBe request.textContent
                     response.fontSize shouldBe request.fontSize
+                    response.lineHeight shouldBe request.lineHeight
+                    response.letterSpacing shouldBe request.letterSpacing
+                    response.backgroundColor shouldBe request.backgroundColor
+                    response.strokeWidth shouldBe request.strokeWidth
+                    response.strokeColor shouldBe request.strokeColor
                     response.imageSource shouldBe request.imageSource
+                    response.isReversed shouldBe request.isReversed
+                    response.rotateDegree shouldBe request.rotateDegree
                 }
 
                 Then("성공적으로 연관관계 매핑이 이루어진다") {
@@ -187,9 +195,17 @@ class PageObjectServiceTestWithRepository(
                     listOf(null, -80).map { it to null },
                     listOf(null, 28).map { it to null },
                     listOf(null, 8).map { it to null },
+                    listOf(null, 10).map { it to null },
                     listOf(null, "patch-text").map { it to null },
                     listOf(null, 20).map { it to null },
+                    listOf(null, 11).map { it to null },
+                    listOf(null, 2).map { it to null },
+                    listOf(null, "#000000").map { it to null },
+                    listOf(null, 8).map { it to null },
+                    listOf(null, "#FFFFFF").map { it to null },
                     listOf(null, "patch-image-source").map { it to null },
+                    listOf(null, false).map { it to null },
+                    listOf(null, 180).map { it to null },
                 )
                 combinations.forAll { (l, _) ->
                     val request = PatchRequest(
@@ -199,9 +215,17 @@ class PageObjectServiceTestWithRepository(
                         l[3] as Int?,
                         l[4] as Int?,
                         l[5] as Int?,
-                        l[6] as String?,
-                        l[7] as Int?,
-                        l[8] as String?
+                        l[6] as Int?,
+                        l[7] as String?,
+                        l[8] as Int?,
+                        l[9] as Int?,
+                        l[10] as Int?,
+                        l[11] as String?,
+                        l[12] as Int?,
+                        l[13] as String?,
+                        l[14] as String?,
+                        l[15] as Boolean?,
+                        l[16] as Int?,
                     )
                     val beforeUpdate = DetailedResponse(pageObject)
                     val response = shouldNotThrowAny { pageObjectService.modifyObject(user.id, pageObject.id, request) }
@@ -216,9 +240,17 @@ class PageObjectServiceTestWithRepository(
                         response.xPosition shouldBe (request.xPosition ?: beforeUpdate.xPosition)
                         response.yPosition shouldBe (request.yPosition ?: beforeUpdate.yPosition)
                         response.zIndex shouldBe (request.zIndex ?: beforeUpdate.zIndex)
+                        response.opacity shouldBe (request.opacity ?: beforeUpdate.opacity)
                         response.textContent shouldBe (request.textContent ?: beforeUpdate.textContent)
                         response.fontSize shouldBe (request.fontSize ?: beforeUpdate.fontSize)
+                        response.lineHeight shouldBe (request.lineHeight ?: beforeUpdate.lineHeight)
+                        response.letterSpacing shouldBe (request.letterSpacing ?: beforeUpdate.letterSpacing)
+                        response.backgroundColor shouldBe (request.backgroundColor ?: beforeUpdate.backgroundColor)
+                        response.strokeWidth shouldBe (request.strokeWidth ?: beforeUpdate.strokeWidth)
+                        response.strokeColor shouldBe (request.strokeColor ?: beforeUpdate.strokeColor)
                         response.imageSource shouldBe (request.imageSource ?: beforeUpdate.imageSource)
+                        response.isReversed shouldBe (request.isReversed ?: beforeUpdate.isReversed)
+                        response.rotateDegree shouldBe (request.rotateDegree ?: beforeUpdate.rotateDegree)
                     }
                 }
             }
@@ -237,7 +269,7 @@ class PageObjectServiceTestWithRepository(
                 Then("오브젝트 조회, 수정, 삭제가 더 이상 불가능하다") {
                     shouldThrow<PageObjectNotFoundException> { pageObjectService.getObject(user.id, pageObject.id) }
                     shouldThrow<PageObjectNotFoundException> { pageObjectService.modifyObject(user.id, pageObject.id,
-                        PatchRequest(null, null, null, null, null, null, null, null, null)) }
+                        PatchRequest(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null)) }
                     shouldThrow<PageObjectNotFoundException> { pageObjectService.deleteObject(user.id, pageObject.id) }
                 }
 
