@@ -1,17 +1,15 @@
 package com.wafflestudio.webgam.global.websocket
 
 import com.google.gson.*
+import com.google.gson.reflect.TypeToken
 import com.wafflestudio.webgam.TestUtils
 import com.wafflestudio.webgam.domain.event.dto.ObjectEventDto
 import com.wafflestudio.webgam.domain.event.model.TransitionType
-import com.wafflestudio.webgam.domain.event.repository.ObjectEventRepository
-import com.wafflestudio.webgam.domain.`object`.model.PageObjectType
 import com.wafflestudio.webgam.domain.`object`.dto.PageObjectDto
-import com.wafflestudio.webgam.domain.`object`.repository.PageObjectRepository
+import com.wafflestudio.webgam.domain.`object`.model.PageObjectType
 import com.wafflestudio.webgam.domain.page.dto.ProjectPageDto
 import com.wafflestudio.webgam.domain.page.repository.ProjectPageRepository
 import com.wafflestudio.webgam.domain.project.dto.ProjectDto
-import com.wafflestudio.webgam.domain.project.repository.ProjectRepository
 import com.wafflestudio.webgam.domain.user.repository.UserRepository
 import com.wafflestudio.webgam.global.security.jwt.JwtProvider
 import com.wafflestudio.webgam.global.security.model.UserPrincipal
@@ -22,11 +20,10 @@ import io.kotest.core.annotation.DisplayName
 import io.kotest.core.spec.Spec
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.extensions.spring.SpringExtension
+import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.junit.jupiter.api.Tag
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.messaging.converter.GsonMessageConverter
@@ -41,15 +38,10 @@ import org.springframework.web.socket.WebSocketHttpHeaders
 import org.springframework.web.socket.client.standard.StandardWebSocketClient
 import org.springframework.web.socket.messaging.WebSocketStompClient
 import java.lang.reflect.Type
+import java.time.LocalDateTime
 import java.util.concurrent.BlockingDeque
 import java.util.concurrent.LinkedBlockingDeque
 import java.util.concurrent.TimeUnit
-import io.kotest.matchers.shouldBe
-import java.time.Instant
-import java.time.LocalDateTime
-import java.time.ZoneId
-
-
 
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
@@ -59,9 +51,14 @@ import java.time.ZoneId
 @DisplayName("WebSocket 통합 테스트")
 class WebSocketDescribeSpec(
         @Autowired private val jwtProvider: JwtProvider,
-        @Autowired private val userRepository: UserRepository
+        @Autowired private val userRepository: UserRepository,
+        @Autowired private val pageRepository: ProjectPageRepository
 ) : DescribeSpec() {
     override fun extensions() = listOf(SpringExtension)
+
+    private inline fun <reified T> parseArray(json: String, typeToken: Type): T {
+        return gson.fromJson<T>(json, typeToken)
+    }
 
     companion object {
         private const val URL = "ws://localhost:8080/ws"
@@ -69,12 +66,13 @@ class WebSocketDescribeSpec(
         private val client = WebSocketStompClient(StandardWebSocketClient())
 
 
-        private val gson = GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES).registerTypeAdapter(LocalDateTime::class.java, object : JsonDeserializer<LocalDateTime?> {
-            override fun deserialize(json: JsonElement?, type: java.lang.reflect.Type?, jsonDeserializationContext: JsonDeserializationContext?): LocalDateTime {
-                val instant = json?.getAsJsonPrimitive()?.let { Instant.ofEpochMilli(it.getAsLong()) }
-                return LocalDateTime.ofInstant(instant, ZoneId.systemDefault())
-            }
-        }).create()
+        private val gson = GsonBuilder()
+                .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
+                .registerTypeAdapter(LocalDateTime::class.java, LocalDateTimeDeserializer())
+                .setExclusionStrategies(CustomExclusionStrategy())
+                .create()
+
+
         private val data = TestUtils.docTestData()
         private val user = data.first()
         private val auth = WebgamAuthenticationToken(UserPrincipal(user), "")
@@ -142,7 +140,7 @@ class WebSocketDescribeSpec(
                     sendHeaders.set("Authorization", token)
                     sendHeaders.destination = "/app/send"
                     sendHeaders.contentType = APPLICATION_JSON
-                    val message = "Hello, Websocket!"
+                    val message = "Hello"
                     session.send(sendHeaders, WebSocketDto<String>(user, message))
 
                     withContext(Dispatchers.IO) {
@@ -199,8 +197,15 @@ class WebSocketDescribeSpec(
                     if (messageQueue.isEmpty()) System.err.println("EMPTY!!")
                     else while (messageQueue.isNotEmpty()) {
                         val response = (messageQueue.poll())
-                        //val updatedProject = projectRepository.findUndeletedProjectById(1)
                         System.err.println(response.content)
+
+                        //TODO
+                        val type = object : TypeToken<ProjectDto.DetailedResponse>() {}.type
+                        System.err.println(gson.toJson(response.content))
+                        val responseObject = parseArray<ProjectDto.DetailedResponse>(gson.toJson(response.content), type)
+                        System.err.println(responseObject)
+
+                        responseObject.title shouldBe "title_changed"
                     }
 
                     session.disconnect()
@@ -244,8 +249,16 @@ class WebSocketDescribeSpec(
                     if (messageQueue.isEmpty()) System.err.println("EMPTY!!")
                     else while (messageQueue.isNotEmpty()) {
                         val response = messageQueue.poll()
-                        //val newPage = pageRepository.findUndeletedProjectPageById(2)
                         System.err.println(response.content)
+
+                        // TODO
+                        val type = object : TypeToken<ProjectPageDto.DetailedResponse>() {}.type
+                        val responseObject = parseArray<ProjectPageDto.DetailedResponse>(gson.toJson(response.content), type)
+                        System.err.println(responseObject)
+
+                        responseObject.id shouldBe 2
+                        responseObject.projectId shouldBe 1
+                        responseObject.name shouldBe "new_page"
                     }
 
                     session.disconnect()
@@ -286,8 +299,12 @@ class WebSocketDescribeSpec(
                     if (messageQueue.isEmpty()) System.err.println("EMPTY!!")
                     else while (messageQueue.isNotEmpty()) {
                         val response = messageQueue.poll()
-                        //val updatedPage = pageRepository.findUndeletedProjectPageById(1)
                         System.err.println(response.content)
+                        val type = object : TypeToken<ProjectPageDto.DetailedResponse>() {}.type
+                        val responseObject = parseArray<ProjectPageDto.DetailedResponse>(gson.toJson(response.content), type)
+                        System.err.println(responseObject)
+
+                        responseObject.name shouldBe "changed_page_title"
                     }
 
                     session.disconnect()
@@ -360,8 +377,9 @@ class WebSocketDescribeSpec(
                     sendHeaders.set("Authorization", token)
                     sendHeaders.destination = "/app/project/1/create.object"
                     sendHeaders.contentType = APPLICATION_JSON
+
                     session.send(sendHeaders, PageObjectDto.CreateRequest(1, "new_object", PageObjectType.DEFAULT,
-                        30, 30, 2, 2, 0, "hi", null, null))
+                                            30, 30, 2, 2, 0, "hi", null, null))
 
 
                     withContext(Dispatchers.IO) {
@@ -373,6 +391,23 @@ class WebSocketDescribeSpec(
                     else while (messageQueue.isNotEmpty()) {
                         val response = messageQueue.poll()
                         System.err.println(response.content)
+                        val type = object : TypeToken<PageObjectDto.SimpleResponse>() {}.type
+                        val responseObject = parseArray<PageObjectDto.SimpleResponse>(gson.toJson(response.content), type)
+                        System.err.println(gson.toJson(response.content))
+                        System.err.println(responseObject)
+
+                        responseObject.id shouldBe 3
+                        responseObject.name shouldBe "new_object"
+                        responseObject.type shouldBe PageObjectType.DEFAULT
+                        responseObject.width shouldBe 30
+                        responseObject.height shouldBe 30
+                        responseObject.xPosition shouldBe 2
+                        responseObject.yPosition shouldBe 2
+                        responseObject.zIndex shouldBe 0
+                        responseObject.textContent shouldBe "hi"
+                        responseObject.fontSize shouldBe null
+                        responseObject.imageSource shouldBe null
+
                     }
 
                     session.disconnect()
@@ -415,6 +450,22 @@ class WebSocketDescribeSpec(
                     else while (messageQueue.isNotEmpty()) {
                         val response = messageQueue.poll()
                         System.err.println(response.content)
+
+                        val type = object : TypeToken<PageObjectDto.DetailedResponse>() {}.type
+                        val responseObject = parseArray<PageObjectDto.DetailedResponse>(gson.toJson(response.content), type)
+                        System.err.println(responseObject)
+
+                        responseObject.type shouldBe PageObjectType.DEFAULT
+                        responseObject.width shouldBe 20
+                        responseObject.height shouldBe 20
+                        responseObject.xPosition shouldBe 3
+                        responseObject.yPosition shouldBe 3
+                        responseObject.zIndex shouldBe 0
+                        responseObject.textContent shouldBe "changed_text"
+                        responseObject.fontSize shouldBe 5
+                        responseObject.imageSource shouldBe null
+
+
                     }
 
                     session.disconnect()
@@ -500,6 +551,14 @@ class WebSocketDescribeSpec(
                     else while (messageQueue.isNotEmpty()) {
                         val response = messageQueue.poll()
                         System.err.println(response.content)
+
+                        val type = object : TypeToken<ObjectEventDto.SimpleResponse>() {}.type
+                        val responseObject = parseArray<ObjectEventDto.SimpleResponse>(gson.toJson(response.content), type)
+                        System.err.println(responseObject)
+
+                        responseObject.id shouldBe 2
+                        responseObject.transitionType shouldBe TransitionType.DEFAULT
+                        responseObject.nextPage!!.id shouldBe 1
                     }
 
                     session.disconnect()
@@ -541,6 +600,14 @@ class WebSocketDescribeSpec(
                     else while (messageQueue.isNotEmpty()) {
                         val response = messageQueue.poll()
                         System.err.println(response.content)
+
+                        val type = object : TypeToken<ObjectEventDto.SimpleResponse>() {}.type
+                        val responseObject = parseArray<ObjectEventDto.SimpleResponse>(gson.toJson(response.content), type)
+                        System.err.println(responseObject)
+
+                        responseObject.transitionType shouldBe TransitionType.DEFAULT
+                        responseObject.nextPage!!.id shouldBe 1
+
                     }
 
                     session.disconnect()

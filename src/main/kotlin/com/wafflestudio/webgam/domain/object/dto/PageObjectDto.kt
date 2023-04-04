@@ -1,5 +1,7 @@
 package com.wafflestudio.webgam.domain.`object`.dto
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect
+import com.fasterxml.jackson.annotation.JsonProperty
 import com.wafflestudio.webgam.domain.event.dto.ObjectEventDto
 import com.wafflestudio.webgam.domain.`object`.model.PageObject
 import com.wafflestudio.webgam.domain.`object`.model.PageObjectType
@@ -12,6 +14,7 @@ import org.hibernate.validator.constraints.URL
 import java.time.LocalDateTime
 
 class PageObjectDto {
+    //@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
     data class CreateRequest(
         @field:[NotNull Positive]
         val pageId: Long?,
@@ -23,10 +26,13 @@ class PageObjectDto {
         @field:[NotNull Positive]
         val height: Int?,
         @field:NotNull
+        @get:JsonProperty("x_position")
         val xPosition: Int?,
         @field:NotNull
+        @get:JsonProperty("y_position")
         val yPosition: Int?,
         @field:[NotNull PositiveOrZero]
+        @get:JsonProperty("z_index")
         val zIndex: Int?,
         /* Optional */
         val textContent: String?,
@@ -36,15 +42,20 @@ class PageObjectDto {
         val imageSource: String?,
     )
 
+
+    //@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
     data class PatchRequest(
         val type: PageObjectType?,
         @field:Positive
         val width: Int?,
         @field:Positive
         val height: Int?,
+        @get:JsonProperty("x_position")
         val xPosition: Int?,
+        @get:JsonProperty("y_position")
         val yPosition: Int?,
         @field:PositiveOrZero
+        @get:JsonProperty("z_index")
         val zIndex: Int?,
         val textContent: String?,
         @field:Positive
@@ -53,6 +64,7 @@ class PageObjectDto {
         val imageSource: String?,
     )
 
+    //@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
     data class SimpleResponse(
         override val id: Long,
         override val createdAt: LocalDateTime,
@@ -63,8 +75,11 @@ class PageObjectDto {
         val type: PageObjectType,
         val width: Int,
         val height: Int,
+        @get:JsonProperty("x_position")
         val xPosition: Int,
+        @get:JsonProperty("y_position")
         val yPosition: Int,
+        @get:JsonProperty("z_index")
         val zIndex: Int,
         val textContent: String?,
         val fontSize: Int?,
@@ -90,21 +105,24 @@ class PageObjectDto {
     }
 
     data class DetailedResponse(
-        override val id: Long,
-        override val createdAt: LocalDateTime,
-        override val createdBy: String,
-        override val modifiedAt: LocalDateTime,
-        override val modifiedBy: String,
-        val name: String,
-        val type: PageObjectType,
-        val width: Int,
-        val height: Int,
-        val xPosition: Int,
-        val yPosition: Int,
-        val zIndex: Int,
-        val textContent: String?,
-        val fontSize: Int?,
-        val imageSource: String?,
+         override val id: Long,
+         override val createdAt: LocalDateTime,
+         override val createdBy: String,
+         override val modifiedAt: LocalDateTime,
+         override val modifiedBy: String,
+         val name: String,
+         val type: PageObjectType,
+         val width: Int,
+         val height: Int,
+         @get:JsonProperty("x_position")
+         val xPosition: Int,
+         @get:JsonProperty("y_position")
+         val yPosition: Int,
+         @get:JsonProperty("z_index")
+         val zIndex: Int,
+         val textContent: String?,
+         val fontSize: Int?,
+         val imageSource: String?,
         /* Detailed */
         val pageId: Long,
         val isInteractive: Boolean,

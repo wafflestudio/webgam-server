@@ -7,6 +7,7 @@ plugins {
 	kotlin("jvm") version "1.8.0"
 	kotlin("plugin.spring") version "1.8.0"
 	kotlin("plugin.jpa") version "1.8.0"
+	kotlin("plugin.serialization") version "1.5.0"
 	kotlin("kapt") version "1.8.0"
 }
 
@@ -34,6 +35,7 @@ dependencies {
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.14.0")
 	implementation("org.jetbrains.kotlin:kotlin-reflect:1.7.22")
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.7.22")
+	implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.0")
 	implementation("com.google.code.gson:gson:2.10.1")
 	implementation("io.jsonwebtoken:jjwt-api:0.11.5")
 	implementation("io.hypersistence:hypersistence-utils-hibernate-60:3.0.1")
