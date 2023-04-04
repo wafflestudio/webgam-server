@@ -199,9 +199,7 @@ class WebSocketDescribeSpec(
                         val response = (messageQueue.poll())
                         System.err.println(response.content)
 
-                        //TODO
                         val type = object : TypeToken<ProjectDto.DetailedResponse>() {}.type
-                        System.err.println(gson.toJson(response.content))
                         val responseObject = parseArray<ProjectDto.DetailedResponse>(gson.toJson(response.content), type)
                         System.err.println(responseObject)
 
@@ -251,7 +249,6 @@ class WebSocketDescribeSpec(
                         val response = messageQueue.poll()
                         System.err.println(response.content)
 
-                        // TODO
                         val type = object : TypeToken<ProjectPageDto.DetailedResponse>() {}.type
                         val responseObject = parseArray<ProjectPageDto.DetailedResponse>(gson.toJson(response.content), type)
                         System.err.println(responseObject)
@@ -300,6 +297,7 @@ class WebSocketDescribeSpec(
                     else while (messageQueue.isNotEmpty()) {
                         val response = messageQueue.poll()
                         System.err.println(response.content)
+
                         val type = object : TypeToken<ProjectPageDto.DetailedResponse>() {}.type
                         val responseObject = parseArray<ProjectPageDto.DetailedResponse>(gson.toJson(response.content), type)
                         System.err.println(responseObject)
@@ -391,9 +389,9 @@ class WebSocketDescribeSpec(
                     else while (messageQueue.isNotEmpty()) {
                         val response = messageQueue.poll()
                         System.err.println(response.content)
+
                         val type = object : TypeToken<PageObjectDto.SimpleResponse>() {}.type
                         val responseObject = parseArray<PageObjectDto.SimpleResponse>(gson.toJson(response.content), type)
-                        System.err.println(gson.toJson(response.content))
                         System.err.println(responseObject)
 
                         responseObject.id shouldBe 3
