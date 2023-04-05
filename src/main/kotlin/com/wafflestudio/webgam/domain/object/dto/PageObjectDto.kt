@@ -10,6 +10,7 @@ import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.NotNull
 import jakarta.validation.constraints.Positive
 import jakarta.validation.constraints.PositiveOrZero
+import org.hibernate.validator.constraints.Range
 import org.hibernate.validator.constraints.URL
 import java.time.LocalDateTime
 
@@ -34,12 +35,25 @@ class PageObjectDto {
         @field:[NotNull PositiveOrZero]
         @get:JsonProperty("z_index")
         val zIndex: Int?,
+        @field:[NotNull Range(min=0, max=100)]
+        val opacity: Int?,
         /* Optional */
         val textContent: String?,
         @field:Positive
         val fontSize: Int?,
+        @field:Positive
+        val lineHeight: Int?,
+        @field:Positive
+        val letterSpacing: Int?,
+        val backgroundColor: String?,
+        @field:Positive
+        val strokeWidth: Int?,
+        val strokeColor: String?,
         @field:URL
         val imageSource: String?,
+        val isReversed: Boolean?,
+        @field:Range(min=0, max=359)
+        val rotateDegree: Int?,
     )
 
 
@@ -57,11 +71,24 @@ class PageObjectDto {
         @field:PositiveOrZero
         @get:JsonProperty("z_index")
         val zIndex: Int?,
+        @field:Range(min=0, max=100)
+        val opacity: Int?,
         val textContent: String?,
         @field:Positive
         val fontSize: Int?,
+        @field:Positive
+        val lineHeight: Int?,
+        @field:Positive
+        val letterSpacing: Int?,
+        val backgroundColor: String?,
+        @field:Positive
+        val strokeWidth: Int?,
+        val strokeColor: String?,
         @field:URL
         val imageSource: String?,
+        val isReversed: Boolean?,
+        @field:Range(min=0, max=359)
+        val rotateDegree: Int?,
     )
 
     //@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
@@ -81,9 +108,17 @@ class PageObjectDto {
         val yPosition: Int,
         @get:JsonProperty("z_index")
         val zIndex: Int,
+        val opacity: Int,
         val textContent: String?,
         val fontSize: Int?,
+        val lineHeight: Int?,
+        val letterSpacing: Int?,
+        val backgroundColor: String?,
+        val strokeWidth: Int?,
+        val strokeColor: String?,
         val imageSource: String?,
+        val isReversed: Boolean?,
+        val rotateDegree: Int?,
     ): TimeTraceEntityDto.Response(id, createdAt, createdBy, modifiedAt, modifiedBy) {
         constructor(pageObject: PageObject): this(
             id = pageObject.id,
@@ -98,31 +133,47 @@ class PageObjectDto {
             xPosition = pageObject.xPosition,
             yPosition = pageObject.yPosition,
             zIndex = pageObject.zIndex,
+            opacity = pageObject.opacity,
             textContent = pageObject.textContent,
             fontSize = pageObject.fontSize,
+            lineHeight = pageObject.lineHeight,
+            letterSpacing = pageObject.letterSpacing,
+            backgroundColor = pageObject.backgroundColor,
+            strokeWidth = pageObject.strokeWidth,
+            strokeColor = pageObject.strokeColor,
             imageSource = pageObject.imageSource,
+            isReversed = pageObject.isReversed,
+            rotateDegree = pageObject.rotateDegree,
         )
     }
 
     data class DetailedResponse(
-         override val id: Long,
-         override val createdAt: LocalDateTime,
-         override val createdBy: String,
-         override val modifiedAt: LocalDateTime,
-         override val modifiedBy: String,
-         val name: String,
-         val type: PageObjectType,
-         val width: Int,
-         val height: Int,
-         @get:JsonProperty("x_position")
-         val xPosition: Int,
-         @get:JsonProperty("y_position")
-         val yPosition: Int,
-         @get:JsonProperty("z_index")
-         val zIndex: Int,
-         val textContent: String?,
-         val fontSize: Int?,
-         val imageSource: String?,
+        override val id: Long,
+        override val createdAt: LocalDateTime,
+        override val createdBy: String,
+        override val modifiedAt: LocalDateTime,
+        override val modifiedBy: String,
+        val name: String,
+        val type: PageObjectType,
+        val width: Int,
+        val height: Int,
+        @get:JsonProperty("x_position")
+        val xPosition: Int,
+        @get:JsonProperty("y_position")
+        val yPosition: Int,
+        @get:JsonProperty("z_index")
+        val zIndex: Int,
+        val opacity: Int,
+        val textContent: String?,
+        val fontSize: Int?,
+        val lineHeight: Int?,
+        val letterSpacing: Int?,
+        val backgroundColor: String?,
+        val strokeWidth: Int?,
+        val strokeColor: String?,
+        val imageSource: String?,
+        val isReversed: Boolean?,
+        val rotateDegree: Int?,
         /* Detailed */
         val pageId: Long,
         val isInteractive: Boolean,
@@ -141,9 +192,17 @@ class PageObjectDto {
             xPosition = pageObject.xPosition,
             yPosition = pageObject.yPosition,
             zIndex = pageObject.zIndex,
+            opacity = pageObject.opacity,
             textContent = pageObject.textContent,
             fontSize = pageObject.fontSize,
+            lineHeight = pageObject.lineHeight,
+            letterSpacing = pageObject.letterSpacing,
+            backgroundColor = pageObject.backgroundColor,
+            strokeWidth = pageObject.strokeWidth,
+            strokeColor = pageObject.strokeColor,
             imageSource = pageObject.imageSource,
+            isReversed = pageObject.isReversed,
+            rotateDegree = pageObject.rotateDegree,
             /* Detailed */
             pageId = pageObject.page.id,
             isInteractive = pageObject.event != null,
