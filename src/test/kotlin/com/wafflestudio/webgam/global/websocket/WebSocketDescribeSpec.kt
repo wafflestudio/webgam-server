@@ -376,8 +376,11 @@ class WebSocketDescribeSpec(
                     sendHeaders.destination = "/app/project/1/create.object"
                     sendHeaders.contentType = APPLICATION_JSON
 
-                    session.send(sendHeaders, PageObjectDto.CreateRequest(1, "new_object", PageObjectType.DEFAULT,
-                                            30, 30, 2, 2, 0, "hi", null, null))
+                    session.send(sendHeaders,
+                            PageObjectDto.CreateRequest(1, "new_object", PageObjectType.DEFAULT,
+                                            30, 30, 2, 2, 0, 1,
+                                            "hi", null, 2, 2, null, null, null, null,
+                                             false, 180))
 
 
                     withContext(Dispatchers.IO) {
@@ -402,9 +405,17 @@ class WebSocketDescribeSpec(
                         responseObject.xPosition shouldBe 2
                         responseObject.yPosition shouldBe 2
                         responseObject.zIndex shouldBe 0
+                        responseObject.opacity shouldBe 1
                         responseObject.textContent shouldBe "hi"
                         responseObject.fontSize shouldBe null
+                        responseObject.lineHeight shouldBe 2
+                        responseObject.letterSpacing shouldBe 2
+                        responseObject.backgroundColor shouldBe null
+                        responseObject.strokeWidth shouldBe null
+                        responseObject.strokeColor shouldBe null
                         responseObject.imageSource shouldBe null
+                        responseObject.isReversed shouldBe false
+                        responseObject.rotateDegree shouldBe 180
 
                     }
 
@@ -437,7 +448,9 @@ class WebSocketDescribeSpec(
                     sendHeaders.destination = "/app/project/1/patch.object/1"
                     sendHeaders.contentType = APPLICATION_JSON
                     session.send(sendHeaders, PageObjectDto.PatchRequest(PageObjectType.DEFAULT, 20, 20,
-                            3, 3, 0, "changed_text", 5, null))
+                            3, 3, 0, 3,"changed_text", 5, 16,
+                            2, "#FFFFFF", 8, "#000000",
+                            "", true,90))
 
                     withContext(Dispatchers.IO) {
                         Thread.sleep(10000) // 이거 안 넣어주면 응답 오기 전에 테스트 끝남
@@ -459,9 +472,17 @@ class WebSocketDescribeSpec(
                         responseObject.xPosition shouldBe 3
                         responseObject.yPosition shouldBe 3
                         responseObject.zIndex shouldBe 0
+                        responseObject.opacity shouldBe 3
                         responseObject.textContent shouldBe "changed_text"
                         responseObject.fontSize shouldBe 5
-                        responseObject.imageSource shouldBe null
+                        responseObject.lineHeight shouldBe 16
+                        responseObject.letterSpacing shouldBe 2
+                        responseObject.backgroundColor shouldBe "#FFFFFF"
+                        responseObject.strokeWidth shouldBe 8
+                        responseObject.strokeColor shouldBe "#000000"
+                        responseObject.imageSource shouldBe ""
+                        responseObject.isReversed shouldBe true
+                        responseObject.rotateDegree shouldBe 90
 
 
                     }
