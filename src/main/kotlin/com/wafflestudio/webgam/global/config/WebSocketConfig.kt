@@ -22,10 +22,14 @@ class WebSocketConfig (
 
     override fun registerStompEndpoints(registry: StompEndpointRegistry) {
         registry.addEndpoint("/ws")
-                .setAllowedOrigins("http://localhost:8080")
+                .setAllowedOrigins("http://localhost:8080",
+                        "http://webgam-dev.s3-website.ap-northeast-2.amazonaws.com:3000",
+                        "http://localhost:3000")
                 .withSockJS()
         registry.addEndpoint("/ws")
-                .setAllowedOrigins("http://localhost:8080")
+                .setAllowedOrigins("http://localhost:8080",
+                        "http://webgam-dev.s3-website.ap-northeast-2.amazonaws.com:3000",
+                        "http://localhost:3000")
 
     }
 
