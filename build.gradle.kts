@@ -35,6 +35,7 @@ dependencies {
 	implementation("com.querydsl:querydsl-jpa:5.0.0:jakarta")
 	implementation("software.amazon.awssdk:secretsmanager:2.20.5")
 	implementation("software.amazon.awssdk:sts:2.20.7")
+	implementation("org.springframework.boot:spring-boot-starter-batch")
 	kapt("com.querydsl:querydsl-apt:5.0.0:jakarta")
 	runtimeOnly("com.mysql:mysql-connector-j:8.0.31")
 	runtimeOnly("io.jsonwebtoken:jjwt-impl:0.11.5")
@@ -49,6 +50,7 @@ dependencies {
 	testImplementation("io.mockk:mockk:1.13.2")
 	testImplementation("com.ninja-squad:springmockk:4.0.0")
 	testImplementation("com.h2database:h2:2.1.214")
+	testImplementation("org.springframework.batch:spring-batch-test")
 }
 
 tasks.withType<KotlinCompile> {
