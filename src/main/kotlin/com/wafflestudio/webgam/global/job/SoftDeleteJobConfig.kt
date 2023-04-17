@@ -1,4 +1,4 @@
-package com.wafflestudio.webgam.global.job.config
+package com.wafflestudio.webgam.global.job
 
 import com.wafflestudio.webgam.domain.`object`.repository.PageObjectRepository
 import com.wafflestudio.webgam.domain.event.repository.ObjectEventRepository
