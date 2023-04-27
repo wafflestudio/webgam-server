@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration>
+
+<included>
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+    <property name="LOG_FILE_BASE" value="webgam" />
+
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender"> <!--Save log file for each dates-->
+        <file>./log/${LOG_FILE_BASE}.log</file>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>WARN</level>
+        </filter>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>log/${LOG_FILE_BASE}_%d{yyyyMMdd}_%i.log</fileNamePattern>
+            <maxFileSize>500MB</maxFileSize> <!-- Split log file when exceed this size  -->
+            <maxHistory>31</maxHistory> <!--Remove log file above these dates-->
+            <totalSizeCap>10GB</totalSizeCap> <!--Remove log file above this total size-->
+        </rollingPolicy>
+        <encoder>
+            <charset>UTF-8</charset>
+            <pattern>${FILE_LOG_PATTERN}</pattern>
+        </encoder>
+    </appender>
+</included>
