@@ -2,27 +2,34 @@
 <!DOCTYPE configuration>
 
 <configuration>
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+    <springProperty name="SLACK_WEBHOOK_URI" source="logging.slack.webhook-uri"/>
+
     <springProfile name="local">
         <include resource="logback/logback-console.xml" />
-        <include resource="logback/logback-file.xml" />
+        <include resource="logback/logback-slack.xml" />
         <root level="INFO">
             <appender-ref ref="CONSOLE" />
         </root>
     </springProfile>
+
     <springProfile name="dev">
         <include resource="logback/logback-console.xml" />
         <include resource="logback/logback-file.xml" />
         <root level="INFO">
             <appender-ref ref="CONSOLE" />
             <appender-ref ref="FILE" />
+            <appender-ref ref="SLACK" />
         </root>
     </springProfile>
+
     <springProfile name="prod">
         <include resource="logback/logback-console.xml" />
         <include resource="logback/logback-file.xml" />
         <root level="INFO">
             <appender-ref ref="CONSOLE" />
             <appender-ref ref="FILE" />
+            <appender-ref ref="SLACK" />
         </root>
     </springProfile>
 </configuration>
