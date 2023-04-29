@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component
 @Aspect
 @Component
 class LogChecker {
-    private val log = KotlinLogging.logger{}
+    val log = Logger.logger
 
     @Pointcut("execution(public * com.wafflestudio.webgam..*.controller.*.*(..)) || execution(public * com.wafflestudio.webgam.domain.PingTestController.*(..))")
     fun controllerCuts() {}
