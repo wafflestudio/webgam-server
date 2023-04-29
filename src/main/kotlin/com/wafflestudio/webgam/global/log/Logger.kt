@@ -1,4 +1,4 @@
-package com.wafflestudio.webgam.global.common.log
+package com.wafflestudio.webgam.global.log
 
 import mu.KotlinLogging
 
