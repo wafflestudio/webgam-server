@@ -83,18 +83,18 @@ class SoftDeleteJobConfigTest(
     private fun createUser(id: Int, isDeleted: Boolean) : User {
         val user = User(userId = "user${id}", username = "user${id}", email = "user${id}@gmail.com", password = "test")
         user.isDeleted = isDeleted
-        user.deletedAt = LocalDateTime.now() // TODO: 수정 되어야 함
         return user
     }
 
     private fun createNewUser(id: Int, isDeleted:Boolean) {
         val user = createUser(id, isDeleted)
+        if (isDeleted) user.deletedAt = LocalDateTime.now()
         userRepository.save(user)
     }
 
     private fun createOldUser(id: Int, isDeleted: Boolean) {
         val user = createUser(id, isDeleted)
-        val saved =  userRepository.save(user)
-        saved.modifiedAt = LocalDateTime.now().minusDays(31)
+        if (isDeleted) user.deletedAt = LocalDateTime.now().minusDays(31)
+        userRepository.save(user)
     }
 }
