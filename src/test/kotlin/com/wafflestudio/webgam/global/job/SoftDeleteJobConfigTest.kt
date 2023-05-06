@@ -14,12 +14,14 @@ import org.springframework.batch.test.JobRepositoryTestUtils
 import org.springframework.batch.test.context.SpringBatchTest
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.test.context.ActiveProfiles
 import java.time.LocalDateTime
 
 
 @SpringBootTest
 @SpringBatchTest
 @DisplayName("SoftDeleteJob 테스트")
+@ActiveProfiles("test")
 class SoftDeleteJobConfigTest(
     @Autowired private val jobLauncherTestUtils: JobLauncherTestUtils,
     @Autowired private val jobRepositoryTestUtils: JobRepositoryTestUtils,
@@ -30,6 +32,7 @@ class SoftDeleteJobConfigTest(
     override suspend fun afterEach(testCase: TestCase, result: TestResult) {
         userRepository.deleteAll()
     }
+
     init {
         this.Given("데이터가 없을 때") {
             val jobParameters = jobLauncherTestUtils.uniqueJobParameters
