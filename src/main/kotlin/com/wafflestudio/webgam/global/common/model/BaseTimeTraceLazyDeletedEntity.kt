@@ -27,6 +27,7 @@ abstract class BaseTimeTraceLazyDeletedEntity (
     open var modifiedBy: String = "",
 
     open var isDeleted: Boolean = false,
+    open var deletedAt: LocalDateTime? = null
 ) {
     abstract fun delete()
 }

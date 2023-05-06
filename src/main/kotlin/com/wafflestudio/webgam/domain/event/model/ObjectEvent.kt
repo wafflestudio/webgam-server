@@ -6,6 +6,7 @@ import com.wafflestudio.webgam.domain.page.model.ProjectPage
 import com.wafflestudio.webgam.global.common.model.BaseTimeTraceLazyDeletedEntity
 import com.wafflestudio.webgam.global.common.model.WebgamAccessModel
 import jakarta.persistence.*
+import java.time.LocalDateTime
 
 @Entity
 @Table(name = "object_event")
@@ -36,5 +37,6 @@ class ObjectEvent(
 
     override fun delete() {
         isDeleted = true
+        deletedAt = LocalDateTime.now()
     }
 }

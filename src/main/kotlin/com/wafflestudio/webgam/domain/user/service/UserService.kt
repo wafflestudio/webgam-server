@@ -6,6 +6,7 @@ import com.wafflestudio.webgam.domain.user.exception.UserNotFoundException
 import com.wafflestudio.webgam.domain.user.repository.UserRepository
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.time.LocalDateTime
 
 @Service
 @Transactional(readOnly = true)
@@ -31,6 +32,7 @@ class UserService(
     fun deleteMe(myId: Long) {
         val me = userRepository.findUserById(myId)!!
         me.isDeleted = true
+        me.deletedAt = LocalDateTime.now()
     }
 
     fun getUserWithId(userId: Long): SimpleResponse {

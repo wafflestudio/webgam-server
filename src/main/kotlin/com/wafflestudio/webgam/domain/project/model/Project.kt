@@ -8,6 +8,7 @@ import com.wafflestudio.webgam.global.common.model.WebgamAccessModel
 import io.hypersistence.utils.hibernate.type.json.JsonType
 import jakarta.persistence.*
 import org.hibernate.annotations.Type
+import java.time.LocalDateTime
 
 @Entity
 @Table(name = "project")
@@ -39,6 +40,7 @@ class Project(
 
     override fun delete() {
         isDeleted = true
+        deletedAt = LocalDateTime.now()
         pages.forEach { it.delete() }
     }
 

@@ -21,6 +21,7 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Tag
 import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.assertThrows
+import java.time.LocalDateTime
 import java.util.*
 import kotlin.reflect.KMutableProperty1
 import kotlin.reflect.full.memberFunctions
@@ -176,6 +177,7 @@ class JwtProviderTest : DescribeSpec() {
             val activeUser = User("active", "", "", "")
             val deletedUser = User("deleted", "", "", "")
             deletedUser.isDeleted = true
+            deletedUser.deletedAt = LocalDateTime.now()
 
             val activeUserToken = jwtProvider.generateToken("active", USER).first
             val deletedUserToken = jwtProvider.generateToken("deleted", USER).first

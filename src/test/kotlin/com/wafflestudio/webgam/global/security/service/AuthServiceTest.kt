@@ -18,6 +18,7 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Tag
 import org.junit.jupiter.api.assertThrows
 import org.springframework.security.crypto.password.PasswordEncoder
+import java.time.LocalDateTime
 
 @Tag("Unit-Test")
 @DisplayName("AuthService 단위 테스트")
@@ -73,6 +74,7 @@ class AuthServiceTest : DescribeSpec() {
             context("회원정보가 삭제되었으면") {
                 every { userRepository.findByUserId(any()) } returns deletedDummyUser
                 deletedDummyUser.isDeleted = true
+                deletedDummyUser.deletedAt = LocalDateTime.now()
 
                 it("LoginFailedException 예외를 던진다") {
                     assertThrows<LoginFailedException> { authService.login(request) }
