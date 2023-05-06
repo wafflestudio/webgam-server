@@ -120,7 +120,7 @@ class SoftDeleteJobConfig(
 
     private fun getQueryOfFindDeletedItems(tableName: String): String {
         return String.format(
-            "select id from %s where %s.is_deleted=true and %s.modified_at < DATE_SUB(NOW(), INTERVAL ${DELETE_EXPIRATION_DAYS} DAY)",
+            "select id from %s where %s.is_deleted=true and %s.deleted_at < DATE_SUB(NOW(), INTERVAL ${DELETE_EXPIRATION_DAYS} DAY)",
             tableName, tableName, tableName
         )
     }

@@ -16,7 +16,7 @@ class JobScheduler(
     @Qualifier("softDeleteJob") private val softDeleteJob: Job
 ) {
 
-    @Scheduled(cron="0 0 0 1 * *", zone="Asia/Seoul")
+    @Scheduled(cron="0 0 0 * * *", zone="Asia/Seoul")
     fun runSoftDeleteJob() {
         jobLauncher.run(softDeleteJob, JobParameters())
     }
