@@ -21,6 +21,7 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Tag
 import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.assertThrows
+import java.time.LocalDateTime
 import java.util.*
 import kotlin.reflect.KMutableProperty1
 import kotlin.reflect.full.memberFunctions
@@ -175,8 +176,7 @@ class JwtProviderTest : DescribeSpec() {
         this.describe("토큰으로 부터 Authentication 정보 가져올 때: getAuthenticationFromToken") {
             val activeUser = User("active", "", "", "")
             val deletedUser = User("deleted", "", "", "")
-            deletedUser.isDeleted = true
-
+            deletedUser.delete()
             val activeUserToken = jwtProvider.generateToken("active", USER).first
             val deletedUserToken = jwtProvider.generateToken("deleted", USER).first
             val malformedUserToken = jwtProvider.generateToken("deleted", null).first

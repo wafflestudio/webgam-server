@@ -5,6 +5,7 @@ import com.wafflestudio.webgam.global.common.model.BaseTimeTraceLazyDeletedEntit
 import com.wafflestudio.webgam.global.common.model.WebgamAccessModel
 import com.wafflestudio.webgam.global.security.dto.AuthDto
 import jakarta.persistence.*
+import java.time.LocalDateTime
 
 @Entity
 @Table(name = "user")
@@ -38,6 +39,7 @@ class User(
 
     override fun delete() {
         isDeleted = true
+        deletedAt = LocalDateTime.now()
         projects.forEach { it.delete() }
     }
 }

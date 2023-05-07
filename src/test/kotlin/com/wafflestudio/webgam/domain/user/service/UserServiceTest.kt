@@ -14,6 +14,7 @@ import kotlinx.coroutines.withContext
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Tag
 import org.junit.jupiter.api.assertThrows
+import java.time.LocalDateTime
 
 @Tag("Unit-Test")
 @DisplayName("UserService 단위 테스트")
@@ -122,7 +123,7 @@ class UserServiceTest: DescribeSpec() {
 
             context("존재하지만 탈퇴한 유저의 아이디를 넣으면") {
                 val temp = User("", "", "", "")
-                temp.isDeleted = true
+                temp.delete()
                 every { userRepository.findUserById(1000) } returns temp
 
                 it("UserNotFoundException 예외를 던진다") {
