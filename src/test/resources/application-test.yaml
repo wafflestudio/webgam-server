@@ -21,8 +21,6 @@ spring:
     job:
       enabled: false
     initialize-schema: always
-#    jdbc:
-#      initialize-schema: always
 
 logging:
   level:

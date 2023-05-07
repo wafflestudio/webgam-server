@@ -5,9 +5,9 @@ import com.wafflestudio.webgam.domain.event.repository.ObjectEventRepository
 import com.wafflestudio.webgam.domain.page.repository.ProjectPageRepository
 import com.wafflestudio.webgam.domain.project.repository.ProjectRepository
 import com.wafflestudio.webgam.domain.user.repository.UserRepository
+import org.slf4j.LoggerFactory
 import org.springframework.batch.core.Job
 import org.springframework.batch.core.Step
-import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing
 import org.springframework.batch.core.configuration.annotation.JobScope
 import org.springframework.batch.core.job.builder.JobBuilder
 import org.springframework.batch.core.repository.JobRepository
@@ -15,16 +15,16 @@ import org.springframework.batch.core.step.builder.StepBuilder
 import org.springframework.batch.item.ItemWriter
 import org.springframework.batch.item.database.JdbcCursorItemReader
 import org.springframework.batch.item.database.builder.JdbcCursorItemReaderBuilder
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.transaction.PlatformTransactionManager
+import java.time.LocalDateTime
 import javax.sql.DataSource
 
 
-
 @Configuration
-@EnableBatchProcessing
 class SoftDeleteJobConfig(
     private val jobRepository: JobRepository,
     private val dataSource: DataSource,
@@ -37,6 +37,10 @@ class SoftDeleteJobConfig(
 ) {
     private final val CHUNK_SIZE = 10
     private final val DELETE_EXPIRATION_DAYS = 30
+
+    @Value("\${spring.profiles.active}")
+    private val activeProfile = ""
+    private val logger = LoggerFactory.getLogger(this::class.java)
 
     data class DbItemIdDto(
         val id: Long
@@ -57,7 +61,8 @@ class SoftDeleteJobConfig(
     @JobScope
     fun softDeleteUserStep(): Step {
         return buildSoftDeleteStep(stepName = "softDeleteUserStep", readerName = "deleteUserReader",
-            tableName = "user", repository = userRepository
+            tableName = if (activeProfile == "test") "\"user\"" else "user",
+            repository = userRepository
         )
     }
 
@@ -119,8 +124,10 @@ class SoftDeleteJobConfig(
     }
 
     private fun getQueryOfFindDeletedItems(tableName: String): String {
+        val pastDeleteAt = LocalDateTime.now()
+            .minusDays(DELETE_EXPIRATION_DAYS.toLong())
         return String.format(
-            "select id from %s where %s.is_deleted=true and %s.deleted_at < DATE_SUB(NOW(), INTERVAL ${DELETE_EXPIRATION_DAYS} DAY)",
+            "select id from %s where %s.is_deleted=true and %s.deleted_at < '${pastDeleteAt}'",
             tableName, tableName, tableName
         )
     }

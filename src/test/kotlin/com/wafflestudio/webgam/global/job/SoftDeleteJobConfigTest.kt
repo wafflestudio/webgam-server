@@ -19,7 +19,7 @@ import java.time.LocalDateTime
 
 
 @ActiveProfiles("test")
-@SpringBootTest
+@SpringBootTest(properties = ["spring.profiles.active:test"])
 @SpringBatchTest
 @DisplayName("SoftDeleteJob 테스트")
 class SoftDeleteJobConfigTest(
