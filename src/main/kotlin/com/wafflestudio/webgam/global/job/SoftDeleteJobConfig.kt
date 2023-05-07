@@ -5,7 +5,6 @@ import com.wafflestudio.webgam.domain.event.repository.ObjectEventRepository
 import com.wafflestudio.webgam.domain.page.repository.ProjectPageRepository
 import com.wafflestudio.webgam.domain.project.repository.ProjectRepository
 import com.wafflestudio.webgam.domain.user.repository.UserRepository
-import org.slf4j.LoggerFactory
 import org.springframework.batch.core.Job
 import org.springframework.batch.core.Step
 import org.springframework.batch.core.configuration.annotation.JobScope
@@ -40,7 +39,6 @@ class SoftDeleteJobConfig(
 
     @Value("\${spring.profiles.active}")
     private val activeProfile = ""
-    private val logger = LoggerFactory.getLogger(this::class.java)
 
     data class DbItemIdDto(
         val id: Long
