@@ -31,8 +31,7 @@ class UserService(
     @Transactional
     fun deleteMe(myId: Long) {
         val me = userRepository.findUserById(myId)!!
-        me.isDeleted = true
-        me.deletedAt = LocalDateTime.now()
+        me.delete()
     }
 
     fun getUserWithId(userId: Long): SimpleResponse {

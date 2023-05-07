@@ -18,10 +18,10 @@ import org.springframework.test.context.ActiveProfiles
 import java.time.LocalDateTime
 
 
+@ActiveProfiles("test")
 @SpringBootTest
 @SpringBatchTest
 @DisplayName("SoftDeleteJob 테스트")
-@ActiveProfiles("test")
 class SoftDeleteJobConfigTest(
     @Autowired private val jobLauncherTestUtils: JobLauncherTestUtils,
     @Autowired private val jobRepositoryTestUtils: JobRepositoryTestUtils,

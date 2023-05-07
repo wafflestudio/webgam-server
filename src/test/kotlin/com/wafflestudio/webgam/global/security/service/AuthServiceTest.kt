@@ -73,8 +73,7 @@ class AuthServiceTest : DescribeSpec() {
 
             context("회원정보가 삭제되었으면") {
                 every { userRepository.findByUserId(any()) } returns deletedDummyUser
-                deletedDummyUser.isDeleted = true
-                deletedDummyUser.deletedAt = LocalDateTime.now()
+                deletedDummyUser.delete()
 
                 it("LoginFailedException 예외를 던진다") {
                     assertThrows<LoginFailedException> { authService.login(request) }

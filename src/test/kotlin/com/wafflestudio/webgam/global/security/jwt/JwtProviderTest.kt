@@ -176,9 +176,7 @@ class JwtProviderTest : DescribeSpec() {
         this.describe("토큰으로 부터 Authentication 정보 가져올 때: getAuthenticationFromToken") {
             val activeUser = User("active", "", "", "")
             val deletedUser = User("deleted", "", "", "")
-            deletedUser.isDeleted = true
-            deletedUser.deletedAt = LocalDateTime.now()
-
+            deletedUser.delete()
             val activeUserToken = jwtProvider.generateToken("active", USER).first
             val deletedUserToken = jwtProvider.generateToken("deleted", USER).first
             val malformedUserToken = jwtProvider.generateToken("deleted", null).first

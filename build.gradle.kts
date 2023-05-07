@@ -71,6 +71,7 @@ tasks {
 		useJUnitPlatform()
 		systemProperty("org.springframework.restdocs.outputDir", snippetsDir)
 		outputs.dir(snippetsDir)
+//		testLogging.showStandardStreams = true
 	}
 
 	build {

@@ -123,8 +123,7 @@ class UserServiceTest: DescribeSpec() {
 
             context("존재하지만 탈퇴한 유저의 아이디를 넣으면") {
                 val temp = User("", "", "", "")
-                temp.isDeleted = true
-                temp.deletedAt = LocalDateTime.now()
+                temp.delete()
                 every { userRepository.findUserById(1000) } returns temp
 
                 it("UserNotFoundException 예외를 던진다") {
