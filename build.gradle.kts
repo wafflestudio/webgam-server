@@ -7,6 +7,7 @@ plugins {
 	kotlin("jvm") version "1.8.0"
 	kotlin("plugin.spring") version "1.8.0"
 	kotlin("plugin.jpa") version "1.8.0"
+	kotlin("plugin.serialization") version "1.5.0"
 	kotlin("kapt") version "1.8.0"
 }
 
@@ -18,9 +19,12 @@ repositories {
 	mavenCentral()
 }
 
+extra["spring-security.version"]="6.0.2"
 extra["snippetsDir"] = file("build/generated-snippets")
 
 dependencies {
+	implementation("org.springframework:spring-messaging")
+	implementation("org.springframework.security:spring-security-messaging:6.0.2")
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa:3.0.1")
 	implementation("org.springframework.boot:spring-boot-starter-data-redis:3.0.1")
 	implementation("org.springframework.boot:spring-boot-starter-security:3.0.1")
@@ -29,12 +33,21 @@ dependencies {
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.14.0")
 	implementation("org.jetbrains.kotlin:kotlin-reflect:1.7.22")
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.7.22")
+	implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.0")
 	implementation("com.google.code.gson:gson:2.10.1")
 	implementation("io.jsonwebtoken:jjwt-api:0.11.5")
 	implementation("io.hypersistence:hypersistence-utils-hibernate-60:3.0.1")
 	implementation("com.querydsl:querydsl-jpa:5.0.0:jakarta")
 	implementation("software.amazon.awssdk:secretsmanager:2.20.5")
 	implementation("software.amazon.awssdk:sts:2.20.7")
+	implementation("org.springframework.boot:spring-boot-starter-websocket")
+	implementation("org.webjars:webjars-locator-core") // TODO delete unnecessary
+	implementation("org.webjars:sockjs-client:1.0.2")
+	implementation("org.webjars:stomp-websocket:2.3.3")
+	implementation("org.webjars:bootstrap:3.4.0")
+	implementation("org.webjars:jquery:3.6.2")
+	implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
+	implementation("nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect")
 	kapt("com.querydsl:querydsl-apt:5.0.0:jakarta")
 	runtimeOnly("com.mysql:mysql-connector-j:8.0.31")
 	runtimeOnly("io.jsonwebtoken:jjwt-impl:0.11.5")
