@@ -9,28 +9,34 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.HttpMethod
+import org.springframework.messaging.simp.config.ChannelRegistration
+import org.springframework.messaging.simp.config.MessageBrokerRegistry
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.ProviderManager
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.annotation.web.configurers.AuthorizeHttpRequestsConfigurer
-import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.crypto.factory.PasswordEncoderFactories
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.web.SecurityFilterChain
 import org.springframework.web.cors.CorsConfiguration
 import org.springframework.web.cors.CorsConfigurationSource
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource
+import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker
+import org.springframework.web.socket.config.annotation.StompEndpointRegistry
+import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer
 
 @EnableWebSecurity
 @Configuration
+@EnableWebSocketMessageBroker
 class SecurityConfig(
     private val jwtProvider: JwtProvider,
     private val userPrincipalDetailsService: UserPrincipalDetailsService,
     private val webgamAuthenticationEntryPoint: WebgamAuthenticationEntryPoint,
     private val webgamAccessDeniedHandler: WebgamAccessDeniedHandler,
-) {
+    private val stompHandler: StompHandler
+): WebSocketMessageBrokerConfigurer {
     companion object {
         private val CORS_WHITELIST: MutableList<String> = mutableListOf(
             "http://webgam-dev.s3-website.ap-northeast-2.amazonaws.com:3000",
@@ -100,5 +106,23 @@ class SecurityConfig(
     @Bean
     fun passwordEncoder(): PasswordEncoder {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder()
+    }
+
+    override fun configureMessageBroker(config: MessageBrokerRegistry) {
+        config.enableSimpleBroker("/topic", "/queue", "/project")
+        config.setApplicationDestinationPrefixes("/app")
+    }
+
+    override fun registerStompEndpoints(registry: StompEndpointRegistry) {
+        registry.addEndpoint("/ws")
+                .setAllowedOrigins("http://localhost:8080", CORS_WHITELIST[0], CORS_WHITELIST[1])
+                .withSockJS()
+        registry.addEndpoint("/ws")
+                .setAllowedOrigins("http://localhost:8080", CORS_WHITELIST[0], CORS_WHITELIST[1])
+
+    }
+
+    override fun configureClientInboundChannel(registration: ChannelRegistration) {
+        registration.interceptors(stompHandler)
     }
 }

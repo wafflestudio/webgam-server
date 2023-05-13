@@ -14,9 +14,6 @@ spring:
   jackson:
     property-naming-strategy: SNAKE_CASE
 
-  thymeleaf:
-    cache: false
-    prefix: classpath:/templates/
 
 jwt:
   secret-key: QeShVmYq3t6w9z$C&F)J@NcRfUjWnZr4
