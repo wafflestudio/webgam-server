@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.HttpMethod
+import org.springframework.messaging.handler.invocation.HandlerMethodArgumentResolver
 import org.springframework.messaging.simp.config.ChannelRegistration
 import org.springframework.messaging.simp.config.MessageBrokerRegistry
 import org.springframework.security.authentication.AuthenticationManager
@@ -26,6 +27,11 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry
 import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer
+import com.wafflestudio.webgam.global.websocket.dto.UserArgumentResolver
+import org.springframework.security.web.method.annotation.AuthenticationPrincipalArgumentResolver
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
+
+
 
 @EnableWebSecurity
 @Configuration
@@ -36,7 +42,7 @@ class SecurityConfig(
     private val webgamAuthenticationEntryPoint: WebgamAuthenticationEntryPoint,
     private val webgamAccessDeniedHandler: WebgamAccessDeniedHandler,
     private val stompHandler: StompHandler
-): WebSocketMessageBrokerConfigurer {
+): WebSocketMessageBrokerConfigurer{
     companion object {
         private val CORS_WHITELIST: MutableList<String> = mutableListOf(
             "http://webgam-dev.s3-website.ap-northeast-2.amazonaws.com:3000",
@@ -124,5 +130,9 @@ class SecurityConfig(
 
     override fun configureClientInboundChannel(registration: ChannelRegistration) {
         registration.interceptors(stompHandler)
+    }
+
+    override fun addArgumentResolvers(argumentResolvers: kotlin.collections.MutableList<HandlerMethodArgumentResolver>) {
+        argumentResolvers.add(UserArgumentResolver(jwtProvider))
     }
 }

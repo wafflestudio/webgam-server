@@ -2,8 +2,9 @@ package com.wafflestudio.webgam.domain.page.controller
 
 import com.wafflestudio.webgam.domain.page.dto.ProjectPageDto
 import com.wafflestudio.webgam.domain.page.service.ProjectPageService
+import com.wafflestudio.webgam.domain.user.model.User
+import com.wafflestudio.webgam.global.security.CurrentUser
 import com.wafflestudio.webgam.global.security.jwt.JwtProvider
-import com.wafflestudio.webgam.global.security.model.UserPrincipal
 import com.wafflestudio.webgam.global.websocket.dto.WebSocketDto
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -24,16 +25,12 @@ class ProjectPageWebsocketController(
     @SendTo("/project/{projectId}")
     fun createPage(
             @Payload request: ProjectPageDto.CreateRequest,
-            @Header("Authorization") token: String,
+            @CurrentUser user: User,
             @DestinationVariable projectId: Long)
             : WebSocketDto<ProjectPageDto.DetailedResponse> {
         logger.info("Controller create page")
-
-        val auth = jwtProvider.getAuthenticationFromToken(token)
-        val user = (auth.principal as UserPrincipal).user
         val revisedRequest = ProjectPageDto.CreateRequest(projectId, request.name)
         val response = projectPageService.createProjectPage(user.id, revisedRequest)
-
         return WebSocketDto(user, response)
 
     }
@@ -41,17 +38,12 @@ class ProjectPageWebsocketController(
     @MessageMapping("/project/{projectId}/patch.page/{pageId}")
     @SendTo("/project/{projectId}")
     fun editPage(@Payload request: ProjectPageDto.PatchRequest,
-                 @Header("Authorization") token: String,
+                 @CurrentUser user: User,
                  @DestinationVariable projectId: Long,
                  @DestinationVariable pageId: Long)
             : WebSocketDto<ProjectPageDto.DetailedResponse> {
         logger.info("Controller edit page")
-
-        val auth = jwtProvider.getAuthenticationFromToken(token)
-        val user = (auth.principal as UserPrincipal).user
-
         val response = projectPageService.patchProjectPage(user.id, pageId, request)
-
         return WebSocketDto(user, response)
 
     }
@@ -59,16 +51,12 @@ class ProjectPageWebsocketController(
     @MessageMapping("/project/{projectId}/delete.page/{pageId}")
     @SendTo("/project/{projectId}")
     fun deletePage(
-            @Header("Authorization") token: String,
+            @CurrentUser user: User,
             @DestinationVariable projectId: Long,
             @DestinationVariable pageId: Long)
     {
         logger.info("Controller delete page")
-
-        val auth = jwtProvider.getAuthenticationFromToken(token)
-
-        val myId = (auth.principal as UserPrincipal).getUserId()
-        projectPageService.deleteProjectPage(myId, pageId)
+        projectPageService.deleteProjectPage(user.id, pageId)
 
     }
 }
