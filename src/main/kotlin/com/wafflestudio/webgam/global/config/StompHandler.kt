@@ -7,7 +7,6 @@ import org.springframework.messaging.simp.stomp.StompHeaderAccessor
 import org.springframework.messaging.support.ChannelInterceptor
 import org.springframework.stereotype.Component
 import com.wafflestudio.webgam.global.security.jwt.JwtProvider
-import com.wafflestudio.webgam.global.websocket.controller.WebSocketController
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.messaging.Message
@@ -16,7 +15,7 @@ import org.springframework.messaging.Message
 class StompHandler(
         private val tokenProvider: JwtProvider
 ) : ChannelInterceptor {
-    private val logger: Logger = LoggerFactory.getLogger(WebSocketController::class.java)
+    private val logger: Logger = LoggerFactory.getLogger(StompHandler::class.java)
 
     override fun preSend(message: Message<*>, channel: MessageChannel): Message<*>? {
         val accessor = StompHeaderAccessor.wrap(message)
