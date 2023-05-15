@@ -40,7 +40,6 @@ class AspectLog (
         }
         request.setAttribute("elapsedTime", executionTime)
 
-        println("AOP, World!")
         return result
     }
 }

@@ -6,7 +6,6 @@ import com.wafflestudio.webgam.global.log.dto.RequestResponseLog
 import jakarta.servlet.FilterChain
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
-import org.springframework.stereotype.Component
 import org.springframework.web.filter.OncePerRequestFilter
 import org.springframework.web.util.ContentCachingRequestWrapper
 import org.springframework.web.util.ContentCachingResponseWrapper
@@ -15,14 +14,12 @@ import java.util.*
 import kotlin.time.Duration
 import kotlin.time.DurationUnit
 
-@Component
 class LogFilter(
         private val objectMapper: ObjectMapper,
 ): OncePerRequestFilter() {
 
     private val log = Logger.logger
 
-    // FIXME: Filter works two time when it passes the jwt authentication filter...
     override fun doFilterInternal(request: HttpServletRequest, response: HttpServletResponse, filterChain: FilterChain) {
         // Create wrapping request, response for multiple read
         val wrappingRequest = ContentCachingRequestWrapper(request)
@@ -33,13 +30,11 @@ class LogFilter(
         wrappingRequest.setAttribute("traceId", traceId)
 
         try {
-//            println("Filter, World!")
             filterChain.doFilter(wrappingRequest, wrappingResponse)
 
-//            println("Success Log, World!")
             logRequestResponse(wrappingRequest, wrappingResponse)
         } catch (e: Exception) {
-//            println("Fail Log, World!")
+            // TODO: return response for exception
             wrappingResponse.copyBodyToResponse()
             logRequestResponse(wrappingRequest, wrappingResponse, e.stackTraceToString())
         }
