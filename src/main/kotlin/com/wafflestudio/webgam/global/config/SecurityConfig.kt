@@ -1,5 +1,7 @@
 package com.wafflestudio.webgam.global.config
 
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.wafflestudio.webgam.global.log.filter.LogFilter
 import com.wafflestudio.webgam.global.security.controller.WebgamAccessDeniedHandler
 import com.wafflestudio.webgam.global.security.controller.WebgamAuthenticationEntryPoint
 import com.wafflestudio.webgam.global.security.jwt.JwtAuthenticationFilter
@@ -30,13 +32,14 @@ class SecurityConfig(
     private val userPrincipalDetailsService: UserPrincipalDetailsService,
     private val webgamAuthenticationEntryPoint: WebgamAuthenticationEntryPoint,
     private val webgamAccessDeniedHandler: WebgamAccessDeniedHandler,
+    private val objectMapper: ObjectMapper,
 ) {
     companion object {
         private val CORS_WHITELIST: MutableList<String> = mutableListOf(
             "http://webgam-dev.s3-website.ap-northeast-2.amazonaws.com:3000",
             "http://localhost:3000",
         )
-        private val GET_WHITELIST: Array<String> = arrayOf("/ping", "/api/v1/projects")
+        private val GET_WHITELIST: Array<String> = arrayOf("/ping", "/api/v1/projects", "/ping/error")
         private val POST_WHITELIST: Array<String> = arrayOf("/signup", "/login/**", "/logout", "/refresh")
     }
 
@@ -57,6 +60,7 @@ class SecurityConfig(
             .authenticationEntryPoint(webgamAuthenticationEntryPoint)
             .accessDeniedHandler(webgamAccessDeniedHandler)
             .and()
+            .addFilterBefore(LogFilter(objectMapper), JwtAuthenticationFilter::class.java)
             .addFilter(JwtAuthenticationFilter(authenticationManager(), jwtProvider))
             .authorizeHttpRequests()
             .requestMatchers(HttpMethod.GET, *GET_WHITELIST).permitAll()
