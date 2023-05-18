@@ -1,11 +1,15 @@
 package com.wafflestudio.webgam.global.log.filter
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.wafflestudio.webgam.global.common.dto.ErrorResponse
+import com.wafflestudio.webgam.global.common.exception.ErrorType
+import com.wafflestudio.webgam.global.common.exception.WebgamException
 import com.wafflestudio.webgam.global.log.Logger
 import com.wafflestudio.webgam.global.log.dto.RequestResponseLog
 import jakarta.servlet.FilterChain
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
+import org.springframework.http.MediaType
 import org.springframework.web.filter.OncePerRequestFilter
 import org.springframework.web.util.ContentCachingRequestWrapper
 import org.springframework.web.util.ContentCachingResponseWrapper
@@ -30,17 +34,29 @@ class LogFilter(
         wrappingRequest.setAttribute("traceId", traceId)
 
         try {
+            // Do Business Logic
             filterChain.doFilter(wrappingRequest, wrappingResponse)
-
+            // Log result
             logRequestResponse(wrappingRequest, wrappingResponse)
         } catch (e: Exception) {
-            // TODO: return response for exception
-            wrappingResponse.copyBodyToResponse()
+            // Set response
+            wrappingResponse.contentType = MediaType.APPLICATION_JSON_VALUE
+            wrappingResponse.response.writer.use {
+                it.println(objectMapper.writeValueAsString(
+                        ErrorResponse(
+                                object: WebgamException.ServerError(
+                                        ErrorType.ServerError.DEFAULT,
+                                        "Internal Server Error"
+                                ) {}
+                        )
+                ))
+            }
+
+            // Log with stack trace
             logRequestResponse(wrappingRequest, wrappingResponse, e.stackTraceToString())
         }
 
-
-//         Copy response body to actual response
+        // Copy response body to actual response
         wrappingResponse.copyBodyToResponse()
     }
 
