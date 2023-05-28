@@ -3,33 +3,61 @@
 
 <configuration>
     <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+
     <springProperty name="SLACK_WEBHOOK_URI" source="logging.slack.webhook-uri"/>
 
     <springProfile name="local">
         <include resource="logback/logback-console.xml" />
-        <include resource="logback/logback-slack.xml" />
+
         <root level="INFO">
             <appender-ref ref="CONSOLE" />
         </root>
+
+        <logger name="org.hibernate.SQL" additivity="false">
+            <level value="DEBUG"/>
+            <appender-ref ref="CONSOLE" />
+        </logger>
+
+        <logger name="org.hibernate.orm.jdbc.bind" additivity="false">
+            <level value="TRACE"/>
+            <appender-ref ref="CONSOLE" />
+        </logger>
     </springProfile>
 
     <springProfile name="dev">
         <include resource="logback/logback-console.xml" />
         <include resource="logback/logback-file.xml" />
+        <include resource="logback/logback-slack.xml" />
+
         <root level="INFO">
             <appender-ref ref="CONSOLE" />
             <appender-ref ref="FILE" />
             <appender-ref ref="SLACK" />
         </root>
+
+        <logger name="org.hibernate.SQL" additivity="false">
+            <level value="DEBUG"/>
+            <appender-ref ref="CONSOLE" />
+            <appender-ref ref="FILE" />
+        </logger>
+
+        <logger name="org.hibernate.orm.jdbc.bind" additivity="false">
+            <level value="TRACE"/>
+            <appender-ref ref="CONSOLE" />
+            <appender-ref ref="FILE" />
+        </logger>
     </springProfile>
 
     <springProfile name="prod">
         <include resource="logback/logback-console.xml" />
         <include resource="logback/logback-file.xml" />
+        <include resource="logback/logback-slack.xml" />
+
         <root level="INFO">
             <appender-ref ref="CONSOLE" />
             <appender-ref ref="FILE" />
             <appender-ref ref="SLACK" />
         </root>
+
     </springProfile>
 </configuration>
