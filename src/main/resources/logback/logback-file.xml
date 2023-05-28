@@ -6,9 +6,6 @@
 
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender"> <!--Save log file for each dates-->
         <file>./log/${LOG_FILE_BASE}.log</file>
-        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
-            <level>WARN</level>
-        </filter>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <fileNamePattern>log/${LOG_FILE_BASE}_%d{yyyyMMdd}_%i.log</fileNamePattern>
             <maxFileSize>500MB</maxFileSize> <!-- Split log file when exceed this size  -->
