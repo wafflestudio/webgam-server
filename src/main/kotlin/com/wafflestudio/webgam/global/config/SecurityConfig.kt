@@ -60,7 +60,7 @@ class SecurityConfig(
             .authenticationEntryPoint(webgamAuthenticationEntryPoint)
             .accessDeniedHandler(webgamAccessDeniedHandler)
             .and()
-            .addFilterBefore(LogFilter(objectMapper), JwtAuthenticationFilter::class.java)
+            .addFilterBefore(LogFilter(objectMapper, activeProfile), JwtAuthenticationFilter::class.java)
             .addFilter(JwtAuthenticationFilter(authenticationManager(), jwtProvider))
             .authorizeHttpRequests()
             .requestMatchers(HttpMethod.GET, *GET_WHITELIST).permitAll()

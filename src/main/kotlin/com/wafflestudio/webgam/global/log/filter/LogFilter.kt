@@ -20,6 +20,7 @@ import kotlin.time.DurationUnit
 
 class LogFilter(
         private val objectMapper: ObjectMapper,
+        private val activateProfile: String,
 ): OncePerRequestFilter() {
 
     private val log = Logger.logger
@@ -54,6 +55,11 @@ class LogFilter(
 
             // Log with stack trace
             logRequestResponse(wrappingRequest, wrappingResponse, e.stackTraceToString())
+
+            // Print stack trace when activated profile is local
+            if (activateProfile == "local") {
+                e.printStackTrace()
+            }
         }
 
         // Copy response body to actual response
