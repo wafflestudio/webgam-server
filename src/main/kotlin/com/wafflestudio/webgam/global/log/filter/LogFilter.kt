@@ -42,15 +42,17 @@ class LogFilter(
         } catch (e: Exception) {
             // Set response
             wrappingResponse.contentType = MediaType.APPLICATION_JSON_VALUE
-            wrappingResponse.response.writer.use {
-                it.println(objectMapper.writeValueAsString(
-                        ErrorResponse(
-                                object: WebgamException.ServerError(
-                                        ErrorType.ServerError.DEFAULT,
-                                        "Internal Server Error"
-                                ) {}
-                        )
-                ))
+            if (!wrappingResponse.response.isCommitted) {
+                wrappingResponse.response.writer.use {
+                    it.println(objectMapper.writeValueAsString(
+                            ErrorResponse(
+                                    object : WebgamException.ServerError(
+                                            ErrorType.ServerError.DEFAULT,
+                                            "Internal Server Error"
+                                    ) {}
+                            )
+                    ))
+                }
             }
 
             // Log with stack trace
