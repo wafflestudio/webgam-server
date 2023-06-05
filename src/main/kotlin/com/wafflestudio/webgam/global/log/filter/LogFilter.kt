@@ -72,8 +72,8 @@ class LogFilter(
             stackTrace: String? = null,
     ) {
         val traceId = request.getAttribute("traceId")!! as UUID
-        val className = request.getAttribute("className")!! as String
-        val methodName = request.getAttribute("methodName")!! as String
+        val className = request.getAttribute("className") as String?
+        val methodName = request.getAttribute("methodName") as String?
         val elapsedTime = request.getAttribute("elapsedTime") as Duration?
 
         val logContent = RequestResponseLog(

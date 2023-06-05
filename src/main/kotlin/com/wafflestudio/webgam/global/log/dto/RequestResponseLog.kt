@@ -8,13 +8,13 @@ data class RequestResponseLog(
         @JsonProperty
         val traceId: UUID,
         @JsonProperty
-        val className: String,
+        val className: String? = null,
         @JsonProperty
-        val httpMethod: String,
+        val httpMethod: String? = null,
         @JsonProperty
         val uri: String,
         @JsonProperty
-        val method: String,
+        val method: String? = null,
         @JsonProperty
         val params: Map<String, Any>,
         @JsonProperty
